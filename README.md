@@ -58,9 +58,19 @@ A tray icon next to the clock:
 | **Clear ▸ Restore login** | Puts the last backup back |
 | **Clear ▸ Cache and logs** | Frees disk space. Chats are kept |
 | **Status** | The IP OpenCode is using |
+| **Language** | Menu language (automatic by default) |
 | **Restart / Quit** | Restarts, or closes everything (tunnel and background service included) |
 
 It also removes the persistent "Free limit reached / Subscribe to Go" tray that replaces the prompt box.
+
+## Languages
+
+The tray menu, its messages and the installer follow your Windows language automatically. 12 languages:
+
+English, Português (Brasil), Español, Français, Deutsch, Русский, 简体中文, 日本語, 한국어, हिन्दी, العربية, Bahasa Indonesia.
+
+Change the menu language any time in the tray: **Language**. For the installer use `-lang pt-BR` (or `es`, `fr`, `de`, `ru`, `zh-CN`, `ja`, `ko`, `hi`, `ar`, `id`).
+Technical details (network errors, the log file) stay in English.
 
 ## How it works
 
@@ -85,6 +95,7 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 | `-version 2.3.0` | Version to download with `-download` |
 | `-block_update_off` | Let OpenCode update itself again (updates remove the patch) |
 | `-path <folder>` | OpenCode folder, if it is not in the default place |
+| `-lang pt-BR` | Installer language (default: your Windows language) |
 | `-m` | (installer) use the mirror |
 
 ## Notes and limits
