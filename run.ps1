@@ -1,5 +1,7 @@
 <#
-  DriftWire - patcher for the original OpenCode desktop (Windows)
+  Slipstream - per-app connection patcher for Windows.
+  Gives one app its own route (WireGuard, proxy), a new IP on demand and safe clean-ups, without touching the rest of the PC.
+  Supported apps: OpenCode desktop (more to come).
 
   Run:
     .\run.ps1                    install / update the patch
@@ -20,8 +22,8 @@
     Status .............. the IP OpenCode is using
   And it removes the "Free limit reached / subscribe to Go" tray and popup.
 
-  How: app.asar gets a new entry file; the original is saved as app.asar.driftwire.bak. -uninstall puts it back.
-  Files of the tool: %LOCALAPPDATA%\driftwire  (proxy.json = settings and proxy list, driftwire.log)
+  How: app.asar gets a new entry file; the original is saved as app.asar.slipstream.bak. -uninstall puts it back.
+  Files of the tool: %LOCALAPPDATA%\slipstream  (proxy.json = settings and proxy list, slipstream.log)
 #>
 param(
   [switch]$uninstall,
@@ -46,9 +48,9 @@ function Fail($m) { Write-Host '  x ' -NoNewline -ForegroundColor Red; Write-Hos
 $ScriptVersion = '1.0.0'
 Say @"
 
-  +------------------------------------+
-  |  Welcome to DriftWire for Windows  |
-  +------------------------------------+
+  +-------------------------------------+
+  |  Welcome to Slipstream for Windows  |
+  +-------------------------------------+
   patcher $ScriptVersion
 
 "@ Cyan
@@ -74,7 +76,7 @@ function Get-Original([string]$want) {
   if ($want) { $tag = "v$($want.TrimStart('v'))" }
   else {
     Step 'looking for the newest OpenCode desktop release...'
-    $rels = Invoke-RestMethod 'https://api.github.com/repos/anomalyco/opencode/releases?per_page=30' -Headers @{ 'User-Agent' = 'driftwiree' }
+    $rels = Invoke-RestMethod 'https://api.github.com/repos/anomalyco/opencode/releases?per_page=30' -Headers @{ 'User-Agent' = 'slipstreame' }
     $tag = ($rels | Where-Object { $_.tag_name -match '^v\d+\.\d+\.\d+$' -and $_.assets.name -contains 'opencode-desktop-win-x64.exe' } |
             Sort-Object { [version]($_.tag_name.TrimStart('v')) } -Descending | Select-Object -First 1).tag_name
   }
@@ -96,8 +98,8 @@ function Get-Original([string]$want) {
 
 # ---------------------------------------------------------------- the module that goes inside app.asar
 $BootJs = @'
-// DriftWire - driftwire-boot.js. package.json "main" points here; it sets things up and then loads the original index.js.
-import { app, Tray, Menu, Notification, shell, dialog } from "electron"
+// Slipstream - slipstream-boot.js. package.json "main" points here; it sets things up and then loads the original index.js.
+import { app, Tray, Menu, Notification, shell, dialog, nativeImage } from "electron"
 import { execFileSync } from "node:child_process"
 import dgram from "node:dgram"
 import { lookup as dnsLookup } from "node:dns/promises"
@@ -113,19 +115,19 @@ import tls from "node:tls"
 const home = os.homedir()
 const dataDir = path.join(process.env.XDG_DATA_HOME ?? path.join(home, ".local", "share"), "opencode")
 const userData = path.join(process.env.APPDATA ?? path.join(home, "AppData", "Roaming"), "ai.opencode.desktop")
-const stateDir = path.join(process.env.LOCALAPPDATA ?? path.join(home, ".local", "state"), "driftwire")
+const stateDir = path.join(process.env.LOCALAPPDATA ?? path.join(home, ".local", "state"), "slipstream")
 mkdirSync(stateDir, { recursive: true })
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-const log = (m) => { try { writeFileSync(path.join(stateDir, "driftwire.log"), `${new Date().toISOString()} ${m}\n`, { flag: "a" }) } catch {} }
+const log = (m) => { try { writeFileSync(path.join(stateDir, "slipstream.log"), `${new Date().toISOString()} ${m}\n`, { flag: "a" }) } catch {} }
 const why = (e) => [e?.message, e?.cause?.code, e?.cause?.message].filter(Boolean).join(" - ") || String(e)
 // Windows often swallows toasts of unpackaged apps, so results are also logged and shown in a message box.
 const say = (body) => {
   log(body)
-  try { new Notification({ title: "DriftWire", body: String(body) }).show() } catch {}
-  dialog.showMessageBox({ type: "info", title: "DriftWire", message: String(body), buttons: ["OK"] }).catch(() => {})
+  try { new Notification({ title: "Slipstream", body: String(body) }).show() } catch {}
+  dialog.showMessageBox({ type: "info", title: "Slipstream", message: String(body), buttons: ["OK"] }).catch(() => {})
 }
-const note = (body) => { log(body); try { new Notification({ title: "DriftWire", body: String(body) }).show() } catch {} }
+const note = (body) => { log(body); try { new Notification({ title: "Slipstream", body: String(body) }).show() } catch {} }
 let busy = false
 const guard = (fn) => async () => {
   if (busy) return say("Another action is still running.")
@@ -1080,11 +1082,12 @@ if (cfg.mode === "wg" || cfg.mode === "wgfile" || cfg.mode === "free") {
 }
 
 // ---------------------------------------------------------------- tray menu
+const LOGO = "data:image/png;base64,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"
 let tray
 app.whenReady().then(async () => {
   try {
-    tray = new Tray(await app.getFileIcon(process.execPath))
-    tray.setToolTip("DriftWire")
+    tray = new Tray(nativeImage.createFromDataURL(LOGO).resize({ width: 32, height: 32 }))
+    tray.setToolTip("Slipstream")
     if (afterStart) note(afterStart)
     tray.setContextMenu(Menu.buildFromTemplate([
       { label: "New IP", click: guard(newIp) },
@@ -1117,8 +1120,8 @@ app.whenReady().then(async () => {
 // (the persistent "Free limit reached" tray is stopped in the app code itself by the patcher)
 const stripUpsell = () => {
   window.__ocLimit = (id) => console.log("__OC_LIMIT__" + id)
-  if (window.__driftwireStrip) return
-  window.__driftwireStrip = true
+  if (window.__slipstreamStrip) return
+  window.__slipstreamStrip = true
   const upsell = /(subscribe to (opencode )?go|connect a provider or subscribe|\$\s?10\s?\/\s?(month|mo)|assinar o plano go|plano go|conectar um provedor ou assinar|us\$\s?10)/i
   const resetLine = /(resets? at|ser[aá] redefinid[oa]s? [aà]s|redefinid[oa]s? [aà]s)\s*\d/i
   const box = 'dialog,[role="dialog"],[role="alertdialog"],[data-component*="dialog"]'
@@ -1169,9 +1172,9 @@ if (-not $dir) {
 }
 $res     = Join-Path $dir 'resources'
 $asar    = Join-Path $res 'app.asar'
-$asarBak = "$asar.driftwire.bak"          # the untouched original; if it exists, OpenCode is patched
+$asarBak = "$asar.slipstream.bak"          # the untouched original; if it exists, OpenCode is patched
 $upd     = Join-Path $res 'app-update.yml'
-$updBak  = "$upd.driftwire.bak"
+$updBak  = "$upd.slipstream.bak"
 if (-not (Test-Path $asar)) { Fail "app.asar not found in $res"; return }
 
 $ver = (Get-Item (Join-Path $dir $exeName)).VersionInfo.ProductVersion
@@ -1259,8 +1262,8 @@ function Write-PatchedAsar([string]$source, [string]$dest, [string]$newPackageJs
   $tree.files.PSObject.Properties.Remove('package.json')
   $tree.files | Add-Member -NotePropertyName 'package.json' -NotePropertyValue ([ordered]@{ size = $pkgBytes.Length; offset = "$dataLen" })
   $mainFiles = $tree.files.out.files.main.files
-  $mainFiles.PSObject.Properties.Remove('driftwire-boot.js')
-  $mainFiles | Add-Member -NotePropertyName 'driftwire-boot.js' -NotePropertyValue ([ordered]@{ size = $bootBytes.Length; offset = "$($dataLen + $pkgBytes.Length)" })
+  $mainFiles.PSObject.Properties.Remove('slipstream-boot.js')
+  $mainFiles | Add-Member -NotePropertyName 'slipstream-boot.js' -NotePropertyValue ([ordered]@{ size = $bootBytes.Length; offset = "$($dataLen + $pkgBytes.Length)" })
 
   $next = $dataLen + $pkgBytes.Length + $bootBytes.Length
   $order = @($extra.Keys)
@@ -1300,7 +1303,7 @@ if (-not (Test-Path $asarBak)) {
   Copy-Item $asar $asarBak
 }
 $pkgText = Read-AsarFile $asarBak 'package.json'
-$newPkg = [regex]::Replace($pkgText, '"main"\s*:\s*"[^"]*"', '"main": "./out/main/driftwire-boot.js"')
+$newPkg = [regex]::Replace($pkgText, '"main"\s*:\s*"[^"]*"', '"main": "./out/main/slipstream-boot.js"')
 if ($newPkg -eq $pkgText) { Fail 'could not find "main" in package.json'; return }
 
 Step 'Patching OpenCode...'
@@ -1310,8 +1313,8 @@ try {
   if ($extra.Count) { Ok 'free-limit tray stopped in the app code' } else { Warn 'free-limit code not found in this version; the tray menu is installed without that part' }
   Write-PatchedAsar $asarBak $tmp $newPkg $BootJs $extra
   # check before replacing: the new asar must read back the new entry
-  if ((Read-AsarFile $tmp 'package.json') -notmatch 'driftwire-boot\.js') { throw 'verification failed: package.json' }
-  if ((Read-AsarFile $tmp 'out/main/driftwire-boot.js') -notmatch 'DriftWire') { throw 'verification failed: boot file' }
+  if ((Read-AsarFile $tmp 'package.json') -notmatch 'slipstream-boot\.js') { throw 'verification failed: package.json' }
+  if ((Read-AsarFile $tmp 'out/main/slipstream-boot.js') -notmatch 'Slipstream') { throw 'verification failed: boot file' }
   Move-Item $tmp $asar -Force
 } catch {
   Remove-Item $tmp -Force -ErrorAction SilentlyContinue
@@ -1328,7 +1331,7 @@ if ((Test-Path $upd) -and -not (Test-Path $updBak)) {
 }
 
 Write-Host ''
-Ok 'DriftWire installation completed.'
-Say '  Open OpenCode: the DriftWire menu is the tray icon next to the clock (near the date).' DarkGray
+Ok 'Slipstream installation completed.'
+Say '  Open OpenCode: the Slipstream menu is the tray icon next to the clock (near the date).' DarkGray
 Say '  Undo: .\run.ps1 -uninstall' DarkGray
 if ($start) { Start-Process (Join-Path $dir $exeName) }
