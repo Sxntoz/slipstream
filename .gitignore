@@ -1,0 +1,8 @@
+account.json
+proxy.json
+custom.json
+run.conf
+*.bak
+*.new
+wg/
+backup/
