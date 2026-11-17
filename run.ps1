@@ -1,5 +1,5 @@
 <#
-  OpenCode Infinite - patcher for the original OpenCode desktop (Windows)
+  DriftWire - patcher for the original OpenCode desktop (Windows)
 
   Run:
     .\run.ps1                    install / update the patch
@@ -20,8 +20,8 @@
     Status .............. the IP OpenCode is using
   And it removes the "Free limit reached / subscribe to Go" tray and popup.
 
-  How: app.asar gets a new entry file; the original is saved as app.asar.infinite.bak. -uninstall puts it back.
-  Files of the tool: %LOCALAPPDATA%\opencode-infinite  (proxy.json = settings and proxy list, infinite.log)
+  How: app.asar gets a new entry file; the original is saved as app.asar.driftwire.bak. -uninstall puts it back.
+  Files of the tool: %LOCALAPPDATA%\driftwire  (proxy.json = settings and proxy list, driftwire.log)
 #>
 param(
   [switch]$uninstall,
@@ -46,9 +46,9 @@ function Fail($m) { Write-Host '  x ' -NoNewline -ForegroundColor Red; Write-Hos
 $ScriptVersion = '1.0.0'
 Say @"
 
-  +--------------------------------------------+
-  |  Welcome to OpenCode Infinite for Windows  |
-  +--------------------------------------------+
+  +------------------------------------+
+  |  Welcome to DriftWire for Windows  |
+  +------------------------------------+
   patcher $ScriptVersion
 
 "@ Cyan
@@ -74,7 +74,7 @@ function Get-Original([string]$want) {
   if ($want) { $tag = "v$($want.TrimStart('v'))" }
   else {
     Step 'looking for the newest OpenCode desktop release...'
-    $rels = Invoke-RestMethod 'https://api.github.com/repos/anomalyco/opencode/releases?per_page=30' -Headers @{ 'User-Agent' = 'oc-infinite' }
+    $rels = Invoke-RestMethod 'https://api.github.com/repos/anomalyco/opencode/releases?per_page=30' -Headers @{ 'User-Agent' = 'driftwiree' }
     $tag = ($rels | Where-Object { $_.tag_name -match '^v\d+\.\d+\.\d+$' -and $_.assets.name -contains 'opencode-desktop-win-x64.exe' } |
             Sort-Object { [version]($_.tag_name.TrimStart('v')) } -Descending | Select-Object -First 1).tag_name
   }
@@ -96,7 +96,7 @@ function Get-Original([string]$want) {
 
 # ---------------------------------------------------------------- the module that goes inside app.asar
 $BootJs = @'
-// OpenCode Infinite - infinite-boot.js. package.json "main" points here; it sets things up and then loads the original index.js.
+// DriftWire - driftwire-boot.js. package.json "main" points here; it sets things up and then loads the original index.js.
 import { app, Tray, Menu, Notification, shell, dialog } from "electron"
 import { execFileSync } from "node:child_process"
 import dgram from "node:dgram"
@@ -113,19 +113,19 @@ import tls from "node:tls"
 const home = os.homedir()
 const dataDir = path.join(process.env.XDG_DATA_HOME ?? path.join(home, ".local", "share"), "opencode")
 const userData = path.join(process.env.APPDATA ?? path.join(home, "AppData", "Roaming"), "ai.opencode.desktop")
-const stateDir = path.join(process.env.LOCALAPPDATA ?? path.join(home, ".local", "state"), "opencode-infinite")
+const stateDir = path.join(process.env.LOCALAPPDATA ?? path.join(home, ".local", "state"), "driftwire")
 mkdirSync(stateDir, { recursive: true })
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-const log = (m) => { try { writeFileSync(path.join(stateDir, "infinite.log"), `${new Date().toISOString()} ${m}\n`, { flag: "a" }) } catch {} }
+const log = (m) => { try { writeFileSync(path.join(stateDir, "driftwire.log"), `${new Date().toISOString()} ${m}\n`, { flag: "a" }) } catch {} }
 const why = (e) => [e?.message, e?.cause?.code, e?.cause?.message].filter(Boolean).join(" - ") || String(e)
 // Windows often swallows toasts of unpackaged apps, so results are also logged and shown in a message box.
 const say = (body) => {
   log(body)
-  try { new Notification({ title: "OpenCode Infinite", body: String(body) }).show() } catch {}
-  dialog.showMessageBox({ type: "info", title: "OpenCode Infinite", message: String(body), buttons: ["OK"] }).catch(() => {})
+  try { new Notification({ title: "DriftWire", body: String(body) }).show() } catch {}
+  dialog.showMessageBox({ type: "info", title: "DriftWire", message: String(body), buttons: ["OK"] }).catch(() => {})
 }
-const note = (body) => { log(body); try { new Notification({ title: "OpenCode Infinite", body: String(body) }).show() } catch {} }
+const note = (body) => { log(body); try { new Notification({ title: "DriftWire", body: String(body) }).show() } catch {} }
 let busy = false
 const guard = (fn) => async () => {
   if (busy) return say("Another action is still running.")
@@ -1084,7 +1084,7 @@ let tray
 app.whenReady().then(async () => {
   try {
     tray = new Tray(await app.getFileIcon(process.execPath))
-    tray.setToolTip("OpenCode Infinite")
+    tray.setToolTip("DriftWire")
     if (afterStart) note(afterStart)
     tray.setContextMenu(Menu.buildFromTemplate([
       { label: "New IP", click: guard(newIp) },
@@ -1117,8 +1117,8 @@ app.whenReady().then(async () => {
 // (the persistent "Free limit reached" tray is stopped in the app code itself by the patcher)
 const stripUpsell = () => {
   window.__ocLimit = (id) => console.log("__OC_LIMIT__" + id)
-  if (window.__ocInfiniteStrip) return
-  window.__ocInfiniteStrip = true
+  if (window.__driftwireStrip) return
+  window.__driftwireStrip = true
   const upsell = /(subscribe to (opencode )?go|connect a provider or subscribe|\$\s?10\s?\/\s?(month|mo)|assinar o plano go|plano go|conectar um provedor ou assinar|us\$\s?10)/i
   const resetLine = /(resets? at|ser[aá] redefinid[oa]s? [aà]s|redefinid[oa]s? [aà]s)\s*\d/i
   const box = 'dialog,[role="dialog"],[role="alertdialog"],[data-component*="dialog"]'
@@ -1169,9 +1169,9 @@ if (-not $dir) {
 }
 $res     = Join-Path $dir 'resources'
 $asar    = Join-Path $res 'app.asar'
-$asarBak = "$asar.infinite.bak"          # the untouched original; if it exists, OpenCode is patched
+$asarBak = "$asar.driftwire.bak"          # the untouched original; if it exists, OpenCode is patched
 $upd     = Join-Path $res 'app-update.yml'
-$updBak  = "$upd.infinite.bak"
+$updBak  = "$upd.driftwire.bak"
 if (-not (Test-Path $asar)) { Fail "app.asar not found in $res"; return }
 
 $ver = (Get-Item (Join-Path $dir $exeName)).VersionInfo.ProductVersion
@@ -1259,8 +1259,8 @@ function Write-PatchedAsar([string]$source, [string]$dest, [string]$newPackageJs
   $tree.files.PSObject.Properties.Remove('package.json')
   $tree.files | Add-Member -NotePropertyName 'package.json' -NotePropertyValue ([ordered]@{ size = $pkgBytes.Length; offset = "$dataLen" })
   $mainFiles = $tree.files.out.files.main.files
-  $mainFiles.PSObject.Properties.Remove('infinite-boot.js')
-  $mainFiles | Add-Member -NotePropertyName 'infinite-boot.js' -NotePropertyValue ([ordered]@{ size = $bootBytes.Length; offset = "$($dataLen + $pkgBytes.Length)" })
+  $mainFiles.PSObject.Properties.Remove('driftwire-boot.js')
+  $mainFiles | Add-Member -NotePropertyName 'driftwire-boot.js' -NotePropertyValue ([ordered]@{ size = $bootBytes.Length; offset = "$($dataLen + $pkgBytes.Length)" })
 
   $next = $dataLen + $pkgBytes.Length + $bootBytes.Length
   $order = @($extra.Keys)
@@ -1300,7 +1300,7 @@ if (-not (Test-Path $asarBak)) {
   Copy-Item $asar $asarBak
 }
 $pkgText = Read-AsarFile $asarBak 'package.json'
-$newPkg = [regex]::Replace($pkgText, '"main"\s*:\s*"[^"]*"', '"main": "./out/main/infinite-boot.js"')
+$newPkg = [regex]::Replace($pkgText, '"main"\s*:\s*"[^"]*"', '"main": "./out/main/driftwire-boot.js"')
 if ($newPkg -eq $pkgText) { Fail 'could not find "main" in package.json'; return }
 
 Step 'Patching OpenCode...'
@@ -1310,8 +1310,8 @@ try {
   if ($extra.Count) { Ok 'free-limit tray stopped in the app code' } else { Warn 'free-limit code not found in this version; the tray menu is installed without that part' }
   Write-PatchedAsar $asarBak $tmp $newPkg $BootJs $extra
   # check before replacing: the new asar must read back the new entry
-  if ((Read-AsarFile $tmp 'package.json') -notmatch 'infinite-boot\.js') { throw 'verification failed: package.json' }
-  if ((Read-AsarFile $tmp 'out/main/infinite-boot.js') -notmatch 'OpenCode Infinite') { throw 'verification failed: boot file' }
+  if ((Read-AsarFile $tmp 'package.json') -notmatch 'driftwire-boot\.js') { throw 'verification failed: package.json' }
+  if ((Read-AsarFile $tmp 'out/main/driftwire-boot.js') -notmatch 'DriftWire') { throw 'verification failed: boot file' }
   Move-Item $tmp $asar -Force
 } catch {
   Remove-Item $tmp -Force -ErrorAction SilentlyContinue
@@ -1319,9 +1319,6 @@ try {
   return
 }
 Ok 'tray menu installed'
-# older versions used wireproxy.exe; nothing needs it now
-$oldWp = Join-Path $env:LOCALAPPDATA 'opencode-infinite\wg\wireproxy.exe'
-if (Test-Path $oldWp) { Remove-Item $oldWp -Force -ErrorAction SilentlyContinue }
 
 # OpenCode's updater would replace the patched app, so it is pointed at nothing (-block_update_off undoes this)
 if ((Test-Path $upd) -and -not (Test-Path $updBak)) {
@@ -1331,7 +1328,7 @@ if ((Test-Path $upd) -and -not (Test-Path $updBak)) {
 }
 
 Write-Host ''
-Ok 'OpenCode Infinite installation completed.'
-Say '  Open OpenCode: the Infinite menu is the tray icon next to the clock (near the date).' DarkGray
+Ok 'DriftWire installation completed.'
+Say '  Open OpenCode: the DriftWire menu is the tray icon next to the clock (near the date).' DarkGray
 Say '  Undo: .\run.ps1 -uninstall' DarkGray
 if ($start) { Start-Process (Join-Path $dir $exeName) }

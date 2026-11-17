@@ -5,10 +5,10 @@ param
 )
 
 # Tiny loader (same idea as SpotX): downloads the real run.ps1 with retries and runs it with your parameters.
-#   iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/opencode-infinite/main/install.ps1') } -start"
+#   iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/driftwire/main/install.ps1') } -start"
 # Every parameter of run.ps1 can be added after it: -uninstall, -status, -start, -download, -block_update_off, -path <folder>
 
-function Run-OpenCodeInfinite {
+function Run-DriftWire {
 
     param(
         [string]$params
@@ -18,10 +18,10 @@ function Run-OpenCodeInfinite {
     $retryInterval = 5
 
     if ($mirror) {
-        $url = 'https://cdn.jsdelivr.net/gh/Sxntoz/opencode-infinite@main/run.ps1'
+        $url = 'https://cdn.jsdelivr.net/gh/Sxntoz/driftwire@main/run.ps1'
     }
     else {
-        $url = 'https://raw.githubusercontent.com/Sxntoz/opencode-infinite/main/run.ps1'
+        $url = 'https://raw.githubusercontent.com/Sxntoz/driftwire/main/run.ps1'
     }
 
     for ($retry = 1; $retry -le $maxRetryCount; $retry++) {
@@ -50,4 +50,4 @@ function Run-OpenCodeInfinite {
 }
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12;
-Run-OpenCodeInfinite -params $args
+Run-DriftWire -params $args

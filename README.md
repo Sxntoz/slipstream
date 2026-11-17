@@ -1,4 +1,4 @@
-# OpenCode Infinite
+# DriftWire
 
 Patcher for the **OpenCode desktop app on Windows**. It adds a tray menu that gives only OpenCode another connection
 (and a new IP when the free limit stops a chat), so the rest of your PC stays untouched.
@@ -11,13 +11,13 @@ Patcher for the **OpenCode desktop app on Windows**. It adds a tray menu that gi
 Open **PowerShell** and run:
 
 ```ps1
-iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/opencode-infinite/main/install.ps1') } -start"
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/driftwire/main/install.ps1') } -start"
 ```
 
 Mirror (if GitHub raw is blocked):
 
 ```ps1
-iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/opencode-infinite/main/install.ps1') } -m -start"
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/driftwire/main/install.ps1') } -m -start"
 ```
 
 OpenCode not installed yet? Add `-download` and the original is fetched from the official GitHub releases first.
@@ -25,7 +25,7 @@ OpenCode not installed yet? Add `-download` and the original is fetched from the
 ## Uninstall
 
 ```ps1
-iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/opencode-infinite/main/install.ps1') } -uninstall"
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/driftwire/main/install.ps1') } -uninstall"
 ```
 
 This puts the original `app.asar` back. Nothing else of OpenCode is changed.
@@ -60,14 +60,14 @@ It also removes the persistent "Free limit reached / Subscribe to Go" tray that 
 ## How it works
 
 - The installer adds one entry file to `resources\app.asar` and points `package.json` `main` to it. The untouched original is kept as
-  `app.asar.infinite.bak`. It also stops the app from saving the free-limit time that keeps that tray on screen.
+  `app.asar.driftwire.bak`. It also stops the app from saving the free-limit time that keeps that tray on screen.
 - That entry starts a small proxy on `127.0.0.1` and points only OpenCode (and its background service) to it. Changing the connection
   is instant, with no restart.
 - Built-in WARP is a user-mode WireGuard client: Noise handshake, ChaCha20-Poly1305, X25519, BLAKE2s, plus a small IPv4/IPv6/TCP/UDP
   stack and DNS through the tunnel. The free account is registered over Cloudflare's API, like `wgcf` does.
 - OpenCode's own updater is pointed at nothing (an update would replace the patch). Undo it with `-block_update_off`.
 
-Files of the tool are in `%LOCALAPPDATA%\opencode-infinite` (`proxy.json` = settings and proxy list, `infinite.log`, `backup\`, `wg\`).
+Files of the tool are in `%LOCALAPPDATA%\driftwire` (`proxy.json` = settings and proxy list, `driftwire.log`, `backup\`, `wg\`).
 
 ## Parameters
 
