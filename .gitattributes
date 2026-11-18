@@ -1,0 +1,4 @@
+# Everything is LF (run.ps1 is generated, and its check is byte for byte); binary files untouched.
+* text=auto eol=lf
+*.png binary
+*.ico binary

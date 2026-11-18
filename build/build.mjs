@@ -19,7 +19,7 @@ const SRC = path.join(ROOT, "src")
 
 // a file is its text plus one final newline; joining files puts one newline between them
 const read = (rel) => {
-  const text = readFileSync(path.join(SRC, rel), "utf8")
+  const text = readFileSync(path.join(SRC, rel), "utf8").replace(/\r\n/g, "\n")      // a checkout with CRLF must build the same file
   return text.endsWith("\n") ? text.slice(0, -1) : text
 }
 const join = (files) => files.map(read).join("\n")
