@@ -1,0 +1,13 @@
+// Slipstream - slipstream-boot.js. package.json "main" points here; it sets things up and then loads the original index.js.
+import { app, Tray, Menu, Notification, shell, dialog, nativeImage } from "electron"
+import { execFileSync } from "node:child_process"
+import dgram from "node:dgram"
+import { lookup as dnsLookup } from "node:dns/promises"
+import crypto, { generateKeyPairSync } from "node:crypto"
+import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync, readdirSync, statSync } from "node:fs"
+import https from "node:https"
+import net from "node:net"
+import os from "node:os"
+import path from "node:path"
+import { Duplex } from "node:stream"
+import tls from "node:tls"

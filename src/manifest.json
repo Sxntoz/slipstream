@@ -1,0 +1,60 @@
+{
+  "languages": [
+    "en",
+    "pt-BR",
+    "es",
+    "fr",
+    "de",
+    "ru",
+    "zh-CN",
+    "ja",
+    "ko",
+    "hi",
+    "ar",
+    "id"
+  ],
+  "installer": [
+    "installer/00-header.ps1",
+    "installer/10-ui.ps1",
+    "installer/20-locate.ps1",
+    "installer/30-questions.ps1",
+    "installer/40-data-protection.ps1",
+    "installer/50-download.ps1",
+    "installer/60-embed-boot.ps1",
+    "installer/70-terminal.ps1",
+    "installer/80-flow.ps1",
+    "installer/90-asar.ps1",
+    "installer/95-install.ps1"
+  ],
+  "boot": [
+    "runtime/boot/00-header.js",
+    "runtime/core/00-runtime.js",
+    "runtime/boot/10-pending.js",
+    "runtime/core/20-settings.js",
+    "runtime/core/25-i18n.js",
+    "runtime/core/30-gate.js",
+    "runtime/core/wireguard/10-crypto.js",
+    "runtime/core/wireguard/20-packets.js",
+    "runtime/core/wireguard/30-tcp.js",
+    "runtime/core/wireguard/40-tunnel.js",
+    "runtime/core/wireguard/50-conf.js",
+    "runtime/core/warp.js",
+    "runtime/core/free-proxies.js",
+    "runtime/core/actions.js",
+    "runtime/boot/20-desktop-actions.js",
+    "runtime/boot/30-auto-rotate.js",
+    "runtime/boot/40-tray.js",
+    "runtime/boot/50-upsell.js",
+    "runtime/boot/99-handover.js"
+  ],
+  "cliShim": [
+    "runtime/cli/shim.js"
+  ],
+  "cliMain": [
+    "runtime/cli/00-head.js",
+    "runtime/cli/10-bring-up.js",
+    "runtime/cli/20-control.js",
+    "runtime/cli/30-run.js",
+    "runtime/cli/40-commands.js"
+  ]
+}

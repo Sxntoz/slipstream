@@ -177,6 +177,23 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 - An OpenCode update replaces the patch. Run the installer again after updating.
 - Tested on OpenCode 2.3.2 (desktop and terminal) and 1.19.6 (terminal).
 
+## Development
+
+`run.ps1` is generated from the modules in `src/`; do not edit it by hand. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+```
+src/installer/   PowerShell, in order       src/runtime/core/  the engine (own WireGuard, proxy, actions)
+src/runtime/boot the desktop patch          src/runtime/cli/   the terminal build
+src/i18n/        one file per language      build/build.mjs    joins everything into run.ps1
+tests/           npm test                   assets/            logo and tray icon
+```
+
+```ps1
+npm run build    # regenerate run.ps1
+npm run check    # fail if run.ps1 is out of date (CI does this)
+npm test         # crypto vectors, packets, languages, build, installer logic
+```
+
 ## License
 
 MIT

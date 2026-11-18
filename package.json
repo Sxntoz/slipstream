@@ -1,0 +1,14 @@
+{
+  "name": "slipstream",
+  "version": "1.0.0",
+  "description": "Per-app connection patcher for Windows: own WireGuard (IPv6), proxies, auto-rotate. Built into one PowerShell file.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build/build.mjs",
+    "check": "node build/build.mjs --check",
+    "test": "node --test \"tests/*.test.mjs\""
+  }
+}

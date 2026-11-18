@@ -1,8 +1,10 @@
-account.json
-proxy.json
-custom.json
-run.conf
 *.bak
+*.log
 *.new
-wg/
+account.json
 backup/
+custom.json
+node_modules/
+proxy.json
+run.conf
+wg/

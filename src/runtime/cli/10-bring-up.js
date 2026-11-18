@@ -1,0 +1,10 @@
+// ---- the connection that was saved last time
+async function bringUp(quiet = false) {
+  cfg = loadCfg()
+  const say2 = quiet ? () => {} : print
+  try {
+    if (cfg.mode === "wg" || cfg.mode === "wgfile") say2(await wgUp(false))
+    else if (cfg.mode === "free") { const f = await freeFind(); say2(t("onFree", { host: parseUp(f.proxy).host, ip: f.ip })) }
+  } catch (e) { print(why(e) + " " + t("backDirect")); wgStop(); cfg.mode = "none"; saveCfg(cfg) }
+}
+
