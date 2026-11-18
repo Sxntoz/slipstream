@@ -27,6 +27,29 @@ iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/slipstream/main/i
 
 OpenCode not installed yet? Add `-download` and the original is fetched from the official GitHub releases first.
 
+## What the installer does
+
+It talks to you like SpotX does. Run it and it checks what is installed, then asks (answer `Y` or `N`):
+
+1. OpenCode not found: download and install the official one?
+2. A newer OpenCode exists: update?
+3. Block OpenCode's own updates (they would remove the patch)?
+4. Also install Slipstream for the terminal?
+
+Then: `Downloading OpenCode 2.3.2` (with a progress bar), `Installing OpenCode`, `Patching OpenCode...`, `installation completed`.
+The questions are in your Windows language. `-yes` answers Yes to all of them, and with no console it uses the safe defaults.
+
+### Updating without losing anything
+
+Before an update it saves, and after it checks, everything that is yours and lives outside the app:
+
+- your chats (`opencode.db`) and your login (`auth.json`)
+- OpenCode's settings and drafts
+- Slipstream's own settings, WARP account and WireGuard file
+
+Each file is copied to `%LOCALAPPDATA%\slipstream\backup\update-<date>` (the 3 newest are kept) and compared byte for byte afterwards.
+If any file differs or is missing, it is put back from the backup and the installer says so.
+
 ## Uninstall
 
 ```ps1
@@ -136,7 +159,8 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 | `-uninstall` | Remove the patch |
 | `-status` | Show what is installed |
 | `-download` | Install the original OpenCode first if it is missing |
-| `-update` | Update OpenCode to the newest version and patch it again |
+| `-yes` / `-y` | Answer Yes to every question |
+| `-update` | Update OpenCode to the newest version and patch it again (chats, login and settings are saved and checked) |
 | `-terminal` | The terminal version (add `-update` to update the terminal OpenCode too, `-uninstall` to remove it) |
 | `-version 2.3.0` | Version to download with `-download` |
 | `-block_update_off` | Let OpenCode update itself again (updates remove the patch) |
