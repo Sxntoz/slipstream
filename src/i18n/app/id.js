@@ -16,4 +16,5 @@
     limitWarn: "Batas gratis tercapai. Rotasi otomatis butuh Koneksi > WARP bawaan atau Daftar proxy saya.", limitRotating: "Batas gratis tercapai: mengganti IP...",
     eReg: "Pendaftaran WARP ditolak (HTTP {status}); coba lagi beberapa menit lagi", eNoFile: "Belum ada berkas WireGuard yang dipilih. Baki > Koneksi > Pilih berkas WireGuard.",
     eFileDead: "Terowongan berkas WireGuard itu tidak merespons", eWarpDead: "Terowongan WARP tidak merespons (apakah UDP 2408 diblokir?)",
-    eNoList: "Tidak bisa mengunduh daftar proxy publik mana pun", eNoProxy: "Tidak ada proxy publik yang merespons tepat waktu (coba lagi)", dlgChoose: "Pilih berkas WireGuard .conf", m_autostart: "Mulai bersama Windows", sendAgain: "IP berubah. Kirim pesan Anda lagi." },
+    eNoList: "Tidak bisa mengunduh daftar proxy publik mana pun", eNoProxy: "Tidak ada proxy publik yang merespons tepat waktu (coba lagi)", dlgChoose: "Pilih berkas WireGuard .conf", m_autostart: "Mulai bersama Windows", desktopStarted: "OpenCode dimulai.", noDesktop: "OpenCode desktop tidak ditemukan. Pasang dulu (install.ps1 -download).",
+    sendAgain: "IP berubah. Kirim pesan Anda lagi." },

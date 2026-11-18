@@ -14,6 +14,7 @@ const env = {
   ...process.env,
   LOCALAPPDATA: path.join(tmp, "local"), APPDATA: path.join(tmp, "roaming"), XDG_DATA_HOME: path.join(tmp, "xdg"),
   USERPROFILE: tmp, HOME: tmp, SLIPSTREAM_ATTACH: "",
+  ProgramFiles: path.join(tmp, "pf"), "ProgramFiles(x86)": path.join(tmp, "pf86"), ProgramW6432: path.join(tmp, "pf"),
 }
 const stateDir = path.join(env.LOCALAPPDATA, "slipstream")
 const cliFile = path.join(tmp, "slipstream.mjs")
@@ -54,7 +55,16 @@ after(() => { slipstream("stop"); try { agent.kill() } catch {} })
 test("help lists the commands, including the tray ones", () => {
   const r = slipstream("help")
   assert.equal(r.status, 0)
-  for (const word of ["slipstream tray", "slipstream stop", "slipstream autostart", "slipstream opencode", "slipstream ip", "slipstream clear"]) assert.ok(r.stdout.includes(word), word)
+  for (const word of ["slipstream tray", "slipstream stop", "slipstream autostart", "slipstream opencode", "slipstream cli", "slipstream ip", "slipstream clear"]) assert.ok(r.stdout.includes(word), word)
+})
+
+test("'slipstream opencode' opens the desktop app; the terminal is 'slipstream cli'", () => {
+  const missing = slipstream("opencode")
+  assert.equal(missing.status, 1)
+  assert.match(missing.stdout, /desktop/i)
+  const started = spawnSync(process.execPath, [cliFile, "opencode"], { env: { ...env, SLIPSTREAM_DESKTOP: process.execPath }, encoding: "utf8", timeout: 30000 })
+  assert.equal(started.status, 0)
+  assert.match(started.stdout, /OpenCode started/)
 })
 
 test("settings commands write the terminal's own settings file (cli.json), not the desktop's", () => {

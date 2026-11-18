@@ -16,4 +16,5 @@
     limitWarn: "تم بلوغ الحد المجاني. يحتاج التبديل التلقائي إلى الاتصال > WARP المدمج أو قائمة وكلائي.", limitRotating: "تم بلوغ الحد المجاني: جارٍ تغيير عنوان IP...",
     eReg: "تم رفض تسجيل WARP (HTTP {status})؛ حاول مرة أخرى بعد دقائق", eNoFile: "لم يتم اختيار ملف WireGuard بعد. علبة النظام > الاتصال > اختيار ملف WireGuard.",
     eFileDead: "لم يستجب نفق ملف WireGuard هذا", eWarpDead: "لم يستجب نفق WARP (هل المنفذ UDP 2408 محظور؟)",
-    eNoList: "تعذر تنزيل أي قائمة وكلاء عامين", eNoProxy: "لم يستجب أي وكيل عام في الوقت المناسب (حاول مرة أخرى)", dlgChoose: "اختر ملف WireGuard بصيغة .conf", m_autostart: "البدء مع Windows", sendAgain: "تم تغيير عنوان IP. أعد إرسال رسالتك." },
+    eNoList: "تعذر تنزيل أي قائمة وكلاء عامين", eNoProxy: "لم يستجب أي وكيل عام في الوقت المناسب (حاول مرة أخرى)", dlgChoose: "اختر ملف WireGuard بصيغة .conf", m_autostart: "البدء مع Windows", desktopStarted: "تم تشغيل OpenCode.", noDesktop: "لم يتم العثور على OpenCode لسطح المكتب. ثبّته أولاً (install.ps1 -download).",
+    sendAgain: "تم تغيير عنوان IP. أعد إرسال رسالتك." },

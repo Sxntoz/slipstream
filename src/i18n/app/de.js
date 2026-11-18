@@ -16,4 +16,5 @@
     limitWarn: "Gratis-Limit erreicht. Der automatische Wechsel braucht Verbindung > Integriertes WARP oder Eigene Proxy-Liste.", limitRotating: "Gratis-Limit erreicht: IP wird gewechselt...",
     eReg: "WARP-Registrierung abgelehnt (HTTP {status}); versuchen Sie es in einigen Minuten erneut", eNoFile: "Noch keine WireGuard-Datei gewählt. Tray > Verbindung > WireGuard-Datei wählen.",
     eFileDead: "Der Tunnel dieser WireGuard-Datei hat nicht geantwortet", eWarpDead: "Der WARP-Tunnel hat nicht geantwortet (ist UDP 2408 blockiert?)",
-    eNoList: "Keine öffentliche Proxy-Liste konnte geladen werden", eNoProxy: "Kein öffentlicher Proxy antwortete rechtzeitig (erneut versuchen)", dlgChoose: "WireGuard-.conf-Datei wählen", m_autostart: "Mit Windows starten", sendAgain: "Die IP hat sich geändert. Senden Sie Ihre Nachricht erneut." },
+    eNoList: "Keine öffentliche Proxy-Liste konnte geladen werden", eNoProxy: "Kein öffentlicher Proxy antwortete rechtzeitig (erneut versuchen)", dlgChoose: "WireGuard-.conf-Datei wählen", m_autostart: "Mit Windows starten", desktopStarted: "OpenCode gestartet.", noDesktop: "OpenCode (Desktop) nicht gefunden. Zuerst installieren (install.ps1 -download).",
+    sendAgain: "Die IP hat sich geändert. Senden Sie Ihre Nachricht erneut." },

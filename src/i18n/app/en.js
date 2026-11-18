@@ -16,4 +16,5 @@
     limitWarn: "Free limit reached. Auto-rotate needs Connection > Built-in WARP or Own proxy list.", limitRotating: "Free limit reached: changing the IP...",
     eReg: "WARP registration refused (HTTP {status}); try again in a few minutes", eNoFile: "No WireGuard file chosen yet. Tray > Connection > Choose WireGuard file.",
     eFileDead: "The tunnel of that WireGuard file did not answer", eWarpDead: "The WARP tunnel did not answer (is UDP 2408 blocked?)",
-    eNoList: "Could not download any public proxy list", eNoProxy: "No public proxy answered in time (try again)", dlgChoose: "Choose a WireGuard .conf file", m_autostart: "Start with Windows", sendAgain: "The IP changed. Send your message again." },
+    eNoList: "Could not download any public proxy list", eNoProxy: "No public proxy answered in time (try again)", dlgChoose: "Choose a WireGuard .conf file", m_autostart: "Start with Windows", desktopStarted: "OpenCode started.", noDesktop: "OpenCode desktop not found. Install it first (install.ps1 -download).",
+    sendAgain: "The IP changed. Send your message again." },

@@ -103,8 +103,9 @@ iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/slipstream/main/i
 Then, in any terminal:
 
 ```
-slipstream opencode            # OpenCode v2 through Slipstream (also: opencode2, or opencode1 for v1)
-slipstream opencode run "..."  # non-interactive: a free-limit error changes the IP and runs it again
+slipstream opencode            # the OpenCode desktop app
+slipstream cli                 # OpenCode v2 in this terminal (same as: slipstream opencode cli, or opencode2)
+slipstream cli run "..."       # non-interactive: a free-limit error changes the IP and runs it again
 slipstream ip                  # new IP. Use it from a SECOND terminal while a session is running
 slipstream status              # the IP in use
 slipstream mode wg             # direct | wg | wgfile | free | list
@@ -117,9 +118,10 @@ slipstream run <any program>   # any program through the same route
 ```
 
 Notes:
+- `slipstream opencode` opens the desktop app (patched by the installer). The terminal build is `slipstream cli`, `slipstream opencode cli` or `slipstream opencode2`; the older v1 is `slipstream opencode1`.
 - The terminal has its own settings (`cli.json`), its own WARP account and its own proxy port, so it can run next to the desktop app.
 - In the interactive screen there is no safe way to watch for the free limit. When it stops you, run `slipstream ip` in another terminal and send your message again.
-- v1 and v2 cannot share one database, so `opencode1` keeps its data in `%LOCALAPPDATA%\opencode-v1\xdg` (its own login too).
+- v1 and v2 cannot share one database, so `slipstream opencode1` keeps its data in `%LOCALAPPDATA%\opencode-v1\xdg` (its own login too).
 - Remove it with `-terminal -uninstall`.
 
 ## Update OpenCode desktop

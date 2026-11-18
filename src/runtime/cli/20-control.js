@@ -64,7 +64,7 @@ async function controlHandle(req) {
   }
 }
 
-// kind: "agent" (the tray's background process, lives until "quit") or "session" (one program started by "slipstream opencode")
+// kind: "agent" (the tray's background process, lives until "quit") or "session" (one program started by "slipstream cli")
 function startControl(kind = "session") {
   const token = crypto.randomBytes(16).toString("hex")
   const file = path.join(stateDir, kind === "agent" ? "agent.json" : "cli-control.json")

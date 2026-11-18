@@ -34,6 +34,11 @@ if ($blockUpdates -and (Test-Path $upd) -and -not (Test-Path $updBak)) {
   Ok (T 'updBlocked')
 }
 
+# where the app lives, so "slipstream opencode" opens it without searching the disk
+$desktopRecord = Join-Path $env:LOCALAPPDATA 'slipstream\desktop.json'
+New-Item -ItemType Directory -Force (Split-Path $desktopRecord) | Out-Null
+[IO.File]::WriteAllText($desktopRecord, (@{ dir = $dir } | ConvertTo-Json -Compress), (New-Object Text.UTF8Encoding($false)))
+
 # Slipstream CLI too, when that was the choice
 if ($alsoCli) { Install-Terminal $false }
 

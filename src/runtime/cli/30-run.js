@@ -20,6 +20,32 @@ function findOnPath(name) {
   }
   return undefined
 }
+// ---- the desktop app: same places the installer looks in, plus the folder it recorded during the patch
+const desktopDirs = () => [
+  path.join(process.env.LOCALAPPDATA ?? "", "Programs", "ai.opencode.desktop"),
+  path.join(process.env.LOCALAPPDATA ?? "", "Programs", "OpenCode"),
+  path.join(process.env.ProgramFiles ?? "", "OpenCode"),
+  path.join(process.env["ProgramFiles(x86)"] ?? "", "OpenCode"),
+]
+function desktopExe() {
+  if (process.env.SLIPSTREAM_DESKTOP && existsSync(process.env.SLIPSTREAM_DESKTOP)) return process.env.SLIPSTREAM_DESKTOP
+  try {
+    const dir = JSON.parse(readFileSync(path.join(stateDir, "desktop.json"), "utf8")).dir
+    if (dir && existsSync(path.join(dir, "OpenCode.exe"))) return path.join(dir, "OpenCode.exe")
+  } catch {}
+  for (const dir of desktopDirs()) { const file = path.join(dir, "OpenCode.exe"); if (existsSync(file)) return file }
+  return findOnPath("OpenCode.exe")
+}
+function runDesktop() {
+  const exe = desktopExe()
+  if (!exe) { print(t("noDesktop")); return process.exit(1) }
+  const child = spawn(exe, [], { cwd: path.dirname(exe), detached: true, stdio: "ignore" })
+  child.on("error", (e) => { print(`could not start ${exe}: ${why(e)}`); process.exit(1) })
+  child.unref()
+  print(t("desktopStarted"))
+  process.exit(0)
+}
+
 const cmdQuote = (a) => (/[\s"&|<>^()%]/.test(a) ? `"${String(a).replace(/"/g, '""')}"` : String(a))
 
 function runOnce(file, args, watch) {

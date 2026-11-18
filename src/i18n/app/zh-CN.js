@@ -16,4 +16,5 @@
     limitWarn: "已达到免费额度。自动轮换需要“连接方式 > 内置 WARP”或“我的代理列表”。", limitRotating: "已达到免费额度：正在更换 IP...",
     eReg: "WARP 注册被拒绝（HTTP {status}）；请几分钟后重试", eNoFile: "尚未选择 WireGuard 文件。托盘 > 连接方式 > 选择 WireGuard 文件。",
     eFileDead: "该 WireGuard 文件的隧道没有响应", eWarpDead: "WARP 隧道没有响应（UDP 2408 端口是否被封锁？）",
-    eNoList: "无法下载任何公共代理列表", eNoProxy: "没有公共代理及时响应（请重试）", dlgChoose: "选择 WireGuard .conf 文件", m_autostart: "随 Windows 启动", sendAgain: "IP 已更换。请重新发送你的消息。" },
+    eNoList: "无法下载任何公共代理列表", eNoProxy: "没有公共代理及时响应（请重试）", dlgChoose: "选择 WireGuard .conf 文件", m_autostart: "随 Windows 启动", desktopStarted: "OpenCode 已启动。", noDesktop: "未找到 OpenCode 桌面版。请先安装（install.ps1 -download）。",
+    sendAgain: "IP 已更换。请重新发送你的消息。" },

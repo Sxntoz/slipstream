@@ -13,7 +13,7 @@
     .\run.ps1 -update            update OpenCode to the newest official version, then patch it again.
                                   Your chats, login and settings are saved first and checked afterwards: nothing is lost
     .\run.ps1 -desktop           Slipstream Desktop only: the tray icon for the OpenCode app (no question)
-    .\run.ps1 -cli               Slipstream CLI only: a tray icon + the terminal commands  slipstream opencode / opencode1 / opencode2
+    .\run.ps1 -cli               Slipstream CLI only: a tray icon + the terminal commands  slipstream cli / opencode1 / opencode2
                                  (-terminal is the same). Add -update to also update the terminal OpenCode (v2 and v1).
                                  With none of these the installer asks: Desktop, CLI or both.
     .\run.ps1 -block_update_off  let OpenCode update itself again (updates remove the patch)

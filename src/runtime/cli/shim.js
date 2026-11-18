@@ -81,6 +81,8 @@ function setAutostart(on) {
 
   // programs started through the agent use its connection; commands that only change settings need no connection
   const agent = readState("agent.json")
-  if (agent && ["opencode", "opencode1", "opencode2", "run"].includes(cmd)) process.env.SLIPSTREAM_ATTACH = String(agent.gatePort)
+  const terminal = cmd === "cli" || ["opencode1", "opencode2", "run"].includes(cmd) ||
+    (cmd === "opencode" && ["cli", "terminal"].includes(String(rest[0] ?? "").toLowerCase()))
+  if (agent && terminal) process.env.SLIPSTREAM_ATTACH = String(agent.gatePort)
   else if ([undefined, "help", "-h", "--help", "wgfile", "proxy", "context", "lang", "clear"].includes(cmd)) process.env.SLIPSTREAM_ATTACH = "1"
 }

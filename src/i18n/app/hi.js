@@ -16,4 +16,5 @@
     limitWarn: "मुफ़्त सीमा पूरी हो गई। ऑटो-रोटेट के लिए कनेक्शन > बिल्ट-इन WARP या मेरी प्रॉक्सी सूची चाहिए।", limitRotating: "मुफ़्त सीमा पूरी हुई: IP बदला जा रहा है...",
     eReg: "WARP पंजीकरण अस्वीकार हुआ (HTTP {status}); कुछ मिनट बाद फिर कोशिश करें", eNoFile: "अभी तक कोई WireGuard फ़ाइल नहीं चुनी गई। ट्रे > कनेक्शन > WireGuard फ़ाइल चुनें।",
     eFileDead: "उस WireGuard फ़ाइल की टनल ने जवाब नहीं दिया", eWarpDead: "WARP टनल ने जवाब नहीं दिया (क्या UDP 2408 बंद है?)",
-    eNoList: "कोई भी सार्वजनिक प्रॉक्सी सूची डाउनलोड नहीं हो सकी", eNoProxy: "समय पर कोई सार्वजनिक प्रॉक्सी नहीं चला (फिर कोशिश करें)", dlgChoose: "WireGuard .conf फ़ाइल चुनें", m_autostart: "Windows के साथ शुरू करें", sendAgain: "IP बदल गया। अपना संदेश फिर भेजें।" },
+    eNoList: "कोई भी सार्वजनिक प्रॉक्सी सूची डाउनलोड नहीं हो सकी", eNoProxy: "समय पर कोई सार्वजनिक प्रॉक्सी नहीं चला (फिर कोशिश करें)", dlgChoose: "WireGuard .conf फ़ाइल चुनें", m_autostart: "Windows के साथ शुरू करें", desktopStarted: "OpenCode शुरू हो गया।", noDesktop: "OpenCode डेस्कटॉप नहीं मिला। पहले इसे इंस्टॉल करें (install.ps1 -download)।",
+    sendAgain: "IP बदल गया। अपना संदेश फिर भेजें।" },

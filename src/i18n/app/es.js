@@ -16,4 +16,5 @@
     limitWarn: "Límite gratuito alcanzado. La rotación automática necesita Conexión > WARP integrado o Mi lista de proxies.", limitRotating: "Límite gratuito alcanzado: cambiando la IP...",
     eReg: "Registro WARP rechazado (HTTP {status}); inténtalo de nuevo en unos minutos", eNoFile: "Aún no se eligió un archivo WireGuard. Bandeja > Conexión > Elegir archivo WireGuard.",
     eFileDead: "El túnel de ese archivo WireGuard no respondió", eWarpDead: "El túnel WARP no respondió (¿está bloqueado el puerto UDP 2408?)",
-    eNoList: "No se pudo descargar ninguna lista de proxies públicos", eNoProxy: "Ningún proxy público respondió a tiempo (inténtalo de nuevo)", dlgChoose: "Elige un archivo WireGuard .conf", m_autostart: "Iniciar con Windows", sendAgain: "La IP cambió. Vuelve a enviar tu mensaje." },
+    eNoList: "No se pudo descargar ninguna lista de proxies públicos", eNoProxy: "Ningún proxy público respondió a tiempo (inténtalo de nuevo)", dlgChoose: "Elige un archivo WireGuard .conf", m_autostart: "Iniciar con Windows", desktopStarted: "OpenCode iniciado.", noDesktop: "No se encontró OpenCode de escritorio. Instálalo primero (install.ps1 -download).",
+    sendAgain: "La IP cambió. Vuelve a enviar tu mensaje." },

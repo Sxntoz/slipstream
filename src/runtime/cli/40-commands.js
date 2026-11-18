@@ -16,7 +16,9 @@ async function main() {
   if (!cmd || cmd === "help" || cmd === "-h" || cmd === "--help") return print(HELP)
   if (cmd === "agent") return runAgent()
   if (cmd === "run") return runTool(rest)
-  if (["opencode", "opencode1", "opencode2"].includes(cmd)) return runTool(argv)
+  if (cmd === "opencode") return ["cli", "terminal"].includes(String(rest[0] ?? "").toLowerCase()) ? runTool(["opencode", ...rest.slice(1)]) : runDesktop()
+  if (cmd === "cli") return runTool(["opencode", ...rest])
+  if (cmd === "opencode1" || cmd === "opencode2") return runTool(argv)
 
   if (cmd === "ip") { print(await newIp()); process.exit(0) }
   if (cmd === "status") { await bringUp(true); print(await status()); process.exit(0) }
@@ -25,7 +27,7 @@ async function main() {
     const m = MODE_ALIASES[String(rest[0] ?? "").toLowerCase()]
     if (!m) return print("usage: slipstream mode direct|wg|wgfile|free|list")
     cfg.mode = m; saveCfg(cfg)
-    return print(`Connection set to ${rest[0]}. It starts with the next "slipstream opencode".`)
+    return print(`Connection set to ${rest[0]}. It starts with the next "slipstream cli".`)
   }
   if (cmd === "wgfile") {
     if (!rest[0] || !existsSync(rest[0])) return print("usage: slipstream wgfile <file.conf>")

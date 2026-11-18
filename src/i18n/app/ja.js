@@ -16,4 +16,5 @@
     limitWarn: "無料枠の上限に達しました。自動ローテーションには「接続 > 内蔵 WARP」または「自分のプロキシ一覧」が必要です。", limitRotating: "無料枠の上限に達しました：IP を変更しています...",
     eReg: "WARP の登録が拒否されました（HTTP {status}）。数分後にもう一度お試しください", eNoFile: "WireGuard ファイルがまだ選ばれていません。トレイ > 接続 > WireGuard ファイルを選択。",
     eFileDead: "その WireGuard ファイルのトンネルが応答しませんでした", eWarpDead: "WARP トンネルが応答しませんでした（UDP 2408 がブロックされていませんか？）",
-    eNoList: "公開プロキシ一覧をダウンロードできませんでした", eNoProxy: "時間内に応答した公開プロキシがありません（もう一度お試しください）", dlgChoose: "WireGuard の .conf ファイルを選択", m_autostart: "Windows と一緒に起動", sendAgain: "IP を変更しました。もう一度メッセージを送ってください。" },
+    eNoList: "公開プロキシ一覧をダウンロードできませんでした", eNoProxy: "時間内に応答した公開プロキシがありません（もう一度お試しください）", dlgChoose: "WireGuard の .conf ファイルを選択", m_autostart: "Windows と一緒に起動", desktopStarted: "OpenCode を起動しました。", noDesktop: "OpenCode デスクトップが見つかりません。先にインストールしてください（install.ps1 -download）。",
+    sendAgain: "IP を変更しました。もう一度メッセージを送ってください。" },

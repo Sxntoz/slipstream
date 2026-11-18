@@ -12,7 +12,9 @@ const HELP = `Slipstream CLI
   slipstream stop                close the agent and the tray
   slipstream autostart on|off    start the tray with Windows
 
-  slipstream opencode [args]     run OpenCode through Slipstream   (also: opencode1 = v1, opencode2 = v2)
+  slipstream opencode            the OpenCode desktop app
+  slipstream cli [args]          OpenCode v2 in this terminal, through Slipstream  (also: opencode cli, opencode2)
+  slipstream opencode1 [args]    OpenCode v1 in this terminal
   slipstream run <program> ...   run any program through it
   slipstream ip                  new IP
   slipstream status              the IP in use
