@@ -36,5 +36,13 @@
   "sIntact": "確認しました：チャット、設定、ログインは無事です。",
   "sRestored": "更新中に変化があったため、バックアップからデータを戻しました。",
   "sUpToDate": "OpenCode {v} はすでに最新です。",
-  "yes": "^(y|yes|はい|hai)$"
+  "yes": "^(y|yes|はい|hai)$",
+  "qWhat": "何をインストールしますか？",
+  "oDesktop": "Slipstream Desktop：OpenCode アプリ用のトレイアイコン",
+  "oCli": "Slipstream CLI：トレイアイコン + ターミナルコマンド（opencode、opencode1、opencode2）",
+  "oBoth": "両方",
+  "oCancel": "何もしない（OpenCode の確認のみ）",
+  "qChoice": "1、2、3 または 0 を選んでください",
+  "qAutostart": "Slipstream CLI のトレイを Windows と一緒に起動しますか？",
+  "cliTray": "Slipstream CLI が動いています。時計の横のアイコンを探してください。"
 }

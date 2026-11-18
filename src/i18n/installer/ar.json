@@ -36,5 +36,13 @@
   "sIntact": "تم التحقق: محادثاتك وإعداداتك وتسجيل دخولك سليمة.",
   "sRestored": "تغيّر شيء أثناء التحديث، لذلك أُعيدت بياناتك من النسخة الاحتياطية.",
   "sUpToDate": "OpenCode {v} هو أحدث إصدار بالفعل.",
-  "yes": "^(y|yes|نعم|na3am)$"
+  "yes": "^(y|yes|نعم|na3am)$",
+  "qWhat": "ماذا تريد أن تثبّت؟",
+  "oDesktop": "Slipstream Desktop: أيقونة في علبة النظام لتطبيق OpenCode",
+  "oCli": "Slipstream CLI: أيقونة في علبة النظام + أوامر الطرفية (opencode, opencode1, opencode2)",
+  "oBoth": "كلاهما",
+  "oCancel": "لا شيء، فقط افحص OpenCode",
+  "qChoice": "اختر 1 أو 2 أو 3 أو 0",
+  "qAutostart": "هل تريد تشغيل علبة Slipstream CLI مع Windows؟",
+  "cliTray": "Slipstream CLI يعمل: ابحث عن أيقونته بجانب الساعة."
 }

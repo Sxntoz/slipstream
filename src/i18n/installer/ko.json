@@ -36,5 +36,13 @@
   "sIntact": "확인됨: 채팅, 설정, 로그인이 그대로입니다.",
   "sRestored": "업데이트 중 무언가 바뀌어 백업에서 데이터를 되돌렸습니다.",
   "sUpToDate": "OpenCode {v}은(는) 이미 최신입니다.",
-  "yes": "^(y|yes|예|네|ye|ne)$"
+  "yes": "^(y|yes|예|네|ye|ne)$",
+  "qWhat": "무엇을 설치할까요?",
+  "oDesktop": "Slipstream Desktop: OpenCode 앱용 트레이 아이콘",
+  "oCli": "Slipstream CLI: 트레이 아이콘 + 터미널 명령 (opencode, opencode1, opencode2)",
+  "oBoth": "둘 다",
+  "oCancel": "설치 안 함 (OpenCode만 확인)",
+  "qChoice": "1, 2, 3 또는 0을 선택하세요",
+  "qAutostart": "Windows와 함께 Slipstream CLI 트레이를 시작할까요?",
+  "cliTray": "Slipstream CLI가 실행 중입니다. 시계 옆의 아이콘을 찾아보세요."
 }

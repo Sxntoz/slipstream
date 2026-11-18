@@ -41,7 +41,7 @@ function setLanguage(code) {
 app.whenReady().then(async () => {
   try {
     tray = new Tray(nativeImage.createFromDataURL(LOGO).resize({ width: 32, height: 32 }))
-    tray.setToolTip("Slipstream")
+    tray.setToolTip("Slipstream Desktop")
     langCode = pickLang(app.getLocale())
     if (afterStart) note(t(afterStart.key, afterStart.vars))
     buildMenu()

@@ -34,9 +34,8 @@ if ($blockUpdates -and (Test-Path $upd) -and -not (Test-Path $updBak)) {
   Ok (T 'updBlocked')
 }
 
-# the terminal version: offered once, only when Node is there and it is not installed yet
-$pt = Get-CliPaths
-if (-not (Test-Path $pt.Cmd) -and (Get-Command node -ErrorAction SilentlyContinue) -and (Ask 'qTerminal' @{} $false)) { Install-Terminal $false }
+# Slipstream CLI too, when that was the choice
+if ($alsoCli) { Install-Terminal $false }
 
 Write-Host ''
 Ok (T 'done')

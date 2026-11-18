@@ -41,7 +41,7 @@ src/
   i18n/
     app/<code>.js              the tray menu and messages, one file per language
     installer/<code>.json      the installer's messages, one file per language
-assets/                      logo.svg, logo.png, tray-icon.png
+assets/                      logo (README), tray-icon (desktop tray), tray-icon-cli (terminal tray), each as .svg and .png
 build/build.mjs              joins src/ into run.ps1
 tests/                       node --test (crypto vectors, packets, i18n, build, installer logic)
 ```

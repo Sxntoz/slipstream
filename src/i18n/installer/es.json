@@ -36,5 +36,13 @@
   "sIntact": "Comprobado: tus chats, ajustes e inicio de sesión están intactos.",
   "sRestored": "Algo cambió durante la actualización, así que tus datos se restauraron desde la copia.",
   "sUpToDate": "OpenCode {v} ya es la más reciente.",
-  "yes": "^(y|yes|s|si|sí)$"
+  "yes": "^(y|yes|s|si|sí)$",
+  "qWhat": "¿Qué quieres instalar?",
+  "oDesktop": "Slipstream Desktop: icono en la bandeja para la app OpenCode",
+  "oCli": "Slipstream CLI: icono en la bandeja + comandos de terminal (opencode, opencode1, opencode2)",
+  "oBoth": "Ambos",
+  "oCancel": "Nada, solo revisar OpenCode",
+  "qChoice": "Elige 1, 2, 3 o 0",
+  "qAutostart": "¿Iniciar la bandeja de Slipstream CLI con Windows?",
+  "cliTray": "Slipstream CLI está en marcha: busca su icono junto al reloj."
 }

@@ -185,7 +185,7 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 src/installer/   PowerShell, in order       src/runtime/core/  the engine (own WireGuard, proxy, actions)
 src/runtime/boot the desktop patch          src/runtime/cli/   the terminal build
 src/i18n/        one file per language      build/build.mjs    joins everything into run.ps1
-tests/           npm test                   assets/            logo and tray icon
+tests/           npm test                   assets/            logo, tray icon (desktop), tray icon (CLI)
 ```
 
 ```ps1

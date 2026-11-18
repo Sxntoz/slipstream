@@ -1,25 +1,16 @@
-# ---------------------------------------------------------------- the terminal version (Node, no Electron)
-$CliShim = @'
-@@CLI_SHIM@@
+# ---------------------------------------------------------------- Slipstream CLI: the terminal program (Node, no Electron) and its tray
+$CliSource = @'
+@@CLI_SOURCE@@
 '@
 
-$CliMain = @'
-@@CLI_MAIN@@
+$CliTray = @'
+@@CLI_TRAY@@
 '@
 
-# Same engine as the tray version, cut before the tray, with stand-ins for Electron and its own settings, account and proxy port
-# (a second session must not share them: two clients with one WireGuard key kick each other out).
-function Get-CliSource {
-  $mark = '// ---------------------------------------------------------------- tray menu'
-  $head = $BootJs.Substring(0, $BootJs.IndexOf($mark))
-  $head = $head.Replace('import { app, Tray, Menu, Notification, shell, dialog, nativeImage } from "electron"', $CliShim)
-  $a = $head.IndexOf('// The app keeps the free-limit time')
-  $b = $head.IndexOf('// ---------------------------------------------------------------- settings (proxy.json)')
-  if ($a -ge 0 -and $b -gt $a) { $head = $head.Remove($a, $b - $a) }          # that part is for the desktop app's database
-  $head = $head.Replace('"proxy.json"', '"cli.json"').Replace('cfg.gatePort', 'cfg.cliGatePort').Replace('"account.json"', '"account-cli.json"')
-  $c = $head.LastIndexOf('if (cfg.mode === "wg" || cfg.mode === "wgfile" || cfg.mode === "free") {')
-  if ($c -ge 0) { $head = $head.Substring(0, $c) }                            # the terminal brings the connection up itself, before it starts the program
-  $head + $CliMain
+function Get-NodeOk {
+  $ok = $false
+  if (Get-Command node -ErrorAction SilentlyContinue) { try { $ok = ([version](& node --version).TrimStart('v')).Major -ge 20 } catch {} }
+  $ok
 }
 
 function Get-CliPaths {
@@ -32,10 +23,7 @@ function Get-CliPaths {
 function Install-Terminal([bool]$withUpdate) {
   $pt = Get-CliPaths
   $cliDir = $pt.Dir; $npmPrefix = $pt.Prefix; $cliCmd = $pt.Cmd; $v1Dir = $pt.V1
-  $nodeCmd = Get-Command node -ErrorAction SilentlyContinue
-  $nodeOk = $false
-  if ($nodeCmd) { try { $nodeOk = ([version](& node --version).TrimStart('v')).Major -ge 20 } catch {} }
-  if (-not $nodeOk) { Fail (T 'cliNode'); Say ('  ' + (T 'stopped')) Red; return }
+  if (-not (Get-NodeOk)) { Fail (T 'cliNode'); Say ('  ' + (T 'stopped')) Red; return }
 
   if ($withUpdate) {
     # OpenCode v2 (@opencode/cli: the commands opencode and opencode2) and v1 (opencode-ai, kept apart as opencode1)
@@ -54,23 +42,38 @@ function Install-Terminal([bool]$withUpdate) {
   }
 
   New-Item -ItemType Directory -Force $cliDir | Out-Null
+  $mjs = Join-Path $cliDir 'slipstream.mjs'
+  # a running agent still has the old code: close it first (the tray notices and leaves), and start it again below
+  if (Test-Path $mjs) { & node $mjs stop 2>&1 | Out-Null; Start-Sleep 3 }
   $utf8 = New-Object Text.UTF8Encoding($false)
-  [IO.File]::WriteAllText((Join-Path $cliDir 'slipstream.mjs'), (Get-CliSource), $utf8)
+  [IO.File]::WriteAllText($mjs, $CliSource, $utf8)
+  [IO.File]::WriteAllText((Join-Path $cliDir 'slipstream-tray.ps1'), $CliTray, $utf8)
   [IO.File]::WriteAllText((Join-Path $cliDir 'package.json'), '{"type":"module"}', $utf8)
   Set-Content -Path $cliCmd -Value ("@ECHO off`r`nnode `"%LOCALAPPDATA%\slipstream\cli\slipstream.mjs`" %*") -Encoding ascii
   # the same command for Git Bash / WSL-style shells (no extension, LF line ends)
   [IO.File]::WriteAllText((Join-Path $npmPrefix 'slipstream'), ("#!/bin/sh`nexec node `"`$LOCALAPPDATA/slipstream/cli/slipstream.mjs`" `"`$@`"`n"), $utf8)
   Ok (T 'cliOk')
+
+  # the tray: the agent (keeps the connection for every terminal) and the icon next to the clock.
+  # Only when someone is there to say yes, so an unattended install does not leave a process running.
+  if ($interactive -or $yes) {
+    if (Ask 'qAutostart' @{} $true) { & node $mjs autostart on 2>&1 | Out-Null }
+    & node $mjs tray 2>&1 | Out-Null
+    Ok (T 'cliTray')
+  }
 }
 
 if ($terminal) {
   $pt = Get-CliPaths
   if ($status) {
-    Say "  slipstream (terminal) : $(Test-Path $pt.Cmd)"
+    Say "  slipstream CLI : $(Test-Path $pt.Cmd)"
+    Say "  tray agent     : $(Test-Path (Join-Path $env:LOCALAPPDATA 'slipstream\agent.json'))"
     foreach ($n in 'opencode', 'opencode1', 'opencode2') { $v = try { (& $n --version 2>&1 | Select-Object -First 1) } catch { '-' }; Say ("  {0,-10} : {1}" -f $n, $v) }
     return
   }
   if ($uninstall) {
+    $mjs = Join-Path $pt.Dir 'slipstream.mjs'
+    if (Test-Path $mjs) { & node $mjs stop 2>&1 | Out-Null; & node $mjs autostart off 2>&1 | Out-Null; Start-Sleep 2 }
     if (Test-Path $pt.Cmd) { Remove-Item $pt.Cmd -Force }
     $cliSh = Join-Path $pt.Prefix 'slipstream'; if (Test-Path $cliSh) { Remove-Item $cliSh -Force }
     if (Test-Path $pt.Dir) { Remove-Item $pt.Dir -Recurse -Force }

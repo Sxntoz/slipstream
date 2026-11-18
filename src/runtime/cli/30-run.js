@@ -47,8 +47,8 @@ function runOnce(file, args, watch) {
 async function runTool(args) {
   if (!args.length) return print(HELP)
   process.on("SIGINT", () => {})          // Ctrl+C belongs to the program; Slipstream leaves after it
-  startControl()
-  await bringUp()
+  const attached = ATTACH_PORT > 1        // the tray's agent owns the connection: nothing to start here
+  if (!attached) { startControl("session"); await bringUp() }
   const [file, ...rest] = args
   const batch = rest[0] === "run"         // "opencode run ..." has no interactive screen, so its output can be watched
   let result = await runOnce(file, rest, batch)
@@ -56,8 +56,9 @@ async function runTool(args) {
     cfg = loadCfg()
     if (!cfg.autoRotate || cfg.mode === "none") { print(t("limitWarn")); break }
     print(t("limitRotating"))
-    print(await newIp())
-    if (!rotatedOk) break
+    const reply = attached ? await callControl(readState("agent.json"), "ip") : { text: await newIp(), changed: rotatedOk }
+    print(reply?.text ?? "the agent did not answer")
+    if (!reply?.changed) break
     result = await runOnce(file, rest, true)
   }
   wgStop()

@@ -4,6 +4,9 @@ const dataDir = path.join(process.env.XDG_DATA_HOME ?? path.join(home, ".local",
 const userData = path.join(process.env.APPDATA ?? path.join(home, "AppData", "Roaming"), "ai.opencode.desktop")
 const stateDir = path.join(process.env.LOCALAPPDATA ?? path.join(home, ".local", "state"), "slipstream")
 mkdirSync(stateDir, { recursive: true })
+// "Attached": a running Slipstream CLI agent owns the proxy and the tunnel, so this process only points the programs it starts at it.
+// (1 = no connection is needed at all, e.g. a command that only changes settings)
+const ATTACH_PORT = Number(process.env.SLIPSTREAM_ATTACH || 0)
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const log = (m) => { try { writeFileSync(path.join(stateDir, "slipstream.log"), `${new Date().toISOString()} ${m}\n`, { flag: "a" }) } catch {} }

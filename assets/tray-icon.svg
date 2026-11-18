@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Slipstream Desktop">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#24262a"/>
+      <stop offset="1" stop-color="#141518"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="496" height="496" rx="116" fill="url(#bg)"/>
+  <rect x="8" y="8" width="496" height="496" rx="116" fill="none" stroke="#ffffff" stroke-opacity=".05" stroke-width="4"/>
+  <path d="M196 144 L408 256 L196 368 L246 256 Z" fill="#e9ebee"/>
+  <path d="M128 256 H236" fill="none" stroke="#c9ced4" stroke-width="26" stroke-linecap="round"/>
+</svg>

@@ -36,5 +36,13 @@
   "sIntact": "Diperiksa: obrolan, pengaturan, dan login Anda utuh.",
   "sRestored": "Ada yang berubah saat pembaruan, jadi data Anda dikembalikan dari cadangan.",
   "sUpToDate": "OpenCode {v} sudah yang terbaru.",
-  "yes": "^(y|yes|ya)$"
+  "yes": "^(y|yes|ya)$",
+  "qWhat": "Apa yang ingin Anda pasang?",
+  "oDesktop": "Slipstream Desktop: ikon baki untuk aplikasi OpenCode",
+  "oCli": "Slipstream CLI: ikon baki + perintah terminal (opencode, opencode1, opencode2)",
+  "oBoth": "Keduanya",
+  "oCancel": "Tidak ada, hanya periksa OpenCode",
+  "qChoice": "Pilih 1, 2, 3 atau 0",
+  "qAutostart": "Mulai baki Slipstream CLI bersama Windows?",
+  "cliTray": "Slipstream CLI berjalan: cari ikonnya di dekat jam."
 }

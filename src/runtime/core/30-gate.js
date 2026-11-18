@@ -88,7 +88,8 @@ const gate = net.createServer((client) => {
 // The same port every time: OpenCode's background service outlives the app and keeps the proxy address it was started with.
 gate.on("error", () => {})
 const listenOn = (port) => new Promise((res) => { const fail = () => res(0); gate.once("error", fail); gate.listen(port, "127.0.0.1", () => { gate.off("error", fail); res(gate.address().port) }) })
-let gatePort = cfg.gatePort ? await listenOn(cfg.gatePort) : 0
+let gatePort = ATTACH_PORT
+if (!gatePort) gatePort = cfg.gatePort ? await listenOn(cfg.gatePort) : 0
 if (!gatePort) { gatePort = await listenOn(0); cfg.gatePort = gatePort; saveCfg(cfg) }
 const gateUrl = `http://127.0.0.1:${gatePort}`
 // Only this process and the OpenCode service it starts are pointed at the gate.

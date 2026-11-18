@@ -36,5 +36,13 @@
   "sIntact": "जाँच पूरी: आपके चैट, सेटिंग और लॉगिन सुरक्षित हैं।",
   "sRestored": "अपडेट के दौरान कुछ बदल गया, इसलिए आपका डेटा बैकअप से वापस रखा गया।",
   "sUpToDate": "OpenCode {v} पहले से नवीनतम है।",
-  "yes": "^(y|yes|हाँ|हां|ha)$"
+  "yes": "^(y|yes|हाँ|हां|ha)$",
+  "qWhat": "आप क्या इंस्टॉल करना चाहते हैं?",
+  "oDesktop": "Slipstream Desktop: OpenCode ऐप के लिए ट्रे आइकन",
+  "oCli": "Slipstream CLI: ट्रे आइकन + टर्मिनल कमांड (opencode, opencode1, opencode2)",
+  "oBoth": "दोनों",
+  "oCancel": "कुछ नहीं, बस OpenCode जाँचें",
+  "qChoice": "1, 2, 3 या 0 चुनें",
+  "qAutostart": "Windows के साथ Slipstream CLI ट्रे शुरू करें?",
+  "cliTray": "Slipstream CLI चल रहा है: घड़ी के बगल में उसका आइकन देखें।"
 }

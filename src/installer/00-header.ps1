@@ -12,8 +12,10 @@
     .\run.ps1 -yes               answer Yes to every question (the installer asks nothing)
     .\run.ps1 -update            update OpenCode to the newest official version, then patch it again.
                                   Your chats, login and settings are saved first and checked afterwards: nothing is lost
-    .\run.ps1 -terminal          the TERMINAL version: command  slipstream opencode  (also opencode1 = v1, opencode2 = v2)
-    .\run.ps1 -terminal -update   also update the terminal OpenCode (v2 and v1) to the newest version
+    .\run.ps1 -desktop           Slipstream Desktop only: the tray icon for the OpenCode app (no question)
+    .\run.ps1 -cli               Slipstream CLI only: a tray icon + the terminal commands  slipstream opencode / opencode1 / opencode2
+                                 (-terminal is the same). Add -update to also update the terminal OpenCode (v2 and v1).
+                                 With none of these the installer asks: Desktop, CLI or both.
     .\run.ps1 -block_update_off  let OpenCode update itself again (updates remove the patch)
     .\run.ps1 -path <folder>     OpenCode folder, if it is not in the default place
     .\run.ps1 -lang pt-BR        installer language (default: your Windows language; the tray menu has its own Language item)
@@ -38,7 +40,8 @@ param(
   [switch]$download,
   [Alias('y')][switch]$yes,
   [switch]$update,
-  [switch]$terminal,
+  [switch]$desktop,
+  [Alias('cli')][switch]$terminal,
   [switch]$block_update_off,
   [string]$version = '',
   [string]$path = '',

@@ -36,5 +36,13 @@
   "sIntact": "Проверено: чаты, настройки и вход не изменились.",
   "sRestored": "Во время обновления что-то изменилось, поэтому данные восстановлены из резервной копии.",
   "sUpToDate": "OpenCode {v} уже последней версии.",
-  "yes": "^(y|yes|д|да)$"
+  "yes": "^(y|yes|д|да)$",
+  "qWhat": "Что вы хотите установить?",
+  "oDesktop": "Slipstream Desktop: значок в трее для приложения OpenCode",
+  "oCli": "Slipstream CLI: значок в трее + команды терминала (opencode, opencode1, opencode2)",
+  "oBoth": "Оба",
+  "oCancel": "Ничего, только проверить OpenCode",
+  "qChoice": "Выберите 1, 2, 3 или 0",
+  "qAutostart": "Запускать трей Slipstream CLI вместе с Windows?",
+  "cliTray": "Slipstream CLI работает: ищите его значок рядом с часами."
 }

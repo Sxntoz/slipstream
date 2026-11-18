@@ -36,5 +36,13 @@
   "sIntact": "Geprüft: Ihre Chats, Einstellungen und Anmeldung sind unverändert.",
   "sRestored": "Während des Updates hat sich etwas geändert, daher wurden Ihre Daten aus der Sicherung zurückgespielt.",
   "sUpToDate": "OpenCode {v} ist bereits die neueste Version.",
-  "yes": "^(y|yes|j|ja)$"
+  "yes": "^(y|yes|j|ja)$",
+  "qWhat": "Was möchten Sie installieren?",
+  "oDesktop": "Slipstream Desktop: Tray-Symbol für die OpenCode-App",
+  "oCli": "Slipstream CLI: Tray-Symbol + Terminal-Befehle (opencode, opencode1, opencode2)",
+  "oBoth": "Beides",
+  "oCancel": "Nichts, nur OpenCode prüfen",
+  "qChoice": "Wählen Sie 1, 2, 3 oder 0",
+  "qAutostart": "Slipstream-CLI-Tray mit Windows starten?",
+  "cliTray": "Slipstream CLI läuft: Suchen Sie das Symbol neben der Uhr."
 }

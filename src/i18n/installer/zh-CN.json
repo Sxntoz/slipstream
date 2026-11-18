@@ -36,5 +36,13 @@
   "sIntact": "已检查：你的聊天、设置和登录信息完好无损。",
   "sRestored": "更新过程中有内容发生变化，因此已从备份还原你的数据。",
   "sUpToDate": "OpenCode {v} 已是最新版本。",
-  "yes": "^(y|yes|是|shi)$"
+  "yes": "^(y|yes|是|shi)$",
+  "qWhat": "你想安装什么？",
+  "oDesktop": "Slipstream Desktop：OpenCode 应用的托盘图标",
+  "oCli": "Slipstream CLI：托盘图标 + 终端命令（opencode、opencode1、opencode2）",
+  "oBoth": "两者都装",
+  "oCancel": "都不装，只检查 OpenCode",
+  "qChoice": "请选择 1、2、3 或 0",
+  "qAutostart": "是否让 Slipstream CLI 托盘随 Windows 启动？",
+  "cliTray": "Slipstream CLI 已运行：请在时钟旁边找它的图标。"
 }

@@ -1,14 +1,26 @@
+// ---- the agent: what "slipstream tray" starts in the background. It owns the tunnel for every terminal and for the tray.
+let staying = false
+async function runAgent() {
+  staying = true
+  startControl("agent")
+  await bringUp(true)
+  startLimitWatch()
+  log("Slipstream CLI agent ready")
+  setInterval(() => {}, 60000)                       // keep the process alive until "quit"
+}
+
 // ---- commands that only change settings (the connection starts with the next run)
-const MODE_ALIASES = { direct: "none", none: "none", wg: "wg", warp: "wg", wgfile: "wgfile", free: "free", list: "list" }
 async function main() {
   const [cmd, ...rest] = argv
   cfg = loadCfg()
   if (!cmd || cmd === "help" || cmd === "-h" || cmd === "--help") return print(HELP)
+  if (cmd === "agent") return runAgent()
   if (cmd === "run") return runTool(rest)
   if (["opencode", "opencode1", "opencode2"].includes(cmd)) return runTool(argv)
 
   if (cmd === "ip") { print(await newIp()); process.exit(0) }
   if (cmd === "status") { await bringUp(true); print(await status()); process.exit(0) }
+  if (cmd === "auto") { cfg.autoRotate = !cfg.autoRotate; saveCfg(cfg); print(t(cfg.autoRotate ? "autoOn" : "autoOff")); process.exit(0) }
   if (cmd === "mode") {
     const m = MODE_ALIASES[String(rest[0] ?? "").toLowerCase()]
     if (!m) return print("usage: slipstream mode direct|wg|wgfile|free|list")
@@ -55,5 +67,5 @@ async function main() {
   print(`unknown command: ${cmd}\n`); print(HELP)
 }
 await main()
-process.exit(0)
+if (!staying) process.exit(0)
 

@@ -1,3 +1,26 @@
+# ---------------------------------------------------------------- what to install
+# Slipstream Desktop = the tray icon for the OpenCode app, Slipstream CLI = the tray icon + terminal commands, or both.
+$choice = 'desktop'
+if (-not ($update -or $status -or $uninstall -or $block_update_off -or $desktop)) {
+  $canCli = Get-NodeOk
+  if ($yes) { $choice = if ($canCli) { 'both' } else { 'desktop' } }
+  elseif ($interactive) {
+    $def = if ($canCli) { '3' } else { '1' }
+    Write-Host ''
+    Say ('  ' + (T 'qWhat')) White
+    Say ('   1) ' + (T 'oDesktop'))
+    Say ('   2) ' + (T 'oCli'))
+    Say ('   3) ' + (T 'oBoth'))
+    Say ('   0) ' + (T 'oCancel'))
+    $pick = (Read-Host ((T 'qChoice') + " [$def]")).Trim()
+    if (-not $pick) { $pick = $def }
+    $choice = switch ($pick) { '2' { 'cli' } '3' { 'both' } '0' { 'none' } default { 'desktop' } }
+  }
+}
+if ($choice -eq 'none') { $status = $true }                   # nothing to install: only look at OpenCode
+if ($choice -eq 'cli') { Install-Terminal $false; return }
+$alsoCli = ($choice -eq 'both')
+
 # ---------------------------------------------------------------- find the install
 $dir = Find-Install
 if (-not $dir -and ($download -or (Ask 'qDownload' @{} $false))) { Get-Original $version; $dir = Find-Install }

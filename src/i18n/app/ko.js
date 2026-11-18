@@ -16,4 +16,4 @@
     limitWarn: "무료 한도에 도달했습니다. 자동 교체에는 연결 > 내장 WARP 또는 내 프록시 목록이 필요합니다.", limitRotating: "무료 한도에 도달했습니다: IP를 바꾸는 중...",
     eReg: "WARP 등록이 거부되었습니다 (HTTP {status}). 몇 분 뒤 다시 시도하세요", eNoFile: "아직 WireGuard 파일을 선택하지 않았습니다. 트레이 > 연결 > WireGuard 파일 선택.",
     eFileDead: "해당 WireGuard 파일의 터널이 응답하지 않았습니다", eWarpDead: "WARP 터널이 응답하지 않았습니다 (UDP 2408이 차단되었나요?)",
-    eNoList: "공개 프록시 목록을 내려받지 못했습니다", eNoProxy: "제시간에 응답한 공개 프록시가 없습니다 (다시 시도하세요)", dlgChoose: "WireGuard .conf 파일 선택" },
+    eNoList: "공개 프록시 목록을 내려받지 못했습니다", eNoProxy: "제시간에 응답한 공개 프록시가 없습니다 (다시 시도하세요)", dlgChoose: "WireGuard .conf 파일 선택", m_autostart: "Windows와 함께 시작", sendAgain: "IP가 바뀌었습니다. 메시지를 다시 보내세요." },

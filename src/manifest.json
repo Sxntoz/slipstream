@@ -53,8 +53,11 @@
   "cliMain": [
     "runtime/cli/00-head.js",
     "runtime/cli/10-bring-up.js",
+    "runtime/cli/15-menu.js",
     "runtime/cli/20-control.js",
+    "runtime/cli/25-limit-watch.js",
     "runtime/cli/30-run.js",
     "runtime/cli/40-commands.js"
-  ]
+  ],
+  "cliTray": "tray/slipstream-tray.ps1"
 }
