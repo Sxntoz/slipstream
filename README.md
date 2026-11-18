@@ -2,6 +2,8 @@
 
 <h1 align="center">Slipstream</h1>
 
+<p align="center"><b>English</b> · <a href="README.pt-BR.md">Português (Brasil)</a></p>
+
 <p align="center">Per-app connection patcher for Windows.<br>
 Gives one app its own route (WireGuard, proxy), a new IP on demand and safe clean-ups,<br>
 while the rest of your PC stays exactly as it is.</p>

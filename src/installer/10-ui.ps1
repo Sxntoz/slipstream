@@ -17,7 +17,7 @@ function T([string]$key, [hashtable]$vars = @{}) {
   $text
 }
 
-$ScriptVersion = '1.1.0'
+$ScriptVersion = '1.1.1'
 Say @"
 
   +-------------------------------------+
