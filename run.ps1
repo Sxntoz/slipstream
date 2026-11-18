@@ -1595,11 +1595,12 @@ const HELP = `Slipstream for the terminal
   In the interactive screen run "slipstream ip" in another terminal when the limit stops you, then send your message again.`
 
 // ---- the connection that was saved last time
-async function bringUp() {
+async function bringUp(quiet = false) {
   cfg = loadCfg()
+  const say2 = quiet ? () => {} : print
   try {
-    if (cfg.mode === "wg" || cfg.mode === "wgfile") print(await wgUp(false))
-    else if (cfg.mode === "free") { const f = await freeFind(); print(t("onFree", { host: parseUp(f.proxy).host, ip: f.ip })) }
+    if (cfg.mode === "wg" || cfg.mode === "wgfile") say2(await wgUp(false))
+    else if (cfg.mode === "free") { const f = await freeFind(); say2(t("onFree", { host: parseUp(f.proxy).host, ip: f.ip })) }
   } catch (e) { print(why(e) + " " + t("backDirect")); wgStop(); cfg.mode = "none"; saveCfg(cfg) }
 }
 
@@ -1706,7 +1707,7 @@ async function main() {
   if (["opencode", "opencode1", "opencode2"].includes(cmd)) return runTool(argv)
 
   if (cmd === "ip") { print(await newIp()); process.exit(0) }
-  if (cmd === "status") { print(await status()); process.exit(0) }
+  if (cmd === "status") { await bringUp(true); print(await status()); process.exit(0) }
   if (cmd === "mode") {
     const m = MODE_ALIASES[String(rest[0] ?? "").toLowerCase()]
     if (!m) return print("usage: slipstream mode direct|wg|wgfile|free|list")
