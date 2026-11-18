@@ -63,6 +63,50 @@ A tray icon next to the clock:
 
 It also removes the persistent "Free limit reached / Subscribe to Go" tray that replaces the prompt box.
 
+## Terminal version
+
+The same engine for the OpenCode **terminal** (v2 `@opencode/cli`, and the older v1 `opencode-ai`). Needs Node.js 20+.
+
+```ps1
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/slipstream/main/install.ps1') } -terminal"
+```
+
+Add `-update` to also update the terminal OpenCode to the newest version (v2 as `opencode` / `opencode2`, v1 apart as `opencode1`):
+
+```ps1
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/slipstream/main/install.ps1') } -terminal -update"
+```
+
+Then, in any terminal:
+
+```
+slipstream opencode            # OpenCode v2 through Slipstream (also: opencode2, or opencode1 for v1)
+slipstream opencode run "..."  # non-interactive: a free-limit error changes the IP and runs it again
+slipstream ip                  # new IP. Use it from a SECOND terminal while a session is running
+slipstream status              # the IP in use
+slipstream mode wg             # direct | wg | wgfile | free | list
+slipstream wgfile my.conf      # use a WireGuard file
+slipstream proxy add socks5://host:1080
+slipstream context opencode/deepseek-v4.1-flash-free 1000000
+slipstream clear login|restore|cache
+slipstream lang pt-BR
+slipstream run <any program>   # any program through the same route
+```
+
+Notes:
+- The terminal has its own settings (`cli.json`), its own WARP account and its own proxy port, so it can run next to the desktop app.
+- In the interactive screen there is no safe way to watch for the free limit. When it stops you, run `slipstream ip` in another terminal and send your message again.
+- v1 and v2 cannot share one database, so `opencode1` keeps its data in `%LOCALAPPDATA%\opencode-v1\xdg` (its own login too).
+- Remove it with `-terminal -uninstall`.
+
+## Update OpenCode desktop
+
+`-update` removes the patch, installs the newest official OpenCode, and patches it again (OpenCode's own updater is blocked because it would drop the patch):
+
+```ps1
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/Sxntoz/slipstream/main/install.ps1') } -update -start"
+```
+
 ## Languages
 
 The tray menu, its messages and the installer follow your Windows language automatically. 12 languages:
@@ -92,6 +136,8 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 | `-uninstall` | Remove the patch |
 | `-status` | Show what is installed |
 | `-download` | Install the original OpenCode first if it is missing |
+| `-update` | Update OpenCode to the newest version and patch it again |
+| `-terminal` | The terminal version (add `-update` to update the terminal OpenCode too, `-uninstall` to remove it) |
 | `-version 2.3.0` | Version to download with `-download` |
 | `-block_update_off` | Let OpenCode update itself again (updates remove the patch) |
 | `-path <folder>` | OpenCode folder, if it is not in the default place |
@@ -105,7 +151,7 @@ Files of the tool are in `%LOCALAPPDATA%\slipstream` (`proxy.json` = settings an
 - A WARP account has no fixed IP: Cloudflare gives the exit of the nearest server, so *New IP* may return the same block.
 - WireGuard needs UDP to the server (WARP: port 2408). If your network blocks it, the tunnel cannot start and the app returns to Direct.
 - An OpenCode update replaces the patch. Run the installer again after updating.
-- Tested on OpenCode 2.3.0.
+- Tested on OpenCode 2.3.2 (desktop and terminal) and 1.19.6 (terminal).
 
 ## License
 
