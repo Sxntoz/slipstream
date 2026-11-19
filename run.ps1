@@ -315,7 +315,7 @@ const LANGS = {
   en: { name: "English",
     m_newIp: "New IP", m_connection: "Connection", m_direct: "Direct", m_wg: "Built-in WARP", m_wgfile: "WireGuard file", m_free: "Free public proxies (untrusted)", m_list: "Own proxy list",
     m_chooseWg: "Choose WireGuard file...", m_settings: "Edit settings (proxy list, context)", m_auto: "Auto-rotate", m_clear: "Clear", m_clearLogin: "Login (keeps chats)", m_restoreLogin: "Restore login",
-    m_clearCache: "Cache and logs", m_status: "Status", m_restart: "Restart {app}", m_quit: "Quit", m_language: "Language", m_langAuto: "Automatic",
+    m_clearCache: "Cache and logs", m_status: "Status", m_resume: "Resume chat", m_restart: "Restart {app}", m_quit: "Quit", m_language: "Language", m_langAuto: "Automatic",
     busy: "Another action is still running.", ipWg: "New IP {ip} (built-in WARP)", ipFree: "New IP {ip} (public proxy {host})", ipList: "New IP {ip} (proxy {host})",
     wgfileFixed: "A WireGuard file has a fixed exit IP. {msg}. Choose another file or another Connection to change it.",
     sameIp: "New WARP account, but the IP is still {ip} (WARP uses the nearest Cloudflare server)", noAnswer: "The WARP tunnel did not answer",
@@ -331,11 +331,11 @@ const LANGS = {
     eReg: "WARP registration refused (HTTP {status}); try again in a few minutes", eNoFile: "No WireGuard file chosen yet. Tray > Connection > Choose WireGuard file.",
     eFileDead: "The tunnel of that WireGuard file did not answer", eWarpDead: "The WARP tunnel did not answer (is UDP 2408 blocked?)",
     eNoList: "Could not download any public proxy list", eNoProxy: "No public proxy answered in time (try again)", dlgChoose: "Choose a WireGuard .conf file", m_autostart: "Start with Windows", desktopStarted: "OpenCode started.", noDesktop: "OpenCode desktop not found. Install it first (install.ps1 -download).",
-    sendAgain: "The IP changed. Send your message again." },
+    sendAgain: "The IP changed. Send your message again.", resumed: "Chat reloaded." },
   "pt-BR": { name: "Portugu\u00eas (Brasil)",
     m_newIp: "Novo IP", m_connection: "Conex\u00e3o", m_direct: "Direta", m_wg: "WARP embutido", m_wgfile: "Arquivo WireGuard", m_free: "Proxies p\u00fablicos gr\u00e1tis (n\u00e3o confi\u00e1veis)", m_list: "Minha lista de proxies",
     m_chooseWg: "Escolher arquivo WireGuard...", m_settings: "Editar configura\u00e7\u00f5es (proxies, contexto)", m_auto: "Rota\u00e7\u00e3o autom\u00e1tica", m_clear: "Limpar", m_clearLogin: "Login (mant\u00e9m os chats)", m_restoreLogin: "Restaurar login",
-    m_clearCache: "Cache e logs", m_status: "Status", m_restart: "Reiniciar {app}", m_quit: "Sair", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
+    m_clearCache: "Cache e logs", m_status: "Status", m_resume: "Retomar chat", m_restart: "Reiniciar {app}", m_quit: "Sair", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
     busy: "Outra a\u00e7\u00e3o ainda est\u00e1 em andamento.", ipWg: "Novo IP {ip} (WARP embutido)", ipFree: "Novo IP {ip} (proxy p\u00fablico {host})", ipList: "Novo IP {ip} (proxy {host})",
     wgfileFixed: "Um arquivo WireGuard tem IP de sa\u00edda fixo. {msg}. Escolha outro arquivo ou outra Conex\u00e3o para mudar.",
     sameIp: "Nova conta WARP, mas o IP continua {ip} (o WARP usa o servidor da Cloudflare mais pr\u00f3ximo)", noAnswer: "O t\u00fanel WARP n\u00e3o respondeu",
@@ -351,11 +351,11 @@ const LANGS = {
     eReg: "Registro WARP recusado (HTTP {status}); tente de novo em alguns minutos", eNoFile: "Nenhum arquivo WireGuard escolhido ainda. Bandeja > Conex\u00e3o > Escolher arquivo WireGuard.",
     eFileDead: "O t\u00fanel desse arquivo WireGuard n\u00e3o respondeu", eWarpDead: "O t\u00fanel WARP n\u00e3o respondeu (a porta UDP 2408 est\u00e1 bloqueada?)",
     eNoList: "N\u00e3o foi poss\u00edvel baixar nenhuma lista de proxies p\u00fablicos", eNoProxy: "Nenhum proxy p\u00fablico respondeu a tempo (tente de novo)", dlgChoose: "Escolha um arquivo WireGuard .conf", m_autostart: "Iniciar com o Windows", desktopStarted: "OpenCode iniciado.", noDesktop: "OpenCode desktop n\u00e3o encontrado. Instale primeiro (install.ps1 -download).",
-    sendAgain: "O IP mudou. Envie sua mensagem de novo." },
+    sendAgain: "O IP mudou. Envie sua mensagem de novo.", resumed: "Chat recarregado." },
   es: { name: "Espa\u00f1ol",
     m_newIp: "Nueva IP", m_connection: "Conexi\u00f3n", m_direct: "Directa", m_wg: "WARP integrado", m_wgfile: "Archivo WireGuard", m_free: "Proxies p\u00fablicos gratis (no confiables)", m_list: "Mi lista de proxies",
     m_chooseWg: "Elegir archivo WireGuard...", m_settings: "Editar ajustes (proxies, contexto)", m_auto: "Rotaci\u00f3n autom\u00e1tica", m_clear: "Limpiar", m_clearLogin: "Inicio de sesi\u00f3n (conserva los chats)", m_restoreLogin: "Restaurar inicio de sesi\u00f3n",
-    m_clearCache: "Cach\u00e9 y registros", m_status: "Estado", m_restart: "Reiniciar {app}", m_quit: "Salir", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
+    m_clearCache: "Cach\u00e9 y registros", m_status: "Estado", m_resume: "Reanudar chat", m_restart: "Reiniciar {app}", m_quit: "Salir", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
     busy: "Otra acci\u00f3n sigue en curso.", ipWg: "Nueva IP {ip} (WARP integrado)", ipFree: "Nueva IP {ip} (proxy p\u00fablico {host})", ipList: "Nueva IP {ip} (proxy {host})",
     wgfileFixed: "Un archivo WireGuard tiene una IP de salida fija. {msg}. Elige otro archivo u otra Conexi\u00f3n para cambiarla.",
     sameIp: "Cuenta WARP nueva, pero la IP sigue siendo {ip} (WARP usa el servidor de Cloudflare m\u00e1s cercano)", noAnswer: "El t\u00fanel WARP no respondi\u00f3",
@@ -371,11 +371,11 @@ const LANGS = {
     eReg: "Registro WARP rechazado (HTTP {status}); int\u00e9ntalo de nuevo en unos minutos", eNoFile: "A\u00fan no se eligi\u00f3 un archivo WireGuard. Bandeja > Conexi\u00f3n > Elegir archivo WireGuard.",
     eFileDead: "El t\u00fanel de ese archivo WireGuard no respondi\u00f3", eWarpDead: "El t\u00fanel WARP no respondi\u00f3 (\u00bfest\u00e1 bloqueado el puerto UDP 2408?)",
     eNoList: "No se pudo descargar ninguna lista de proxies p\u00fablicos", eNoProxy: "Ning\u00fan proxy p\u00fablico respondi\u00f3 a tiempo (int\u00e9ntalo de nuevo)", dlgChoose: "Elige un archivo WireGuard .conf", m_autostart: "Iniciar con Windows", desktopStarted: "OpenCode iniciado.", noDesktop: "No se encontr\u00f3 OpenCode de escritorio. Inst\u00e1lalo primero (install.ps1 -download).",
-    sendAgain: "La IP cambi\u00f3. Vuelve a enviar tu mensaje." },
+    sendAgain: "La IP cambi\u00f3. Vuelve a enviar tu mensaje.", resumed: "Chat recargado." },
   fr: { name: "Fran\u00e7ais",
     m_newIp: "Nouvelle IP", m_connection: "Connexion", m_direct: "Directe", m_wg: "WARP int\u00e9gr\u00e9", m_wgfile: "Fichier WireGuard", m_free: "Proxys publics gratuits (non fiables)", m_list: "Ma liste de proxys",
     m_chooseWg: "Choisir un fichier WireGuard...", m_settings: "Modifier les r\u00e9glages (proxys, contexte)", m_auto: "Rotation automatique", m_clear: "Nettoyer", m_clearLogin: "Connexion (garde les chats)", m_restoreLogin: "Restaurer la connexion",
-    m_clearCache: "Cache et journaux", m_status: "\u00c9tat", m_restart: "Red\u00e9marrer {app}", m_quit: "Quitter", m_language: "Langue", m_langAuto: "Automatique",
+    m_clearCache: "Cache et journaux", m_status: "\u00c9tat", m_resume: "Reprendre le chat", m_restart: "Red\u00e9marrer {app}", m_quit: "Quitter", m_language: "Langue", m_langAuto: "Automatique",
     busy: "Une autre action est encore en cours.", ipWg: "Nouvelle IP {ip} (WARP int\u00e9gr\u00e9)", ipFree: "Nouvelle IP {ip} (proxy public {host})", ipList: "Nouvelle IP {ip} (proxy {host})",
     wgfileFixed: "Un fichier WireGuard a une IP de sortie fixe. {msg}. Choisissez un autre fichier ou une autre Connexion pour la changer.",
     sameIp: "Nouveau compte WARP, mais l'IP reste {ip} (WARP utilise le serveur Cloudflare le plus proche)", noAnswer: "Le tunnel WARP n'a pas r\u00e9pondu",
@@ -391,11 +391,11 @@ const LANGS = {
     eReg: "Inscription WARP refus\u00e9e (HTTP {status}) ; r\u00e9essayez dans quelques minutes", eNoFile: "Aucun fichier WireGuard choisi. Barre d'\u00e9tat > Connexion > Choisir un fichier WireGuard.",
     eFileDead: "Le tunnel de ce fichier WireGuard n'a pas r\u00e9pondu", eWarpDead: "Le tunnel WARP n'a pas r\u00e9pondu (le port UDP 2408 est-il bloqu\u00e9 ?)",
     eNoList: "Impossible de t\u00e9l\u00e9charger une liste de proxys publics", eNoProxy: "Aucun proxy public n'a r\u00e9pondu \u00e0 temps (r\u00e9essayez)", dlgChoose: "Choisissez un fichier WireGuard .conf", m_autostart: "D\u00e9marrer avec Windows", desktopStarted: "OpenCode d\u00e9marr\u00e9.", noDesktop: "OpenCode (bureau) introuvable. Installez-le d'abord (install.ps1 -download).",
-    sendAgain: "L'IP a chang\u00e9. Renvoyez votre message." },
+    sendAgain: "L'IP a chang\u00e9. Renvoyez votre message.", resumed: "Chat recharg\u00e9." },
   de: { name: "Deutsch",
     m_newIp: "Neue IP", m_connection: "Verbindung", m_direct: "Direkt", m_wg: "Integriertes WARP", m_wgfile: "WireGuard-Datei", m_free: "Kostenlose \u00f6ffentliche Proxys (nicht vertrauensw\u00fcrdig)", m_list: "Eigene Proxy-Liste",
     m_chooseWg: "WireGuard-Datei w\u00e4hlen...", m_settings: "Einstellungen bearbeiten (Proxys, Kontext)", m_auto: "Automatisch wechseln", m_clear: "Bereinigen", m_clearLogin: "Anmeldung (Chats bleiben)", m_restoreLogin: "Anmeldung wiederherstellen",
-    m_clearCache: "Cache und Protokolle", m_status: "Status", m_restart: "{app} neu starten", m_quit: "Beenden", m_language: "Sprache", m_langAuto: "Automatisch",
+    m_clearCache: "Cache und Protokolle", m_status: "Status", m_resume: "Chat fortsetzen", m_restart: "{app} neu starten", m_quit: "Beenden", m_language: "Sprache", m_langAuto: "Automatisch",
     busy: "Eine andere Aktion l\u00e4uft noch.", ipWg: "Neue IP {ip} (integriertes WARP)", ipFree: "Neue IP {ip} (\u00f6ffentlicher Proxy {host})", ipList: "Neue IP {ip} (Proxy {host})",
     wgfileFixed: "Eine WireGuard-Datei hat eine feste Ausgangs-IP. {msg}. W\u00e4hlen Sie eine andere Datei oder Verbindung, um sie zu \u00e4ndern.",
     sameIp: "Neues WARP-Konto, aber die IP ist weiterhin {ip} (WARP nutzt den n\u00e4chsten Cloudflare-Server)", noAnswer: "Der WARP-Tunnel hat nicht geantwortet",
@@ -411,11 +411,11 @@ const LANGS = {
     eReg: "WARP-Registrierung abgelehnt (HTTP {status}); versuchen Sie es in einigen Minuten erneut", eNoFile: "Noch keine WireGuard-Datei gew\u00e4hlt. Tray > Verbindung > WireGuard-Datei w\u00e4hlen.",
     eFileDead: "Der Tunnel dieser WireGuard-Datei hat nicht geantwortet", eWarpDead: "Der WARP-Tunnel hat nicht geantwortet (ist UDP 2408 blockiert?)",
     eNoList: "Keine \u00f6ffentliche Proxy-Liste konnte geladen werden", eNoProxy: "Kein \u00f6ffentlicher Proxy antwortete rechtzeitig (erneut versuchen)", dlgChoose: "WireGuard-.conf-Datei w\u00e4hlen", m_autostart: "Mit Windows starten", desktopStarted: "OpenCode gestartet.", noDesktop: "OpenCode (Desktop) nicht gefunden. Zuerst installieren (install.ps1 -download).",
-    sendAgain: "Die IP hat sich ge\u00e4ndert. Senden Sie Ihre Nachricht erneut." },
+    sendAgain: "Die IP hat sich ge\u00e4ndert. Senden Sie Ihre Nachricht erneut.", resumed: "Chat neu geladen." },
   ru: { name: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
     m_newIp: "\u041d\u043e\u0432\u044b\u0439 IP", m_connection: "\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435", m_direct: "\u041d\u0430\u043f\u0440\u044f\u043c\u0443\u044e", m_wg: "\u0412\u0441\u0442\u0440\u043e\u0435\u043d\u043d\u044b\u0439 WARP", m_wgfile: "\u0424\u0430\u0439\u043b WireGuard", m_free: "\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0435 \u043f\u0440\u043e\u043a\u0441\u0438 (\u043d\u0435\u043d\u0430\u0434\u0451\u0436\u043d\u044b\u0435)", m_list: "\u0421\u0432\u043e\u0439 \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0440\u043e\u043a\u0441\u0438",
     m_chooseWg: "\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b WireGuard...", m_settings: "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 (\u043f\u0440\u043e\u043a\u0441\u0438, \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442)", m_auto: "\u0410\u0432\u0442\u043e\u0441\u043c\u0435\u043d\u0430 IP", m_clear: "\u041e\u0447\u0438\u0441\u0442\u043a\u0430", m_clearLogin: "\u0412\u0445\u043e\u0434 (\u0447\u0430\u0442\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u044e\u0442\u0441\u044f)", m_restoreLogin: "\u0412\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0445\u043e\u0434",
-    m_clearCache: "\u041a\u044d\u0448 \u0438 \u043b\u043e\u0433\u0438", m_status: "\u0421\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435", m_restart: "\u041f\u0435\u0440\u0435\u0437\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c {app}", m_quit: "\u0412\u044b\u0445\u043e\u0434", m_language: "\u042f\u0437\u044b\u043a", m_langAuto: "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438",
+    m_clearCache: "\u041a\u044d\u0448 \u0438 \u043b\u043e\u0433\u0438", m_status: "\u0421\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435", m_resume: "\u041f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c \u0447\u0430\u0442", m_restart: "\u041f\u0435\u0440\u0435\u0437\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c {app}", m_quit: "\u0412\u044b\u0445\u043e\u0434", m_language: "\u042f\u0437\u044b\u043a", m_langAuto: "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438",
     busy: "\u0414\u0440\u0443\u0433\u043e\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u0435\u0449\u0451 \u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0435\u0442\u0441\u044f.", ipWg: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u0432\u0441\u0442\u0440\u043e\u0435\u043d\u043d\u044b\u0439 WARP)", ipFree: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u043f\u0440\u043e\u043a\u0441\u0438 {host})", ipList: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u043f\u0440\u043e\u043a\u0441\u0438 {host})",
     wgfileFixed: "\u0423 \u0444\u0430\u0439\u043b\u0430 WireGuard \u0444\u0438\u043a\u0441\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0439 IP. {msg}. \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0440\u0443\u0433\u043e\u0439 \u0444\u0430\u0439\u043b \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u043e\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435, \u0447\u0442\u043e\u0431\u044b \u0441\u043c\u0435\u043d\u0438\u0442\u044c \u0435\u0433\u043e.",
     sameIp: "\u041d\u043e\u0432\u0430\u044f \u0443\u0447\u0451\u0442\u043d\u0430\u044f \u0437\u0430\u043f\u0438\u0441\u044c WARP, \u043d\u043e IP \u043e\u0441\u0442\u0430\u043b\u0441\u044f {ip} (WARP \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0439 \u0441\u0435\u0440\u0432\u0435\u0440 Cloudflare)", noAnswer: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c WARP \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b",
@@ -431,11 +431,11 @@ const LANGS = {
     eReg: "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f WARP \u043e\u0442\u043a\u043b\u043e\u043d\u0435\u043d\u0430 (HTTP {status}); \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043c\u0438\u043d\u0443\u0442", eNoFile: "\u0424\u0430\u0439\u043b WireGuard \u0435\u0449\u0451 \u043d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d. \u0422\u0440\u0435\u0439 > \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 > \u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b WireGuard.",
     eFileDead: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c \u044d\u0442\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 WireGuard \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b", eWarpDead: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c WARP \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b (UDP-\u043f\u043e\u0440\u0442 2408 \u0437\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d?)",
     eNoList: "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043d\u0438 \u043e\u0434\u0438\u043d \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0445 \u043f\u0440\u043e\u043a\u0441\u0438", eNoProxy: "\u041d\u0438 \u043e\u0434\u0438\u043d \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u043f\u0440\u043e\u043a\u0441\u0438 \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b \u0432\u043e\u0432\u0440\u0435\u043c\u044f (\u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435)", dlgChoose: "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043b WireGuard .conf", m_autostart: "\u0417\u0430\u043f\u0443\u0441\u043a\u0430\u0442\u044c \u0432\u043c\u0435\u0441\u0442\u0435 \u0441 Windows", desktopStarted: "OpenCode \u0437\u0430\u043f\u0443\u0449\u0435\u043d.", noDesktop: "OpenCode \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e \u0441\u0442\u043e\u043b\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0435\u0433\u043e (install.ps1 -download).",
-    sendAgain: "IP \u0438\u0437\u043c\u0435\u043d\u0438\u043b\u0441\u044f. \u041e\u0442\u043f\u0440\u0430\u0432\u044c\u0442\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437." },
+    sendAgain: "IP \u0438\u0437\u043c\u0435\u043d\u0438\u043b\u0441\u044f. \u041e\u0442\u043f\u0440\u0430\u0432\u044c\u0442\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.", resumed: "\u0427\u0430\u0442 \u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d." },
   "zh-CN": { name: "\u7b80\u4f53\u4e2d\u6587",
     m_newIp: "\u66f4\u6362 IP", m_connection: "\u8fde\u63a5\u65b9\u5f0f", m_direct: "\u76f4\u8fde", m_wg: "\u5185\u7f6e WARP", m_wgfile: "WireGuard \u6587\u4ef6", m_free: "\u514d\u8d39\u516c\u5171\u4ee3\u7406\uff08\u4e0d\u53ef\u4fe1\uff09", m_list: "\u6211\u7684\u4ee3\u7406\u5217\u8868",
     m_chooseWg: "\u9009\u62e9 WireGuard \u6587\u4ef6...", m_settings: "\u7f16\u8f91\u8bbe\u7f6e\uff08\u4ee3\u7406\u5217\u8868\u3001\u4e0a\u4e0b\u6587\uff09", m_auto: "\u81ea\u52a8\u8f6e\u6362", m_clear: "\u6e05\u7406", m_clearLogin: "\u767b\u5f55\u4fe1\u606f\uff08\u4fdd\u7559\u804a\u5929\uff09", m_restoreLogin: "\u6062\u590d\u767b\u5f55\u4fe1\u606f",
-    m_clearCache: "\u7f13\u5b58\u548c\u65e5\u5fd7", m_status: "\u72b6\u6001", m_restart: "\u91cd\u542f {app}", m_quit: "\u9000\u51fa", m_language: "\u8bed\u8a00", m_langAuto: "\u81ea\u52a8",
+    m_clearCache: "\u7f13\u5b58\u548c\u65e5\u5fd7", m_status: "\u72b6\u6001", m_resume: "\u7ee7\u7eed\u804a\u5929", m_restart: "\u91cd\u542f {app}", m_quit: "\u9000\u51fa", m_language: "\u8bed\u8a00", m_langAuto: "\u81ea\u52a8",
     busy: "\u53e6\u4e00\u4e2a\u64cd\u4f5c\u4ecd\u5728\u8fdb\u884c\u3002", ipWg: "\u65b0 IP {ip}\uff08\u5185\u7f6e WARP\uff09", ipFree: "\u65b0 IP {ip}\uff08\u516c\u5171\u4ee3\u7406 {host}\uff09", ipList: "\u65b0 IP {ip}\uff08\u4ee3\u7406 {host}\uff09",
     wgfileFixed: "WireGuard \u6587\u4ef6\u7684\u51fa\u53e3 IP \u662f\u56fa\u5b9a\u7684\u3002{msg}\u3002\u8bf7\u9009\u62e9\u5176\u4ed6\u6587\u4ef6\u6216\u5176\u4ed6\u8fde\u63a5\u65b9\u5f0f\u6765\u66f4\u6362\u3002",
     sameIp: "\u5df2\u521b\u5efa\u65b0\u7684 WARP \u8d26\u6237\uff0c\u4f46 IP \u4ecd\u662f {ip}\uff08WARP \u4f7f\u7528\u6700\u8fd1\u7684 Cloudflare \u670d\u52a1\u5668\uff09", noAnswer: "WARP \u96a7\u9053\u6ca1\u6709\u54cd\u5e94",
@@ -451,11 +451,11 @@ const LANGS = {
     eReg: "WARP \u6ce8\u518c\u88ab\u62d2\u7edd\uff08HTTP {status}\uff09\uff1b\u8bf7\u51e0\u5206\u949f\u540e\u91cd\u8bd5", eNoFile: "\u5c1a\u672a\u9009\u62e9 WireGuard \u6587\u4ef6\u3002\u6258\u76d8 > \u8fde\u63a5\u65b9\u5f0f > \u9009\u62e9 WireGuard \u6587\u4ef6\u3002",
     eFileDead: "\u8be5 WireGuard \u6587\u4ef6\u7684\u96a7\u9053\u6ca1\u6709\u54cd\u5e94", eWarpDead: "WARP \u96a7\u9053\u6ca1\u6709\u54cd\u5e94\uff08UDP 2408 \u7aef\u53e3\u662f\u5426\u88ab\u5c01\u9501\uff1f\uff09",
     eNoList: "\u65e0\u6cd5\u4e0b\u8f7d\u4efb\u4f55\u516c\u5171\u4ee3\u7406\u5217\u8868", eNoProxy: "\u6ca1\u6709\u516c\u5171\u4ee3\u7406\u53ca\u65f6\u54cd\u5e94\uff08\u8bf7\u91cd\u8bd5\uff09", dlgChoose: "\u9009\u62e9 WireGuard .conf \u6587\u4ef6", m_autostart: "\u968f Windows \u542f\u52a8", desktopStarted: "OpenCode \u5df2\u542f\u52a8\u3002", noDesktop: "\u672a\u627e\u5230 OpenCode \u684c\u9762\u7248\u3002\u8bf7\u5148\u5b89\u88c5\uff08install.ps1 -download\uff09\u3002",
-    sendAgain: "IP \u5df2\u66f4\u6362\u3002\u8bf7\u91cd\u65b0\u53d1\u9001\u4f60\u7684\u6d88\u606f\u3002" },
+    sendAgain: "IP \u5df2\u66f4\u6362\u3002\u8bf7\u91cd\u65b0\u53d1\u9001\u4f60\u7684\u6d88\u606f\u3002", resumed: "\u804a\u5929\u5df2\u91cd\u65b0\u52a0\u8f7d\u3002" },
   ja: { name: "\u65e5\u672c\u8a9e",
     m_newIp: "\u65b0\u3057\u3044 IP", m_connection: "\u63a5\u7d9a", m_direct: "\u76f4\u63a5", m_wg: "\u5185\u8535 WARP", m_wgfile: "WireGuard \u30d5\u30a1\u30a4\u30eb", m_free: "\u7121\u6599\u306e\u516c\u958b\u30d7\u30ed\u30ad\u30b7\uff08\u4fe1\u983c\u4e0d\u53ef\uff09", m_list: "\u81ea\u5206\u306e\u30d7\u30ed\u30ad\u30b7\u4e00\u89a7",
     m_chooseWg: "WireGuard \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e...", m_settings: "\u8a2d\u5b9a\u3092\u7de8\u96c6\uff08\u30d7\u30ed\u30ad\u30b7\u3001\u30b3\u30f3\u30c6\u30ad\u30b9\u30c8\uff09", m_auto: "\u81ea\u52d5\u30ed\u30fc\u30c6\u30fc\u30b7\u30e7\u30f3", m_clear: "\u30af\u30ea\u30a2", m_clearLogin: "\u30ed\u30b0\u30a4\u30f3\uff08\u30c1\u30e3\u30c3\u30c8\u306f\u4fdd\u6301\uff09", m_restoreLogin: "\u30ed\u30b0\u30a4\u30f3\u3092\u5fa9\u5143",
-    m_clearCache: "\u30ad\u30e3\u30c3\u30b7\u30e5\u3068\u30ed\u30b0", m_status: "\u72b6\u614b", m_restart: "{app} \u3092\u518d\u8d77\u52d5", m_quit: "\u7d42\u4e86", m_language: "\u8a00\u8a9e", m_langAuto: "\u81ea\u52d5",
+    m_clearCache: "\u30ad\u30e3\u30c3\u30b7\u30e5\u3068\u30ed\u30b0", m_status: "\u72b6\u614b", m_resume: "\u30c1\u30e3\u30c3\u30c8\u3092\u518d\u958b", m_restart: "{app} \u3092\u518d\u8d77\u52d5", m_quit: "\u7d42\u4e86", m_language: "\u8a00\u8a9e", m_langAuto: "\u81ea\u52d5",
     busy: "\u5225\u306e\u64cd\u4f5c\u304c\u307e\u3060\u5b9f\u884c\u4e2d\u3067\u3059\u3002", ipWg: "\u65b0\u3057\u3044 IP {ip}\uff08\u5185\u8535 WARP\uff09", ipFree: "\u65b0\u3057\u3044 IP {ip}\uff08\u516c\u958b\u30d7\u30ed\u30ad\u30b7 {host}\uff09", ipList: "\u65b0\u3057\u3044 IP {ip}\uff08\u30d7\u30ed\u30ad\u30b7 {host}\uff09",
     wgfileFixed: "WireGuard \u30d5\u30a1\u30a4\u30eb\u306e\u51fa\u53e3 IP \u306f\u56fa\u5b9a\u3067\u3059\u3002{msg}\u3002\u5909\u66f4\u3059\u308b\u306b\u306f\u5225\u306e\u30d5\u30a1\u30a4\u30eb\u304b\u5225\u306e\u63a5\u7d9a\u3092\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002",
     sameIp: "\u65b0\u3057\u3044 WARP \u30a2\u30ab\u30a6\u30f3\u30c8\u3067\u3059\u304c\u3001IP \u306f {ip} \u306e\u307e\u307e\u3067\u3059\uff08WARP \u306f\u6700\u5bc4\u308a\u306e Cloudflare \u30b5\u30fc\u30d0\u30fc\u3092\u4f7f\u3044\u307e\u3059\uff09", noAnswer: "WARP \u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f",
@@ -471,11 +471,11 @@ const LANGS = {
     eReg: "WARP \u306e\u767b\u9332\u304c\u62d2\u5426\u3055\u308c\u307e\u3057\u305f\uff08HTTP {status}\uff09\u3002\u6570\u5206\u5f8c\u306b\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044", eNoFile: "WireGuard \u30d5\u30a1\u30a4\u30eb\u304c\u307e\u3060\u9078\u3070\u308c\u3066\u3044\u307e\u305b\u3093\u3002\u30c8\u30ec\u30a4 > \u63a5\u7d9a > WireGuard \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e\u3002",
     eFileDead: "\u305d\u306e WireGuard \u30d5\u30a1\u30a4\u30eb\u306e\u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f", eWarpDead: "WARP \u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f\uff08UDP 2408 \u304c\u30d6\u30ed\u30c3\u30af\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u304b\uff1f\uff09",
     eNoList: "\u516c\u958b\u30d7\u30ed\u30ad\u30b7\u4e00\u89a7\u3092\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f", eNoProxy: "\u6642\u9593\u5185\u306b\u5fdc\u7b54\u3057\u305f\u516c\u958b\u30d7\u30ed\u30ad\u30b7\u304c\u3042\u308a\u307e\u305b\u3093\uff08\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\uff09", dlgChoose: "WireGuard \u306e .conf \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e", m_autostart: "Windows \u3068\u4e00\u7dd2\u306b\u8d77\u52d5", desktopStarted: "OpenCode \u3092\u8d77\u52d5\u3057\u307e\u3057\u305f\u3002", noDesktop: "OpenCode \u30c7\u30b9\u30af\u30c8\u30c3\u30d7\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3002\u5148\u306b\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3057\u3066\u304f\u3060\u3055\u3044\uff08install.ps1 -download\uff09\u3002",
-    sendAgain: "IP \u3092\u5909\u66f4\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002" },
+    sendAgain: "IP \u3092\u5909\u66f4\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002", resumed: "\u30c1\u30e3\u30c3\u30c8\u3092\u518d\u8aad\u307f\u8fbc\u307f\u3057\u307e\u3057\u305f\u3002" },
   ko: { name: "\ud55c\uad6d\uc5b4",
     m_newIp: "\uc0c8 IP", m_connection: "\uc5f0\uacb0", m_direct: "\uc9c1\uc811", m_wg: "\ub0b4\uc7a5 WARP", m_wgfile: "WireGuard \ud30c\uc77c", m_free: "\ubb34\ub8cc \uacf5\uac1c \ud504\ub85d\uc2dc (\uc2e0\ub8b0 \ubd88\uac00)", m_list: "\ub0b4 \ud504\ub85d\uc2dc \ubaa9\ub85d",
     m_chooseWg: "WireGuard \ud30c\uc77c \uc120\ud0dd...", m_settings: "\uc124\uc815 \ud3b8\uc9d1 (\ud504\ub85d\uc2dc, \ucee8\ud14d\uc2a4\ud2b8)", m_auto: "\uc790\ub3d9 \uad50\uccb4", m_clear: "\uc815\ub9ac", m_clearLogin: "\ub85c\uadf8\uc778 (\ucc44\ud305 \uc720\uc9c0)", m_restoreLogin: "\ub85c\uadf8\uc778 \ubcf5\uc6d0",
-    m_clearCache: "\uce90\uc2dc \ubc0f \ub85c\uadf8", m_status: "\uc0c1\ud0dc", m_restart: "{app} \ub2e4\uc2dc \uc2dc\uc791", m_quit: "\uc885\ub8cc", m_language: "\uc5b8\uc5b4", m_langAuto: "\uc790\ub3d9",
+    m_clearCache: "\uce90\uc2dc \ubc0f \ub85c\uadf8", m_status: "\uc0c1\ud0dc", m_resume: "\ucc44\ud305 \ub2e4\uc2dc \uc2dc\uc791", m_restart: "{app} \ub2e4\uc2dc \uc2dc\uc791", m_quit: "\uc885\ub8cc", m_language: "\uc5b8\uc5b4", m_langAuto: "\uc790\ub3d9",
     busy: "\ub2e4\ub978 \uc791\uc5c5\uc774 \uc544\uc9c1 \uc9c4\ud589 \uc911\uc785\ub2c8\ub2e4.", ipWg: "\uc0c8 IP {ip} (\ub0b4\uc7a5 WARP)", ipFree: "\uc0c8 IP {ip} (\uacf5\uac1c \ud504\ub85d\uc2dc {host})", ipList: "\uc0c8 IP {ip} (\ud504\ub85d\uc2dc {host})",
     wgfileFixed: "WireGuard \ud30c\uc77c\uc740 \ucd9c\uad6c IP\uac00 \uace0\uc815\uc785\ub2c8\ub2e4. {msg}. \ubc14\uafb8\ub824\uba74 \ub2e4\ub978 \ud30c\uc77c\uc774\ub098 \ub2e4\ub978 \uc5f0\uacb0\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     sameIp: "\uc0c8 WARP \uacc4\uc815\uc774\uc9c0\ub9cc IP\ub294 \uc5ec\uc804\ud788 {ip}\uc785\ub2c8\ub2e4 (WARP\ub294 \uac00\uc7a5 \uac00\uae4c\uc6b4 Cloudflare \uc11c\ubc84\ub97c \uc0ac\uc6a9\ud569\ub2c8\ub2e4)", noAnswer: "WARP \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4",
@@ -491,11 +491,11 @@ const LANGS = {
     eReg: "WARP \ub4f1\ub85d\uc774 \uac70\ubd80\ub418\uc5c8\uc2b5\ub2c8\ub2e4 (HTTP {status}). \uba87 \ubd84 \ub4a4 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694", eNoFile: "\uc544\uc9c1 WireGuard \ud30c\uc77c\uc744 \uc120\ud0dd\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ud2b8\ub808\uc774 > \uc5f0\uacb0 > WireGuard \ud30c\uc77c \uc120\ud0dd.",
     eFileDead: "\ud574\ub2f9 WireGuard \ud30c\uc77c\uc758 \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4", eWarpDead: "WARP \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4 (UDP 2408\uc774 \ucc28\ub2e8\ub418\uc5c8\ub098\uc694?)",
     eNoList: "\uacf5\uac1c \ud504\ub85d\uc2dc \ubaa9\ub85d\uc744 \ub0b4\ub824\ubc1b\uc9c0 \ubabb\ud588\uc2b5\ub2c8\ub2e4", eNoProxy: "\uc81c\uc2dc\uac04\uc5d0 \uc751\ub2f5\ud55c \uacf5\uac1c \ud504\ub85d\uc2dc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4 (\ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694)", dlgChoose: "WireGuard .conf \ud30c\uc77c \uc120\ud0dd", m_autostart: "Windows\uc640 \ud568\uaed8 \uc2dc\uc791", desktopStarted: "OpenCode\ub97c \uc2dc\uc791\ud588\uc2b5\ub2c8\ub2e4.", noDesktop: "OpenCode \ub370\uc2a4\ud06c\ud1b1\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uba3c\uc800 \uc124\uce58\ud558\uc138\uc694(install.ps1 -download).",
-    sendAgain: "IP\uac00 \ubc14\ub00c\uc5c8\uc2b5\ub2c8\ub2e4. \uba54\uc2dc\uc9c0\ub97c \ub2e4\uc2dc \ubcf4\ub0b4\uc138\uc694." },
+    sendAgain: "IP\uac00 \ubc14\ub00c\uc5c8\uc2b5\ub2c8\ub2e4. \uba54\uc2dc\uc9c0\ub97c \ub2e4\uc2dc \ubcf4\ub0b4\uc138\uc694.", resumed: "\ucc44\ud305\uc744 \uc0c8\ub85c\uace0\uce68\ud588\uc2b5\ub2c8\ub2e4." },
   hi: { name: "\u0939\u093f\u0928\u094d\u0926\u0940",
     m_newIp: "\u0928\u092f\u093e IP", m_connection: "\u0915\u0928\u0947\u0915\u094d\u0936\u0928", m_direct: "\u0938\u0940\u0927\u093e", m_wg: "\u092c\u093f\u0932\u094d\u091f-\u0907\u0928 WARP", m_wgfile: "WireGuard \u092b\u093c\u093e\u0907\u0932", m_free: "\u092e\u0941\u092b\u093c\u094d\u0924 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 (\u0905\u0935\u093f\u0936\u094d\u0935\u0938\u0928\u0940\u092f)", m_list: "\u092e\u0947\u0930\u0940 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0938\u0942\u091a\u0940",
     m_chooseWg: "WireGuard \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902...", m_settings: "\u0938\u0947\u091f\u093f\u0902\u0917 \u092c\u0926\u0932\u0947\u0902 (\u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940, \u0938\u0902\u0926\u0930\u094d\u092d)", m_auto: "\u0911\u091f\u094b-\u0930\u094b\u091f\u0947\u091f", m_clear: "\u0938\u093e\u092b\u093c \u0915\u0930\u0947\u0902", m_clearLogin: "\u0932\u0949\u0917\u093f\u0928 (\u091a\u0948\u091f \u092c\u0928\u0947 \u0930\u0939\u0947\u0902\u0917\u0947)", m_restoreLogin: "\u0932\u0949\u0917\u093f\u0928 \u092c\u0939\u093e\u0932 \u0915\u0930\u0947\u0902",
-    m_clearCache: "\u0915\u0948\u0936 \u0914\u0930 \u0932\u0949\u0917", m_status: "\u0938\u094d\u0925\u093f\u0924\u093f", m_restart: "{app} \u092b\u093f\u0930 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_quit: "\u092c\u093e\u0939\u0930 \u0928\u093f\u0915\u0932\u0947\u0902", m_language: "\u092d\u093e\u0937\u093e", m_langAuto: "\u0938\u094d\u0935\u091a\u093e\u0932\u093f\u0924",
+    m_clearCache: "\u0915\u0948\u0936 \u0914\u0930 \u0932\u0949\u0917", m_status: "\u0938\u094d\u0925\u093f\u0924\u093f", m_resume: "\u091a\u0948\u091f \u092b\u093f\u0930 \u0938\u0947 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_restart: "{app} \u092b\u093f\u0930 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_quit: "\u092c\u093e\u0939\u0930 \u0928\u093f\u0915\u0932\u0947\u0902", m_language: "\u092d\u093e\u0937\u093e", m_langAuto: "\u0938\u094d\u0935\u091a\u093e\u0932\u093f\u0924",
     busy: "\u0915\u094b\u0908 \u0926\u0942\u0938\u0930\u0940 \u0915\u093e\u0930\u094d\u0930\u0935\u093e\u0908 \u0905\u092d\u0940 \u091a\u0932 \u0930\u0939\u0940 \u0939\u0948\u0964", ipWg: "\u0928\u092f\u093e IP {ip} (\u092c\u093f\u0932\u094d\u091f-\u0907\u0928 WARP)", ipFree: "\u0928\u092f\u093e IP {ip} (\u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 {host})", ipList: "\u0928\u092f\u093e IP {ip} (\u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 {host})",
     wgfileFixed: "WireGuard \u092b\u093c\u093e\u0907\u0932 \u0915\u093e \u090f\u0917\u094d\u091c\u093c\u093f\u091f IP \u0924\u092f \u0939\u094b\u0924\u093e \u0939\u0948\u0964 {msg}\u0964 \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0926\u0942\u0938\u0930\u0940 \u092b\u093c\u093e\u0907\u0932 \u092f\u093e \u0926\u0942\u0938\u0930\u093e \u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u091a\u0941\u0928\u0947\u0902\u0964",
     sameIp: "\u0928\u092f\u093e WARP \u0916\u093e\u0924\u093e \u092c\u0928\u093e, \u0932\u0947\u0915\u093f\u0928 IP \u0905\u092c \u092d\u0940 {ip} \u0939\u0948 (WARP \u0938\u092c\u0938\u0947 \u0928\u091c\u093c\u0926\u0940\u0915\u0940 Cloudflare \u0938\u0930\u094d\u0935\u0930 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0924\u093e \u0939\u0948)", noAnswer: "WARP \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e",
@@ -511,11 +511,11 @@ const LANGS = {
     eReg: "WARP \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u0905\u0938\u094d\u0935\u0940\u0915\u093e\u0930 \u0939\u0941\u0906 (HTTP {status}); \u0915\u0941\u091b \u092e\u093f\u0928\u091f \u092c\u093e\u0926 \u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902", eNoFile: "\u0905\u092d\u0940 \u0924\u0915 \u0915\u094b\u0908 WireGuard \u092b\u093c\u093e\u0907\u0932 \u0928\u0939\u0940\u0902 \u091a\u0941\u0928\u0940 \u0917\u0908\u0964 \u091f\u094d\u0930\u0947 > \u0915\u0928\u0947\u0915\u094d\u0936\u0928 > WireGuard \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902\u0964",
     eFileDead: "\u0909\u0938 WireGuard \u092b\u093c\u093e\u0907\u0932 \u0915\u0940 \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e", eWarpDead: "WARP \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e (\u0915\u094d\u092f\u093e UDP 2408 \u092c\u0902\u0926 \u0939\u0948?)",
     eNoList: "\u0915\u094b\u0908 \u092d\u0940 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0938\u0942\u091a\u0940 \u0921\u093e\u0909\u0928\u0932\u094b\u0921 \u0928\u0939\u0940\u0902 \u0939\u094b \u0938\u0915\u0940", eNoProxy: "\u0938\u092e\u092f \u092a\u0930 \u0915\u094b\u0908 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0928\u0939\u0940\u0902 \u091a\u0932\u093e (\u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902)", dlgChoose: "WireGuard .conf \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902", m_autostart: "Windows \u0915\u0947 \u0938\u093e\u0925 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", desktopStarted: "OpenCode \u0936\u0941\u0930\u0942 \u0939\u094b \u0917\u092f\u093e\u0964", noDesktop: "OpenCode \u0921\u0947\u0938\u094d\u0915\u091f\u0949\u092a \u0928\u0939\u0940\u0902 \u092e\u093f\u0932\u093e\u0964 \u092a\u0939\u0932\u0947 \u0907\u0938\u0947 \u0907\u0902\u0938\u094d\u091f\u0949\u0932 \u0915\u0930\u0947\u0902 (install.ps1 -download)\u0964",
-    sendAgain: "IP \u092c\u0926\u0932 \u0917\u092f\u093e\u0964 \u0905\u092a\u0928\u093e \u0938\u0902\u0926\u0947\u0936 \u092b\u093f\u0930 \u092d\u0947\u091c\u0947\u0902\u0964" },
+    sendAgain: "IP \u092c\u0926\u0932 \u0917\u092f\u093e\u0964 \u0905\u092a\u0928\u093e \u0938\u0902\u0926\u0947\u0936 \u092b\u093f\u0930 \u092d\u0947\u091c\u0947\u0902\u0964", resumed: "\u091a\u0948\u091f \u092b\u093f\u0930 \u0938\u0947 \u0932\u094b\u0921 \u0939\u094b \u0917\u0908." },
   ar: { name: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
     m_newIp: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f", m_connection: "\u0627\u0644\u0627\u062a\u0635\u0627\u0644", m_direct: "\u0645\u0628\u0627\u0634\u0631", m_wg: "WARP \u0627\u0644\u0645\u062f\u0645\u062c", m_wgfile: "\u0645\u0644\u0641 WireGuard", m_free: "\u0648\u0643\u0644\u0627\u0621 \u0639\u0627\u0645\u0648\u0646 \u0645\u062c\u0627\u0646\u064a\u0648\u0646 (\u063a\u064a\u0631 \u0645\u0648\u062b\u0648\u0642\u064a\u0646)", m_list: "\u0642\u0627\u0626\u0645\u0629 \u0648\u0643\u0644\u0627\u0626\u064a",
     m_chooseWg: "\u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard...", m_settings: "\u062a\u0639\u062f\u064a\u0644 \u0627\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a (\u0627\u0644\u0648\u0643\u0644\u0627\u0621\u060c \u0627\u0644\u0633\u064a\u0627\u0642)", m_auto: "\u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0627\u0644\u062a\u0644\u0642\u0627\u0626\u064a", m_clear: "\u062a\u0646\u0638\u064a\u0641", m_clearLogin: "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 (\u062a\u0628\u0642\u0649 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0627\u062a)", m_restoreLogin: "\u0627\u0633\u062a\u0639\u0627\u062f\u0629 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644",
-    m_clearCache: "\u0627\u0644\u0630\u0627\u0643\u0631\u0629 \u0627\u0644\u0645\u0624\u0642\u062a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a", m_status: "\u0627\u0644\u062d\u0627\u0644\u0629", m_restart: "\u0625\u0639\u0627\u062f\u0629 \u062a\u0634\u063a\u064a\u0644 {app}", m_quit: "\u0625\u0646\u0647\u0627\u0621", m_language: "\u0627\u0644\u0644\u063a\u0629", m_langAuto: "\u062a\u0644\u0642\u0627\u0626\u064a",
+    m_clearCache: "\u0627\u0644\u0630\u0627\u0643\u0631\u0629 \u0627\u0644\u0645\u0624\u0642\u062a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a", m_status: "\u0627\u0644\u062d\u0627\u0644\u0629", m_resume: "\u0627\u0633\u062a\u0626\u0646\u0627\u0641 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0629", m_restart: "\u0625\u0639\u0627\u062f\u0629 \u062a\u0634\u063a\u064a\u0644 {app}", m_quit: "\u0625\u0646\u0647\u0627\u0621", m_language: "\u0627\u0644\u0644\u063a\u0629", m_langAuto: "\u062a\u0644\u0642\u0627\u0626\u064a",
     busy: "\u0625\u062c\u0631\u0627\u0621 \u0622\u062e\u0631 \u0645\u0627 \u0632\u0627\u0644 \u0642\u064a\u062f \u0627\u0644\u062a\u0646\u0641\u064a\u0630.", ipWg: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (WARP \u0627\u0644\u0645\u062f\u0645\u062c)", ipFree: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (\u0648\u0643\u064a\u0644 \u0639\u0627\u0645 {host})", ipList: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (\u0648\u0643\u064a\u0644 {host})",
     wgfileFixed: "\u0645\u0644\u0641 WireGuard \u0644\u0647 \u0639\u0646\u0648\u0627\u0646 IP \u062e\u0631\u0648\u062c \u062b\u0627\u0628\u062a. {msg}. \u0627\u062e\u062a\u0631 \u0645\u0644\u0641\u064b\u0627 \u0622\u062e\u0631 \u0623\u0648 \u0627\u062a\u0635\u0627\u0644\u064b\u0627 \u0622\u062e\u0631 \u0644\u062a\u063a\u064a\u064a\u0631\u0647.",
     sameIp: "\u062d\u0633\u0627\u0628 WARP \u062c\u062f\u064a\u062f\u060c \u0644\u0643\u0646 \u0639\u0646\u0648\u0627\u0646 IP \u0645\u0627 \u0632\u0627\u0644 {ip} (\u064a\u0633\u062a\u062e\u062f\u0645 WARP \u0623\u0642\u0631\u0628 \u062e\u0627\u062f\u0645 Cloudflare)", noAnswer: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 WARP",
@@ -531,11 +531,11 @@ const LANGS = {
     eReg: "\u062a\u0645 \u0631\u0641\u0636 \u062a\u0633\u062c\u064a\u0644 WARP (HTTP {status})\u061b \u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649 \u0628\u0639\u062f \u062f\u0642\u0627\u0626\u0642", eNoFile: "\u0644\u0645 \u064a\u062a\u0645 \u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard \u0628\u0639\u062f. \u0639\u0644\u0628\u0629 \u0627\u0644\u0646\u0638\u0627\u0645 > \u0627\u0644\u0627\u062a\u0635\u0627\u0644 > \u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard.",
     eFileDead: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 \u0645\u0644\u0641 WireGuard \u0647\u0630\u0627", eWarpDead: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 WARP (\u0647\u0644 \u0627\u0644\u0645\u0646\u0641\u0630 UDP 2408 \u0645\u062d\u0638\u0648\u0631\u061f)",
     eNoList: "\u062a\u0639\u0630\u0631 \u062a\u0646\u0632\u064a\u0644 \u0623\u064a \u0642\u0627\u0626\u0645\u0629 \u0648\u0643\u0644\u0627\u0621 \u0639\u0627\u0645\u064a\u0646", eNoProxy: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0623\u064a \u0648\u0643\u064a\u0644 \u0639\u0627\u0645 \u0641\u064a \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u0645\u0646\u0627\u0633\u0628 (\u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649)", dlgChoose: "\u0627\u062e\u062a\u0631 \u0645\u0644\u0641 WireGuard \u0628\u0635\u064a\u063a\u0629 .conf", m_autostart: "\u0627\u0644\u0628\u062f\u0621 \u0645\u0639 Windows", desktopStarted: "\u062a\u0645 \u062a\u0634\u063a\u064a\u0644 OpenCode.", noDesktop: "\u0644\u0645 \u064a\u062a\u0645 \u0627\u0644\u0639\u062b\u0648\u0631 \u0639\u0644\u0649 OpenCode \u0644\u0633\u0637\u062d \u0627\u0644\u0645\u0643\u062a\u0628. \u062b\u0628\u0651\u062a\u0647 \u0623\u0648\u0644\u0627\u064b (install.ps1 -download).",
-    sendAgain: "\u062a\u0645 \u062a\u063a\u064a\u064a\u0631 \u0639\u0646\u0648\u0627\u0646 IP. \u0623\u0639\u062f \u0625\u0631\u0633\u0627\u0644 \u0631\u0633\u0627\u0644\u062a\u0643." },
+    sendAgain: "\u062a\u0645 \u062a\u063a\u064a\u064a\u0631 \u0639\u0646\u0648\u0627\u0646 IP. \u0623\u0639\u062f \u0625\u0631\u0633\u0627\u0644 \u0631\u0633\u0627\u0644\u062a\u0643.", resumed: "\u062a\u0645\u062a \u0625\u0639\u0627\u062f\u0629 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0629." },
   id: { name: "Bahasa Indonesia",
     m_newIp: "IP baru", m_connection: "Koneksi", m_direct: "Langsung", m_wg: "WARP bawaan", m_wgfile: "Berkas WireGuard", m_free: "Proxy publik gratis (tidak tepercaya)", m_list: "Daftar proxy saya",
     m_chooseWg: "Pilih berkas WireGuard...", m_settings: "Ubah pengaturan (proxy, konteks)", m_auto: "Rotasi otomatis", m_clear: "Bersihkan", m_clearLogin: "Login (obrolan tetap ada)", m_restoreLogin: "Pulihkan login",
-    m_clearCache: "Cache dan log", m_status: "Status", m_restart: "Mulai ulang {app}", m_quit: "Keluar", m_language: "Bahasa", m_langAuto: "Otomatis",
+    m_clearCache: "Cache dan log", m_status: "Status", m_resume: "Lanjutkan obrolan", m_restart: "Mulai ulang {app}", m_quit: "Keluar", m_language: "Bahasa", m_langAuto: "Otomatis",
     busy: "Tindakan lain masih berjalan.", ipWg: "IP baru {ip} (WARP bawaan)", ipFree: "IP baru {ip} (proxy publik {host})", ipList: "IP baru {ip} (proxy {host})",
     wgfileFixed: "Berkas WireGuard punya IP keluar yang tetap. {msg}. Pilih berkas atau Koneksi lain untuk mengubahnya.",
     sameIp: "Akun WARP baru, tetapi IP tetap {ip} (WARP memakai server Cloudflare terdekat)", noAnswer: "Terowongan WARP tidak merespons",
@@ -551,7 +551,7 @@ const LANGS = {
     eReg: "Pendaftaran WARP ditolak (HTTP {status}); coba lagi beberapa menit lagi", eNoFile: "Belum ada berkas WireGuard yang dipilih. Baki > Koneksi > Pilih berkas WireGuard.",
     eFileDead: "Terowongan berkas WireGuard itu tidak merespons", eWarpDead: "Terowongan WARP tidak merespons (apakah UDP 2408 diblokir?)",
     eNoList: "Tidak bisa mengunduh daftar proxy publik mana pun", eNoProxy: "Tidak ada proxy publik yang merespons tepat waktu (coba lagi)", dlgChoose: "Pilih berkas WireGuard .conf", m_autostart: "Mulai bersama Windows", desktopStarted: "OpenCode dimulai.", noDesktop: "OpenCode desktop tidak ditemukan. Pasang dulu (install.ps1 -download).",
-    sendAgain: "IP berubah. Kirim pesan Anda lagi." },
+    sendAgain: "IP berubah. Kirim pesan Anda lagi.", resumed: "Obrolan dimuat ulang." },
 }
 // "xx-YY" or "xx" from the system -> one of the languages above (English if there is none)
 const pickLang = (code) => {
@@ -1471,8 +1471,9 @@ function hold(ms) {
 }
 
 // Runs in the page. It must be self-contained: the main process sends its source to executeJavaScript.
+// One snapshot, no timers: Chromium throttles timers of a background window, so a "wait 100ms" loop in the page used to
+// stretch a single check to minutes while the connection was held busy.
 function resumeInPage(sessionID) {
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
   const limit = () => document.querySelector('[data-component="session-free-limit"]')
   // The prompt is contenteditable=true, but a disabled prompt is "false" and newer builds may mark it
@@ -1480,58 +1481,49 @@ function resumeInPage(sessionID) {
   const editor = () => [...document.querySelectorAll('[data-component="session-composer-dock"] [contenteditable], [data-slot="composer-face"] [contenteditable]')]
     .filter((n) => n.isConnected && n.getClientRects().length && n.isContentEditable !== false && (n.getAttribute("contenteditable") || "") !== "false")
     .at(-1)
-  return (async () => {
-    if (!at()) {
-      const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
-      if (!link) return "notab"
-      link.click()
-      for (let i = 0; i < 100 && !at(); i++) await sleep(100)
-      if (!at()) return "notab"
-    }
-    if (limit()) return "limit"
-    let el
-    for (let i = 0; i < 100; i++) {
-      el = editor()
-      if (el && el.isConnected && el.getClientRects().length) break
-      // The panel mounts after the route does; a composer that is already gone may be replaced by it.
-      if (limit()) return "limit"
-      await sleep(100)
-    }
-    if (!el || !el.isConnected) return limit() ? "limit" : "none"
-    el.focus()
-    const text = (el.innerText || "").trim()
-    if (!text) return "empty"
-    // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
-    // refusal is safe: it matches the last message in the chat.
-    const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
-      .map((node) => (node.innerText || "").trim())
-      .filter(Boolean)
-      .at(-1)
-    if (!sent) return "draft"
-    const same = (a, b) =>
-      a === b || a.includes(b) || b.includes(a) ||
-      (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
-    return same(text, sent) ? "text" : "draft"
-  })()
+  if (!at()) {
+    const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+    if (!link) return "notab"
+    link.click()
+    if (!at()) return "switching"
+  }
+  if (limit()) return "limit"
+  const el = editor()
+  if (!el) return limit() ? "limit" : "none"
+  el.focus()
+  const text = (el.innerText || "").trim()
+  if (!text) return "empty"
+  // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
+  // refusal is safe: it matches the last message in the chat.
+  const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
+    .map((node) => (node.innerText || "").trim())
+    .filter(Boolean)
+    .at(-1)
+  if (!sent) return "draft"
+  const same = (a, b) =>
+    a === b || a.includes(b) || b.includes(a) ||
+    (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
+  return same(text, sent) ? "text" : "draft"
 }
 
 async function resume(wc, sessionID) {
-  // Only the chat that failed may be typed into: another open tab would receive the "continue". At startup the tab bar
-  // is still being restored, so a missing tab is retried instead of giving up.
+  // Only the chat that failed may be typed into: another open tab would receive the "continue". The main process polls
+  // with its own (unthrottled) timers until the chat is ready, the tab turns up, or the deadline passes.
+  const deadline = Date.now() + 25000
   let target, state = "none"
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (;;) {
     const list = [...new Set([...(wc ? [wc] : []), ...pages])]
-    state = "none"; target = undefined
+    state = "notab"; target = undefined
     for (const w of list) {
       if (!w || w.isDestroyed() || typeof w.executeJavaScript !== "function") continue
-      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "error")
+      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "none")
       if (s === "text" || s === "empty" || s === "limit" || s === "draft") { target = w; state = s; break }
-      if (s === "notab") continue
-      state = s
+      if (s === "notab") continue                 // another window may still have that tab
+      if (state === "notab" || s === "switching") { state = s; target = target ?? w }
     }
-    if (state !== "notab" && state !== "none") break
-    if (attempt === 2 || (state === "none" && attempt > 0)) break
-    await sleep(2500)
+    if (state === "text" || state === "empty" || state === "limit" || state === "draft") break
+    if (Date.now() >= deadline) break
+    await sleep(400)
   }
   if (state !== "text" && state !== "empty") return { state, wc: target }
   target.focus()
@@ -1550,12 +1542,10 @@ function canRecover(sessionID) {
   return true
 }
 
-async function recoverLimit(wc, sessionID) {
-  // A stored free-limit time from an older run (or an older renderer) replaces the composer; a renderer that no longer
-  // has a working composer (contenteditable gone or false) leaves the chat unusable. Drop the stored state and the
-  // cached bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
-  if (!wc || wc.isDestroyed()) return "none"
-  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+// The "clear cache and restart" workaround without a restart: drop the stored free-limit time and the cached renderer
+// bundle, then reload the window. Used by auto-rotate and by the tray's "Resume chat".
+async function refreshChat(wc) {
+  if (!wc || wc.isDestroyed()) return
   if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
   try { await wc.session.clearCache() } catch {}
   try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
@@ -1568,6 +1558,12 @@ async function recoverLimit(wc, sessionID) {
   wc.reload()
   await loaded
   await sleep(1500)
+}
+
+async function recoverLimit(wc, sessionID) {
+  if (!wc || wc.isDestroyed()) return "none"
+  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+  await refreshChat(wc)
   return (await resume(wc, sessionID)).state
 }
 
@@ -1595,6 +1591,9 @@ async function pump() {
     lastRotation = Date.now()
     streak++
     streakAt = lastRotation
+    // The tunnel is up; the tray works again while the chats are resumed and reloaded.
+    busy = false
+    try { buildMenu() } catch {}
     const todo = [...waiting]
     waiting.clear()
     for (const [id, wc] of todo) {
@@ -1636,14 +1635,29 @@ if (cfg.mode === "wg" || cfg.mode === "wgfile" || cfg.mode === "free") {
   busy = true
   serial(() => (cfg.mode === "free" ? freeFind().then((f) => log(`Public proxy ${f.proxy}, IP ${f.ip}`)) : wgUp(false).then(log)))
     .catch((e) => {
-      log(`${cfg.mode}: ${why(e)} (back to direct)`)
+      const failed = cfg.mode
+      log(`${failed}: ${why(e)} (back to direct)`)
       wgStop(); cfg.mode = "none"; saveCfg(cfg)
+      // One dead tunnel must not leave auto-rotate stuck on Direct for the rest of the day. Try the saved connection
+      // once more, unless the user picked something else in the meantime.
+      setTimeout(() => {
+        if (loadCfg().mode !== "none") return
+        log("trying the saved connection again")
+        serial(() => switchModeNow(failed)).then(log).catch((err) => log(why(err)))
+      }, 60000)
     })
     .finally(() => { busy = false; pump().catch((e) => log(why(e))) })
 }
 // ---------------------------------------------------------------- tray menu
 const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAANqElEQVR4nOxde3QTVRr/zUySpklKq5S3UFuhReUh4Hpg12UBYVdAwQNbPCwPF46vA4qIZxddFfmLLZ5FV1tZRBCxVBaqUMDnKhxkDx5R9+ARjtAiLXSxLx5pS5omaZJx7rwyk0ebtJOHOL+e9Oab3zzu/b75vu/eOzcJDR1JhQEagGVZiiuYZcuWZZw+fTbP5XIO8Xh9Q3w+Xx+apvFzht/vB8NQF00Gc60hnTk/oqCgZuPGja2EoiiKRQ9BoZsgSi8vLze+8trrv3E6rt7T3u6ayVW2gCPAihXnKkj2U5WER5jtqc4T8DcTJzOModKUZvwgIzPrwIplD39RWFjY0V1jdMsAhYVL+lSeOfEXt9u1xO9ns1nWz59KWVnRTBAuwV6TPHnLGeWSyZS2ZeioW17eW1rahBgRkwE4S9uqfji30uVyPeX1erOoTu6kX1rJMLQ9w2rbkJs7+BUuMjii1WnUBpg0aer4uobGMp/PmycdyAadSJdBwlN1n969Fxw9evhLRIEuM+TatWvpcb+a8MyFurojEZVPdVG5XxBPdNR06eKRcePGrxY7J52i0x1yc0f0S7cZd7hdrqnQETPMZvP+qy3eP9fWnrBH2ieiB3Dx3mSxGctc7e288kmsU5YIknU+lOdy5ayMXoadRJeIACYSYUyzvO50OucGembCG3XXjIXOd857fd6hrQ7nwMaGuv1RG2D02DseczgczwpdL3TRC9D5rniuxzh2cE7O5cb6uq+CdR2SAyZMmDLo0pXGH7hRrBk6NAPXO2q/fkB2/rHDhy8ot4fkAIez+WlJ+YJ1Avlel7svc72jdFez42kEQWWA6dPn3MAljgelg1j5NLqshexsdy79/ezZg6GAbADSZ639f80LXi+5+6mgrK7LWsg+nz/9x+ravyoNICdhLmFYvv32u53cVBojJBYpuwsGVMo6332eM8RtKx5f/tLhw4c7VAZoc3nv5rqdC4XsDUV2hy5rKrNMfV3DsQsXaqsghSASftqdbbPIFLIgQ+E+uqylTF4OTtesOE0h5QDG7fbMFHcLyuby0dB5bXiPxzODC0F89OH3nThx2rAf6y9U+f0+cROrl3EsaZrCoAGD848c+fQM7wEun7O/OnvrZbxLonOie/6ZsK/D35+3Diu4j5SIdTk+Msm1gs7FHNDh8eZwjxZ5L+HtQwVClkrWeU148r/D48kh73gP4GJ/P0BxkOLgsNt1vsc8d8PzOuc9gHuw7A7ZS8rmkc6u8z3ieZ1DORckD9kg+wurlHVeY16Aci4oYCBKmbWVss5rxXNBSGkAf8BQojHCl/HnrRYrnlz1JLJ7Zyfl+oniJdWLBqAD2VqMXXypkhPDtzkdYCgaeyv24IknViCjV0ZCr58oHn6lB6jmgMTYJbmPLCeOL3unDCaTCQsWLEBFRQWWLF1KVhikTP004eVbX/ovsHICSaZcV1ePI0eO8KLNZsOjjz6CvXv34v7774fRYEh6/bSQxXteMIBfWNoJRZBKellWVgYleve+Hk89tQrl772Le+6ZCYqmUqq+sZZS74eW/qkMlQLl8ePf4syZMwjGwAEDsGbNGuz8905MnjI55eodbelXGiAFHYAv33prOyIhLzcP69evx44dpRg1avTPzQFkBMYByuydIuWhgwfR1NT5iu+CggJs2fIGSl4rwfD8gpRsR7hSAv9QoG+/AVPcbvdEYZOwW2gpIXG8n/XzH4oYP348usKgQYMwZ+4cDB06FFVnqtDS0opk178zPi3N/N+mxvpDgakIViQl/wgJXsnh97y3h6yxRLSYMmUKdu3ahTXPP48+ffolvf4ReRHySFgVnGTDKU6WJN7pdPJd0FjAMAzunXUvN4bYg1VczykrMzP12iciMBIWd5ImkAIyguTE86WlpZAWDMQCMpibP38+9u2rwCOPPIx0iyVl2qceCfNzQcKEkVBCISNITjzf1HQRhw4dQndhsVrx4IMPYf/+fVi4cCGMRlPS26ceCQNidlYclGIymZ7oKbKysrBy5Uo+NM2+bzYYmklaexAyEkaQ+4AKkpPLn/juBE6ePAkt0LdvPzz33HPYXb4b06ZNTU77lB7Af5ZaSgwhCUSSk8+TXKAlcnJy8PeiIux4ZwcmTJjQ5fW15P3hPCDszgh38uTwhw4e6nJg1h0MLxiO4uJibNu2DTffcnNC2hc6FxTJXRDOvZLDk7+339bWC5QYOXIk72UbXn4JuXk3xrV90j1vkAQpQUixq6dyZq8sjL19HB9v1bdGz8o2ZztaWlu58/dCvPC7iRPx2zvvxCcff8xNcWxEQ0O95vqB0gAEfHYWn132tDQajSj51ya++xcP2FscMKeZueG8CfECmQKZPmMGpk6bhoq9FXh982Y02+2a6Um+jvxOco9wJdiY+BEjRsZN+RLa2tuRCJCbqXBeIQ4c2I/ly5fDarP2WD9SGCJQzwUpdlLJMfIdXg/iDhaJB9c+/u7toX6gGAiIIUgeCPCxSm4cG8gN0vZo+JMnTqL2/HkM4bp58YDX60UvW3w9TEJHRwc/F7V58xuwX7miJrupH4EX7n3RAHQgUWhUrlr5OMaOvR03cdPD2qRfobS32PG3Z56BwajJd01FBJl7Ikm4uKQEjQ2NmutH6vsbxKtBMJhyJ6jKWHluMh/ffPMV/se9lNFCfXxAudHy8+f/CRncg/p44vPPP0dJ8as4W12jur6m+hGDv2AAcSQsZWkhVkGRtdVysnjSM3nggcWIF8h0R9H6Ipw6dUqlj3i0T4r6vAHEL7wKn0DEg1OBJw9b+vbtC61x+vRplHCh5oujXySufVAYgN8m9U8FU6WkTKaStcT58+ewkRtoffrZZ4lvj9IAgoFUpko5ecStIzBq9ChogcamRmzetJl/PuDz+XkNJLo9UBpAMEKErC1aLtn8Yg1if3NzM958803s3rUbbo87qe0LMUBothZlKlI2Txyf3Scbd911F7oLZ1sbv9Ju21vb0d7uVLc3Se0LMYAYmlKyJD2f7nwBrMfjQXl5ObZu2QK7vZk/H1KkXWFHwqoQFSZkJYO3WC2YO/ePiAU+nw/vv/8+n2CbLjYBSax/RF49EuZpyNkaimzNhsnmCeTnzp3LL02PFge5Hk1J8Ws4d74mJeofkVd5AG8RKVsjkCgkmQ2SE8ST99F2PY8fP4713OPFyspKCDda8uvfGS9BMAAF2VIhJYKyeQL5P9w9vcuBF3lQX/xqMY4dO4aw3+GWxPp3xks2CHiAmK1DSkTYngB+6dIlERVfXX2Wf1pFFvDKN1GK1b9TXuUBohEo0RMgWiiZ8tjbxiA/Pz9E8XV1ddi0aRMO7D8gVDpF6huzrDSAvChCkQsgurMsg0oov3DxIpXiL1++zHUnt/Ldyo4Oj9yoZNWvx7zSANKqCHmkpsjWyZDJUvPJkyfzFXQ4rmL79lKUvr0dLpc7JeqnhRxmVYRkBMjZGkFyovjFixbD7fZwUwa7sHXrG+JafzlVJb1+WvAqD5C2hc5fB5fx58lKBx/rw8wZM7mwczHh108UHzISFkIqqwxhCAppCeFdbjdeLHoxaddPFB/6SXnJLWQL6nI85TBzQZJpKHFnXY6vLEBcnEs2iaSc6gS/Cd6u89rwfi8bMADDUC28VyCQrQUxKHvrvGY8p/Nm2QAUbWwE5GOEnUQ30WXtZZrzDNpoOi8bgAHVQNGKD+rxXkJBHboondeIJ/8MFN0gG8BqTTvHu4vcYRVMRVEIknVeC56ieZ3XywYoKiqqYRimTtlV4hOGLsdF5gxRv27dunOyASZNmuQzGk3850DFQ+REIh4SJOt8T3izKe0DonMiC0mYolhzmuk/xGcocSd1yUbYrvOx8iQBm622/ZT445/yUoOBA4d9yNCMR5i1A/QyPiXNMK2Fc2YdlPROSW+4Hai8ocM2tznahd+QkSczgICssK3Od4u32mxbas5WPSQxsgcQl8jNGbKWNtAtUGZz5ckpKkjW+Vh4hjFcHZqX8wIUUP2QW01NzdUBAwfZ3C7XROjQHL0yMv7x9dfH9im3hSw3y74+6yXOUo2S98gjOF3ukcwwdFO/fr03IAgUwiD/5pH3tdiv7JVPJnmXfFJdjkUmar6ud+bsyu+/D/k9ybALLqtOnaiw2awbhJOxYgiTjKHLscpc6NkQTvkRDUAwdszo1enp6R9BMYITSl2ORU63WD4ZM2bkakQAhU5w3XV5mVYbe8Ltdgk/vyd3tcSDKfXDBZ1X8+b09CpHq/0Ou93eggjodM233V7dYh4xfJgtI2MLFXRyAjZI1nlBJrrKsNm23ZQ75NbOlM/viyiRe1P+Y+1O5z+9Xi8Tdg2kXvIlN6npsdisT1SfqdwUjV4ZRIlm++Wv+ve/4V2j0WDz+ny3gv/NyUiVQReVvfZ4ruveYbVYysxplkVnfzj9UbR6jdoDlBg/ftKNDQ21K9yejkWcR2STbdfanRxNST61w70umdPNpf373vDql18ePocY0S0DSNi9e7dp3boXf93S0nyvy+2Z6ff7CkjFpNe1BKJ06UXTVGWa2fxhZkbmgWefXX103rx53f52kh4ZQAIr/DAlvWDBgl4nKytzO5zuHK/fN4Tzjj40yfMk1ZOVLz/D0u/1swaT4ZKBZmrT0021w4cPry4rKyNrJf3SlHJPoIkBdHQfPwEAAP//gGBJ3gAAAAZJREFUAwDS3tXvcdLM9QAAAABJRU5ErkJggg=="
 let tray
+// One click for the "chat has no composer" state: same clean-up as Clear > Cache and logs, but without restarting.
+const resumeChat = async () => {
+  const wc = pages.at(-1)
+  if (!wc || wc.isDestroyed()) return
+  log("resume chat: reloading the window")
+  try { await refreshChat(wc); note(t("resumed")) } catch (e) { note(why(e)) }
+}
 function buildMenu() {
   if (!tray) return
   cfg = loadCfg()
@@ -1666,6 +1680,7 @@ function buildMenu() {
       { label: t("m_restoreLogin"), click: restoreLogin },
       { label: t("m_clearCache"), click: clearCache },
     ] },
+    { label: t("m_resume"), click: resumeChat },
     { label: t("m_status"), click: guard(status) },
     { type: "separator" },
     { label: t("m_language"), submenu: [
@@ -1958,7 +1973,7 @@ const LANGS = {
   en: { name: "English",
     m_newIp: "New IP", m_connection: "Connection", m_direct: "Direct", m_wg: "Built-in WARP", m_wgfile: "WireGuard file", m_free: "Free public proxies (untrusted)", m_list: "Own proxy list",
     m_chooseWg: "Choose WireGuard file...", m_settings: "Edit settings (proxy list, context)", m_auto: "Auto-rotate", m_clear: "Clear", m_clearLogin: "Login (keeps chats)", m_restoreLogin: "Restore login",
-    m_clearCache: "Cache and logs", m_status: "Status", m_restart: "Restart {app}", m_quit: "Quit", m_language: "Language", m_langAuto: "Automatic",
+    m_clearCache: "Cache and logs", m_status: "Status", m_resume: "Resume chat", m_restart: "Restart {app}", m_quit: "Quit", m_language: "Language", m_langAuto: "Automatic",
     busy: "Another action is still running.", ipWg: "New IP {ip} (built-in WARP)", ipFree: "New IP {ip} (public proxy {host})", ipList: "New IP {ip} (proxy {host})",
     wgfileFixed: "A WireGuard file has a fixed exit IP. {msg}. Choose another file or another Connection to change it.",
     sameIp: "New WARP account, but the IP is still {ip} (WARP uses the nearest Cloudflare server)", noAnswer: "The WARP tunnel did not answer",
@@ -1974,11 +1989,11 @@ const LANGS = {
     eReg: "WARP registration refused (HTTP {status}); try again in a few minutes", eNoFile: "No WireGuard file chosen yet. Tray > Connection > Choose WireGuard file.",
     eFileDead: "The tunnel of that WireGuard file did not answer", eWarpDead: "The WARP tunnel did not answer (is UDP 2408 blocked?)",
     eNoList: "Could not download any public proxy list", eNoProxy: "No public proxy answered in time (try again)", dlgChoose: "Choose a WireGuard .conf file", m_autostart: "Start with Windows", desktopStarted: "OpenCode started.", noDesktop: "OpenCode desktop not found. Install it first (install.ps1 -download).",
-    sendAgain: "The IP changed. Send your message again." },
+    sendAgain: "The IP changed. Send your message again.", resumed: "Chat reloaded." },
   "pt-BR": { name: "Portugu\u00eas (Brasil)",
     m_newIp: "Novo IP", m_connection: "Conex\u00e3o", m_direct: "Direta", m_wg: "WARP embutido", m_wgfile: "Arquivo WireGuard", m_free: "Proxies p\u00fablicos gr\u00e1tis (n\u00e3o confi\u00e1veis)", m_list: "Minha lista de proxies",
     m_chooseWg: "Escolher arquivo WireGuard...", m_settings: "Editar configura\u00e7\u00f5es (proxies, contexto)", m_auto: "Rota\u00e7\u00e3o autom\u00e1tica", m_clear: "Limpar", m_clearLogin: "Login (mant\u00e9m os chats)", m_restoreLogin: "Restaurar login",
-    m_clearCache: "Cache e logs", m_status: "Status", m_restart: "Reiniciar {app}", m_quit: "Sair", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
+    m_clearCache: "Cache e logs", m_status: "Status", m_resume: "Retomar chat", m_restart: "Reiniciar {app}", m_quit: "Sair", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
     busy: "Outra a\u00e7\u00e3o ainda est\u00e1 em andamento.", ipWg: "Novo IP {ip} (WARP embutido)", ipFree: "Novo IP {ip} (proxy p\u00fablico {host})", ipList: "Novo IP {ip} (proxy {host})",
     wgfileFixed: "Um arquivo WireGuard tem IP de sa\u00edda fixo. {msg}. Escolha outro arquivo ou outra Conex\u00e3o para mudar.",
     sameIp: "Nova conta WARP, mas o IP continua {ip} (o WARP usa o servidor da Cloudflare mais pr\u00f3ximo)", noAnswer: "O t\u00fanel WARP n\u00e3o respondeu",
@@ -1994,11 +2009,11 @@ const LANGS = {
     eReg: "Registro WARP recusado (HTTP {status}); tente de novo em alguns minutos", eNoFile: "Nenhum arquivo WireGuard escolhido ainda. Bandeja > Conex\u00e3o > Escolher arquivo WireGuard.",
     eFileDead: "O t\u00fanel desse arquivo WireGuard n\u00e3o respondeu", eWarpDead: "O t\u00fanel WARP n\u00e3o respondeu (a porta UDP 2408 est\u00e1 bloqueada?)",
     eNoList: "N\u00e3o foi poss\u00edvel baixar nenhuma lista de proxies p\u00fablicos", eNoProxy: "Nenhum proxy p\u00fablico respondeu a tempo (tente de novo)", dlgChoose: "Escolha um arquivo WireGuard .conf", m_autostart: "Iniciar com o Windows", desktopStarted: "OpenCode iniciado.", noDesktop: "OpenCode desktop n\u00e3o encontrado. Instale primeiro (install.ps1 -download).",
-    sendAgain: "O IP mudou. Envie sua mensagem de novo." },
+    sendAgain: "O IP mudou. Envie sua mensagem de novo.", resumed: "Chat recarregado." },
   es: { name: "Espa\u00f1ol",
     m_newIp: "Nueva IP", m_connection: "Conexi\u00f3n", m_direct: "Directa", m_wg: "WARP integrado", m_wgfile: "Archivo WireGuard", m_free: "Proxies p\u00fablicos gratis (no confiables)", m_list: "Mi lista de proxies",
     m_chooseWg: "Elegir archivo WireGuard...", m_settings: "Editar ajustes (proxies, contexto)", m_auto: "Rotaci\u00f3n autom\u00e1tica", m_clear: "Limpiar", m_clearLogin: "Inicio de sesi\u00f3n (conserva los chats)", m_restoreLogin: "Restaurar inicio de sesi\u00f3n",
-    m_clearCache: "Cach\u00e9 y registros", m_status: "Estado", m_restart: "Reiniciar {app}", m_quit: "Salir", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
+    m_clearCache: "Cach\u00e9 y registros", m_status: "Estado", m_resume: "Reanudar chat", m_restart: "Reiniciar {app}", m_quit: "Salir", m_language: "Idioma", m_langAuto: "Autom\u00e1tico",
     busy: "Otra acci\u00f3n sigue en curso.", ipWg: "Nueva IP {ip} (WARP integrado)", ipFree: "Nueva IP {ip} (proxy p\u00fablico {host})", ipList: "Nueva IP {ip} (proxy {host})",
     wgfileFixed: "Un archivo WireGuard tiene una IP de salida fija. {msg}. Elige otro archivo u otra Conexi\u00f3n para cambiarla.",
     sameIp: "Cuenta WARP nueva, pero la IP sigue siendo {ip} (WARP usa el servidor de Cloudflare m\u00e1s cercano)", noAnswer: "El t\u00fanel WARP no respondi\u00f3",
@@ -2014,11 +2029,11 @@ const LANGS = {
     eReg: "Registro WARP rechazado (HTTP {status}); int\u00e9ntalo de nuevo en unos minutos", eNoFile: "A\u00fan no se eligi\u00f3 un archivo WireGuard. Bandeja > Conexi\u00f3n > Elegir archivo WireGuard.",
     eFileDead: "El t\u00fanel de ese archivo WireGuard no respondi\u00f3", eWarpDead: "El t\u00fanel WARP no respondi\u00f3 (\u00bfest\u00e1 bloqueado el puerto UDP 2408?)",
     eNoList: "No se pudo descargar ninguna lista de proxies p\u00fablicos", eNoProxy: "Ning\u00fan proxy p\u00fablico respondi\u00f3 a tiempo (int\u00e9ntalo de nuevo)", dlgChoose: "Elige un archivo WireGuard .conf", m_autostart: "Iniciar con Windows", desktopStarted: "OpenCode iniciado.", noDesktop: "No se encontr\u00f3 OpenCode de escritorio. Inst\u00e1lalo primero (install.ps1 -download).",
-    sendAgain: "La IP cambi\u00f3. Vuelve a enviar tu mensaje." },
+    sendAgain: "La IP cambi\u00f3. Vuelve a enviar tu mensaje.", resumed: "Chat recargado." },
   fr: { name: "Fran\u00e7ais",
     m_newIp: "Nouvelle IP", m_connection: "Connexion", m_direct: "Directe", m_wg: "WARP int\u00e9gr\u00e9", m_wgfile: "Fichier WireGuard", m_free: "Proxys publics gratuits (non fiables)", m_list: "Ma liste de proxys",
     m_chooseWg: "Choisir un fichier WireGuard...", m_settings: "Modifier les r\u00e9glages (proxys, contexte)", m_auto: "Rotation automatique", m_clear: "Nettoyer", m_clearLogin: "Connexion (garde les chats)", m_restoreLogin: "Restaurer la connexion",
-    m_clearCache: "Cache et journaux", m_status: "\u00c9tat", m_restart: "Red\u00e9marrer {app}", m_quit: "Quitter", m_language: "Langue", m_langAuto: "Automatique",
+    m_clearCache: "Cache et journaux", m_status: "\u00c9tat", m_resume: "Reprendre le chat", m_restart: "Red\u00e9marrer {app}", m_quit: "Quitter", m_language: "Langue", m_langAuto: "Automatique",
     busy: "Une autre action est encore en cours.", ipWg: "Nouvelle IP {ip} (WARP int\u00e9gr\u00e9)", ipFree: "Nouvelle IP {ip} (proxy public {host})", ipList: "Nouvelle IP {ip} (proxy {host})",
     wgfileFixed: "Un fichier WireGuard a une IP de sortie fixe. {msg}. Choisissez un autre fichier ou une autre Connexion pour la changer.",
     sameIp: "Nouveau compte WARP, mais l'IP reste {ip} (WARP utilise le serveur Cloudflare le plus proche)", noAnswer: "Le tunnel WARP n'a pas r\u00e9pondu",
@@ -2034,11 +2049,11 @@ const LANGS = {
     eReg: "Inscription WARP refus\u00e9e (HTTP {status}) ; r\u00e9essayez dans quelques minutes", eNoFile: "Aucun fichier WireGuard choisi. Barre d'\u00e9tat > Connexion > Choisir un fichier WireGuard.",
     eFileDead: "Le tunnel de ce fichier WireGuard n'a pas r\u00e9pondu", eWarpDead: "Le tunnel WARP n'a pas r\u00e9pondu (le port UDP 2408 est-il bloqu\u00e9 ?)",
     eNoList: "Impossible de t\u00e9l\u00e9charger une liste de proxys publics", eNoProxy: "Aucun proxy public n'a r\u00e9pondu \u00e0 temps (r\u00e9essayez)", dlgChoose: "Choisissez un fichier WireGuard .conf", m_autostart: "D\u00e9marrer avec Windows", desktopStarted: "OpenCode d\u00e9marr\u00e9.", noDesktop: "OpenCode (bureau) introuvable. Installez-le d'abord (install.ps1 -download).",
-    sendAgain: "L'IP a chang\u00e9. Renvoyez votre message." },
+    sendAgain: "L'IP a chang\u00e9. Renvoyez votre message.", resumed: "Chat recharg\u00e9." },
   de: { name: "Deutsch",
     m_newIp: "Neue IP", m_connection: "Verbindung", m_direct: "Direkt", m_wg: "Integriertes WARP", m_wgfile: "WireGuard-Datei", m_free: "Kostenlose \u00f6ffentliche Proxys (nicht vertrauensw\u00fcrdig)", m_list: "Eigene Proxy-Liste",
     m_chooseWg: "WireGuard-Datei w\u00e4hlen...", m_settings: "Einstellungen bearbeiten (Proxys, Kontext)", m_auto: "Automatisch wechseln", m_clear: "Bereinigen", m_clearLogin: "Anmeldung (Chats bleiben)", m_restoreLogin: "Anmeldung wiederherstellen",
-    m_clearCache: "Cache und Protokolle", m_status: "Status", m_restart: "{app} neu starten", m_quit: "Beenden", m_language: "Sprache", m_langAuto: "Automatisch",
+    m_clearCache: "Cache und Protokolle", m_status: "Status", m_resume: "Chat fortsetzen", m_restart: "{app} neu starten", m_quit: "Beenden", m_language: "Sprache", m_langAuto: "Automatisch",
     busy: "Eine andere Aktion l\u00e4uft noch.", ipWg: "Neue IP {ip} (integriertes WARP)", ipFree: "Neue IP {ip} (\u00f6ffentlicher Proxy {host})", ipList: "Neue IP {ip} (Proxy {host})",
     wgfileFixed: "Eine WireGuard-Datei hat eine feste Ausgangs-IP. {msg}. W\u00e4hlen Sie eine andere Datei oder Verbindung, um sie zu \u00e4ndern.",
     sameIp: "Neues WARP-Konto, aber die IP ist weiterhin {ip} (WARP nutzt den n\u00e4chsten Cloudflare-Server)", noAnswer: "Der WARP-Tunnel hat nicht geantwortet",
@@ -2054,11 +2069,11 @@ const LANGS = {
     eReg: "WARP-Registrierung abgelehnt (HTTP {status}); versuchen Sie es in einigen Minuten erneut", eNoFile: "Noch keine WireGuard-Datei gew\u00e4hlt. Tray > Verbindung > WireGuard-Datei w\u00e4hlen.",
     eFileDead: "Der Tunnel dieser WireGuard-Datei hat nicht geantwortet", eWarpDead: "Der WARP-Tunnel hat nicht geantwortet (ist UDP 2408 blockiert?)",
     eNoList: "Keine \u00f6ffentliche Proxy-Liste konnte geladen werden", eNoProxy: "Kein \u00f6ffentlicher Proxy antwortete rechtzeitig (erneut versuchen)", dlgChoose: "WireGuard-.conf-Datei w\u00e4hlen", m_autostart: "Mit Windows starten", desktopStarted: "OpenCode gestartet.", noDesktop: "OpenCode (Desktop) nicht gefunden. Zuerst installieren (install.ps1 -download).",
-    sendAgain: "Die IP hat sich ge\u00e4ndert. Senden Sie Ihre Nachricht erneut." },
+    sendAgain: "Die IP hat sich ge\u00e4ndert. Senden Sie Ihre Nachricht erneut.", resumed: "Chat neu geladen." },
   ru: { name: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
     m_newIp: "\u041d\u043e\u0432\u044b\u0439 IP", m_connection: "\u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435", m_direct: "\u041d\u0430\u043f\u0440\u044f\u043c\u0443\u044e", m_wg: "\u0412\u0441\u0442\u0440\u043e\u0435\u043d\u043d\u044b\u0439 WARP", m_wgfile: "\u0424\u0430\u0439\u043b WireGuard", m_free: "\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u044b\u0435 \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0435 \u043f\u0440\u043e\u043a\u0441\u0438 (\u043d\u0435\u043d\u0430\u0434\u0451\u0436\u043d\u044b\u0435)", m_list: "\u0421\u0432\u043e\u0439 \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0440\u043e\u043a\u0441\u0438",
     m_chooseWg: "\u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b WireGuard...", m_settings: "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 (\u043f\u0440\u043e\u043a\u0441\u0438, \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442)", m_auto: "\u0410\u0432\u0442\u043e\u0441\u043c\u0435\u043d\u0430 IP", m_clear: "\u041e\u0447\u0438\u0441\u0442\u043a\u0430", m_clearLogin: "\u0412\u0445\u043e\u0434 (\u0447\u0430\u0442\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u044e\u0442\u0441\u044f)", m_restoreLogin: "\u0412\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u0432\u0445\u043e\u0434",
-    m_clearCache: "\u041a\u044d\u0448 \u0438 \u043b\u043e\u0433\u0438", m_status: "\u0421\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435", m_restart: "\u041f\u0435\u0440\u0435\u0437\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c {app}", m_quit: "\u0412\u044b\u0445\u043e\u0434", m_language: "\u042f\u0437\u044b\u043a", m_langAuto: "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438",
+    m_clearCache: "\u041a\u044d\u0448 \u0438 \u043b\u043e\u0433\u0438", m_status: "\u0421\u043e\u0441\u0442\u043e\u044f\u043d\u0438\u0435", m_resume: "\u041f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c \u0447\u0430\u0442", m_restart: "\u041f\u0435\u0440\u0435\u0437\u0430\u043f\u0443\u0441\u0442\u0438\u0442\u044c {app}", m_quit: "\u0412\u044b\u0445\u043e\u0434", m_language: "\u042f\u0437\u044b\u043a", m_langAuto: "\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438",
     busy: "\u0414\u0440\u0443\u0433\u043e\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u0435\u0449\u0451 \u0432\u044b\u043f\u043e\u043b\u043d\u044f\u0435\u0442\u0441\u044f.", ipWg: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u0432\u0441\u0442\u0440\u043e\u0435\u043d\u043d\u044b\u0439 WARP)", ipFree: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u043f\u0440\u043e\u043a\u0441\u0438 {host})", ipList: "\u041d\u043e\u0432\u044b\u0439 IP {ip} (\u043f\u0440\u043e\u043a\u0441\u0438 {host})",
     wgfileFixed: "\u0423 \u0444\u0430\u0439\u043b\u0430 WireGuard \u0444\u0438\u043a\u0441\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u0432\u044b\u0445\u043e\u0434\u043d\u043e\u0439 IP. {msg}. \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0440\u0443\u0433\u043e\u0439 \u0444\u0430\u0439\u043b \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u043e\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435, \u0447\u0442\u043e\u0431\u044b \u0441\u043c\u0435\u043d\u0438\u0442\u044c \u0435\u0433\u043e.",
     sameIp: "\u041d\u043e\u0432\u0430\u044f \u0443\u0447\u0451\u0442\u043d\u0430\u044f \u0437\u0430\u043f\u0438\u0441\u044c WARP, \u043d\u043e IP \u043e\u0441\u0442\u0430\u043b\u0441\u044f {ip} (WARP \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0439 \u0441\u0435\u0440\u0432\u0435\u0440 Cloudflare)", noAnswer: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c WARP \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b",
@@ -2074,11 +2089,11 @@ const LANGS = {
     eReg: "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f WARP \u043e\u0442\u043a\u043b\u043e\u043d\u0435\u043d\u0430 (HTTP {status}); \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u043c\u0438\u043d\u0443\u0442", eNoFile: "\u0424\u0430\u0439\u043b WireGuard \u0435\u0449\u0451 \u043d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d. \u0422\u0440\u0435\u0439 > \u041f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 > \u0412\u044b\u0431\u0440\u0430\u0442\u044c \u0444\u0430\u0439\u043b WireGuard.",
     eFileDead: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c \u044d\u0442\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 WireGuard \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b", eWarpDead: "\u0422\u0443\u043d\u043d\u0435\u043b\u044c WARP \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b (UDP-\u043f\u043e\u0440\u0442 2408 \u0437\u0430\u0431\u043b\u043e\u043a\u0438\u0440\u043e\u0432\u0430\u043d?)",
     eNoList: "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043d\u0438 \u043e\u0434\u0438\u043d \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0445 \u043f\u0440\u043e\u043a\u0441\u0438", eNoProxy: "\u041d\u0438 \u043e\u0434\u0438\u043d \u043f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u043f\u0440\u043e\u043a\u0441\u0438 \u043d\u0435 \u043e\u0442\u0432\u0435\u0442\u0438\u043b \u0432\u043e\u0432\u0440\u0435\u043c\u044f (\u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435)", dlgChoose: "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043b WireGuard .conf", m_autostart: "\u0417\u0430\u043f\u0443\u0441\u043a\u0430\u0442\u044c \u0432\u043c\u0435\u0441\u0442\u0435 \u0441 Windows", desktopStarted: "OpenCode \u0437\u0430\u043f\u0443\u0449\u0435\u043d.", noDesktop: "OpenCode \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0447\u0435\u0433\u043e \u0441\u0442\u043e\u043b\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 \u0435\u0433\u043e (install.ps1 -download).",
-    sendAgain: "IP \u0438\u0437\u043c\u0435\u043d\u0438\u043b\u0441\u044f. \u041e\u0442\u043f\u0440\u0430\u0432\u044c\u0442\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437." },
+    sendAgain: "IP \u0438\u0437\u043c\u0435\u043d\u0438\u043b\u0441\u044f. \u041e\u0442\u043f\u0440\u0430\u0432\u044c\u0442\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437.", resumed: "\u0427\u0430\u0442 \u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d." },
   "zh-CN": { name: "\u7b80\u4f53\u4e2d\u6587",
     m_newIp: "\u66f4\u6362 IP", m_connection: "\u8fde\u63a5\u65b9\u5f0f", m_direct: "\u76f4\u8fde", m_wg: "\u5185\u7f6e WARP", m_wgfile: "WireGuard \u6587\u4ef6", m_free: "\u514d\u8d39\u516c\u5171\u4ee3\u7406\uff08\u4e0d\u53ef\u4fe1\uff09", m_list: "\u6211\u7684\u4ee3\u7406\u5217\u8868",
     m_chooseWg: "\u9009\u62e9 WireGuard \u6587\u4ef6...", m_settings: "\u7f16\u8f91\u8bbe\u7f6e\uff08\u4ee3\u7406\u5217\u8868\u3001\u4e0a\u4e0b\u6587\uff09", m_auto: "\u81ea\u52a8\u8f6e\u6362", m_clear: "\u6e05\u7406", m_clearLogin: "\u767b\u5f55\u4fe1\u606f\uff08\u4fdd\u7559\u804a\u5929\uff09", m_restoreLogin: "\u6062\u590d\u767b\u5f55\u4fe1\u606f",
-    m_clearCache: "\u7f13\u5b58\u548c\u65e5\u5fd7", m_status: "\u72b6\u6001", m_restart: "\u91cd\u542f {app}", m_quit: "\u9000\u51fa", m_language: "\u8bed\u8a00", m_langAuto: "\u81ea\u52a8",
+    m_clearCache: "\u7f13\u5b58\u548c\u65e5\u5fd7", m_status: "\u72b6\u6001", m_resume: "\u7ee7\u7eed\u804a\u5929", m_restart: "\u91cd\u542f {app}", m_quit: "\u9000\u51fa", m_language: "\u8bed\u8a00", m_langAuto: "\u81ea\u52a8",
     busy: "\u53e6\u4e00\u4e2a\u64cd\u4f5c\u4ecd\u5728\u8fdb\u884c\u3002", ipWg: "\u65b0 IP {ip}\uff08\u5185\u7f6e WARP\uff09", ipFree: "\u65b0 IP {ip}\uff08\u516c\u5171\u4ee3\u7406 {host}\uff09", ipList: "\u65b0 IP {ip}\uff08\u4ee3\u7406 {host}\uff09",
     wgfileFixed: "WireGuard \u6587\u4ef6\u7684\u51fa\u53e3 IP \u662f\u56fa\u5b9a\u7684\u3002{msg}\u3002\u8bf7\u9009\u62e9\u5176\u4ed6\u6587\u4ef6\u6216\u5176\u4ed6\u8fde\u63a5\u65b9\u5f0f\u6765\u66f4\u6362\u3002",
     sameIp: "\u5df2\u521b\u5efa\u65b0\u7684 WARP \u8d26\u6237\uff0c\u4f46 IP \u4ecd\u662f {ip}\uff08WARP \u4f7f\u7528\u6700\u8fd1\u7684 Cloudflare \u670d\u52a1\u5668\uff09", noAnswer: "WARP \u96a7\u9053\u6ca1\u6709\u54cd\u5e94",
@@ -2094,11 +2109,11 @@ const LANGS = {
     eReg: "WARP \u6ce8\u518c\u88ab\u62d2\u7edd\uff08HTTP {status}\uff09\uff1b\u8bf7\u51e0\u5206\u949f\u540e\u91cd\u8bd5", eNoFile: "\u5c1a\u672a\u9009\u62e9 WireGuard \u6587\u4ef6\u3002\u6258\u76d8 > \u8fde\u63a5\u65b9\u5f0f > \u9009\u62e9 WireGuard \u6587\u4ef6\u3002",
     eFileDead: "\u8be5 WireGuard \u6587\u4ef6\u7684\u96a7\u9053\u6ca1\u6709\u54cd\u5e94", eWarpDead: "WARP \u96a7\u9053\u6ca1\u6709\u54cd\u5e94\uff08UDP 2408 \u7aef\u53e3\u662f\u5426\u88ab\u5c01\u9501\uff1f\uff09",
     eNoList: "\u65e0\u6cd5\u4e0b\u8f7d\u4efb\u4f55\u516c\u5171\u4ee3\u7406\u5217\u8868", eNoProxy: "\u6ca1\u6709\u516c\u5171\u4ee3\u7406\u53ca\u65f6\u54cd\u5e94\uff08\u8bf7\u91cd\u8bd5\uff09", dlgChoose: "\u9009\u62e9 WireGuard .conf \u6587\u4ef6", m_autostart: "\u968f Windows \u542f\u52a8", desktopStarted: "OpenCode \u5df2\u542f\u52a8\u3002", noDesktop: "\u672a\u627e\u5230 OpenCode \u684c\u9762\u7248\u3002\u8bf7\u5148\u5b89\u88c5\uff08install.ps1 -download\uff09\u3002",
-    sendAgain: "IP \u5df2\u66f4\u6362\u3002\u8bf7\u91cd\u65b0\u53d1\u9001\u4f60\u7684\u6d88\u606f\u3002" },
+    sendAgain: "IP \u5df2\u66f4\u6362\u3002\u8bf7\u91cd\u65b0\u53d1\u9001\u4f60\u7684\u6d88\u606f\u3002", resumed: "\u804a\u5929\u5df2\u91cd\u65b0\u52a0\u8f7d\u3002" },
   ja: { name: "\u65e5\u672c\u8a9e",
     m_newIp: "\u65b0\u3057\u3044 IP", m_connection: "\u63a5\u7d9a", m_direct: "\u76f4\u63a5", m_wg: "\u5185\u8535 WARP", m_wgfile: "WireGuard \u30d5\u30a1\u30a4\u30eb", m_free: "\u7121\u6599\u306e\u516c\u958b\u30d7\u30ed\u30ad\u30b7\uff08\u4fe1\u983c\u4e0d\u53ef\uff09", m_list: "\u81ea\u5206\u306e\u30d7\u30ed\u30ad\u30b7\u4e00\u89a7",
     m_chooseWg: "WireGuard \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e...", m_settings: "\u8a2d\u5b9a\u3092\u7de8\u96c6\uff08\u30d7\u30ed\u30ad\u30b7\u3001\u30b3\u30f3\u30c6\u30ad\u30b9\u30c8\uff09", m_auto: "\u81ea\u52d5\u30ed\u30fc\u30c6\u30fc\u30b7\u30e7\u30f3", m_clear: "\u30af\u30ea\u30a2", m_clearLogin: "\u30ed\u30b0\u30a4\u30f3\uff08\u30c1\u30e3\u30c3\u30c8\u306f\u4fdd\u6301\uff09", m_restoreLogin: "\u30ed\u30b0\u30a4\u30f3\u3092\u5fa9\u5143",
-    m_clearCache: "\u30ad\u30e3\u30c3\u30b7\u30e5\u3068\u30ed\u30b0", m_status: "\u72b6\u614b", m_restart: "{app} \u3092\u518d\u8d77\u52d5", m_quit: "\u7d42\u4e86", m_language: "\u8a00\u8a9e", m_langAuto: "\u81ea\u52d5",
+    m_clearCache: "\u30ad\u30e3\u30c3\u30b7\u30e5\u3068\u30ed\u30b0", m_status: "\u72b6\u614b", m_resume: "\u30c1\u30e3\u30c3\u30c8\u3092\u518d\u958b", m_restart: "{app} \u3092\u518d\u8d77\u52d5", m_quit: "\u7d42\u4e86", m_language: "\u8a00\u8a9e", m_langAuto: "\u81ea\u52d5",
     busy: "\u5225\u306e\u64cd\u4f5c\u304c\u307e\u3060\u5b9f\u884c\u4e2d\u3067\u3059\u3002", ipWg: "\u65b0\u3057\u3044 IP {ip}\uff08\u5185\u8535 WARP\uff09", ipFree: "\u65b0\u3057\u3044 IP {ip}\uff08\u516c\u958b\u30d7\u30ed\u30ad\u30b7 {host}\uff09", ipList: "\u65b0\u3057\u3044 IP {ip}\uff08\u30d7\u30ed\u30ad\u30b7 {host}\uff09",
     wgfileFixed: "WireGuard \u30d5\u30a1\u30a4\u30eb\u306e\u51fa\u53e3 IP \u306f\u56fa\u5b9a\u3067\u3059\u3002{msg}\u3002\u5909\u66f4\u3059\u308b\u306b\u306f\u5225\u306e\u30d5\u30a1\u30a4\u30eb\u304b\u5225\u306e\u63a5\u7d9a\u3092\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002",
     sameIp: "\u65b0\u3057\u3044 WARP \u30a2\u30ab\u30a6\u30f3\u30c8\u3067\u3059\u304c\u3001IP \u306f {ip} \u306e\u307e\u307e\u3067\u3059\uff08WARP \u306f\u6700\u5bc4\u308a\u306e Cloudflare \u30b5\u30fc\u30d0\u30fc\u3092\u4f7f\u3044\u307e\u3059\uff09", noAnswer: "WARP \u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f",
@@ -2114,11 +2129,11 @@ const LANGS = {
     eReg: "WARP \u306e\u767b\u9332\u304c\u62d2\u5426\u3055\u308c\u307e\u3057\u305f\uff08HTTP {status}\uff09\u3002\u6570\u5206\u5f8c\u306b\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044", eNoFile: "WireGuard \u30d5\u30a1\u30a4\u30eb\u304c\u307e\u3060\u9078\u3070\u308c\u3066\u3044\u307e\u305b\u3093\u3002\u30c8\u30ec\u30a4 > \u63a5\u7d9a > WireGuard \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e\u3002",
     eFileDead: "\u305d\u306e WireGuard \u30d5\u30a1\u30a4\u30eb\u306e\u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f", eWarpDead: "WARP \u30c8\u30f3\u30cd\u30eb\u304c\u5fdc\u7b54\u3057\u307e\u305b\u3093\u3067\u3057\u305f\uff08UDP 2408 \u304c\u30d6\u30ed\u30c3\u30af\u3055\u308c\u3066\u3044\u307e\u305b\u3093\u304b\uff1f\uff09",
     eNoList: "\u516c\u958b\u30d7\u30ed\u30ad\u30b7\u4e00\u89a7\u3092\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f", eNoProxy: "\u6642\u9593\u5185\u306b\u5fdc\u7b54\u3057\u305f\u516c\u958b\u30d7\u30ed\u30ad\u30b7\u304c\u3042\u308a\u307e\u305b\u3093\uff08\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\uff09", dlgChoose: "WireGuard \u306e .conf \u30d5\u30a1\u30a4\u30eb\u3092\u9078\u629e", m_autostart: "Windows \u3068\u4e00\u7dd2\u306b\u8d77\u52d5", desktopStarted: "OpenCode \u3092\u8d77\u52d5\u3057\u307e\u3057\u305f\u3002", noDesktop: "OpenCode \u30c7\u30b9\u30af\u30c8\u30c3\u30d7\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3002\u5148\u306b\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3057\u3066\u304f\u3060\u3055\u3044\uff08install.ps1 -download\uff09\u3002",
-    sendAgain: "IP \u3092\u5909\u66f4\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002" },
+    sendAgain: "IP \u3092\u5909\u66f4\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u9001\u3063\u3066\u304f\u3060\u3055\u3044\u3002", resumed: "\u30c1\u30e3\u30c3\u30c8\u3092\u518d\u8aad\u307f\u8fbc\u307f\u3057\u307e\u3057\u305f\u3002" },
   ko: { name: "\ud55c\uad6d\uc5b4",
     m_newIp: "\uc0c8 IP", m_connection: "\uc5f0\uacb0", m_direct: "\uc9c1\uc811", m_wg: "\ub0b4\uc7a5 WARP", m_wgfile: "WireGuard \ud30c\uc77c", m_free: "\ubb34\ub8cc \uacf5\uac1c \ud504\ub85d\uc2dc (\uc2e0\ub8b0 \ubd88\uac00)", m_list: "\ub0b4 \ud504\ub85d\uc2dc \ubaa9\ub85d",
     m_chooseWg: "WireGuard \ud30c\uc77c \uc120\ud0dd...", m_settings: "\uc124\uc815 \ud3b8\uc9d1 (\ud504\ub85d\uc2dc, \ucee8\ud14d\uc2a4\ud2b8)", m_auto: "\uc790\ub3d9 \uad50\uccb4", m_clear: "\uc815\ub9ac", m_clearLogin: "\ub85c\uadf8\uc778 (\ucc44\ud305 \uc720\uc9c0)", m_restoreLogin: "\ub85c\uadf8\uc778 \ubcf5\uc6d0",
-    m_clearCache: "\uce90\uc2dc \ubc0f \ub85c\uadf8", m_status: "\uc0c1\ud0dc", m_restart: "{app} \ub2e4\uc2dc \uc2dc\uc791", m_quit: "\uc885\ub8cc", m_language: "\uc5b8\uc5b4", m_langAuto: "\uc790\ub3d9",
+    m_clearCache: "\uce90\uc2dc \ubc0f \ub85c\uadf8", m_status: "\uc0c1\ud0dc", m_resume: "\ucc44\ud305 \ub2e4\uc2dc \uc2dc\uc791", m_restart: "{app} \ub2e4\uc2dc \uc2dc\uc791", m_quit: "\uc885\ub8cc", m_language: "\uc5b8\uc5b4", m_langAuto: "\uc790\ub3d9",
     busy: "\ub2e4\ub978 \uc791\uc5c5\uc774 \uc544\uc9c1 \uc9c4\ud589 \uc911\uc785\ub2c8\ub2e4.", ipWg: "\uc0c8 IP {ip} (\ub0b4\uc7a5 WARP)", ipFree: "\uc0c8 IP {ip} (\uacf5\uac1c \ud504\ub85d\uc2dc {host})", ipList: "\uc0c8 IP {ip} (\ud504\ub85d\uc2dc {host})",
     wgfileFixed: "WireGuard \ud30c\uc77c\uc740 \ucd9c\uad6c IP\uac00 \uace0\uc815\uc785\ub2c8\ub2e4. {msg}. \ubc14\uafb8\ub824\uba74 \ub2e4\ub978 \ud30c\uc77c\uc774\ub098 \ub2e4\ub978 \uc5f0\uacb0\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     sameIp: "\uc0c8 WARP \uacc4\uc815\uc774\uc9c0\ub9cc IP\ub294 \uc5ec\uc804\ud788 {ip}\uc785\ub2c8\ub2e4 (WARP\ub294 \uac00\uc7a5 \uac00\uae4c\uc6b4 Cloudflare \uc11c\ubc84\ub97c \uc0ac\uc6a9\ud569\ub2c8\ub2e4)", noAnswer: "WARP \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4",
@@ -2134,11 +2149,11 @@ const LANGS = {
     eReg: "WARP \ub4f1\ub85d\uc774 \uac70\ubd80\ub418\uc5c8\uc2b5\ub2c8\ub2e4 (HTTP {status}). \uba87 \ubd84 \ub4a4 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694", eNoFile: "\uc544\uc9c1 WireGuard \ud30c\uc77c\uc744 \uc120\ud0dd\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4. \ud2b8\ub808\uc774 > \uc5f0\uacb0 > WireGuard \ud30c\uc77c \uc120\ud0dd.",
     eFileDead: "\ud574\ub2f9 WireGuard \ud30c\uc77c\uc758 \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4", eWarpDead: "WARP \ud130\ub110\uc774 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4 (UDP 2408\uc774 \ucc28\ub2e8\ub418\uc5c8\ub098\uc694?)",
     eNoList: "\uacf5\uac1c \ud504\ub85d\uc2dc \ubaa9\ub85d\uc744 \ub0b4\ub824\ubc1b\uc9c0 \ubabb\ud588\uc2b5\ub2c8\ub2e4", eNoProxy: "\uc81c\uc2dc\uac04\uc5d0 \uc751\ub2f5\ud55c \uacf5\uac1c \ud504\ub85d\uc2dc\uac00 \uc5c6\uc2b5\ub2c8\ub2e4 (\ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694)", dlgChoose: "WireGuard .conf \ud30c\uc77c \uc120\ud0dd", m_autostart: "Windows\uc640 \ud568\uaed8 \uc2dc\uc791", desktopStarted: "OpenCode\ub97c \uc2dc\uc791\ud588\uc2b5\ub2c8\ub2e4.", noDesktop: "OpenCode \ub370\uc2a4\ud06c\ud1b1\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uba3c\uc800 \uc124\uce58\ud558\uc138\uc694(install.ps1 -download).",
-    sendAgain: "IP\uac00 \ubc14\ub00c\uc5c8\uc2b5\ub2c8\ub2e4. \uba54\uc2dc\uc9c0\ub97c \ub2e4\uc2dc \ubcf4\ub0b4\uc138\uc694." },
+    sendAgain: "IP\uac00 \ubc14\ub00c\uc5c8\uc2b5\ub2c8\ub2e4. \uba54\uc2dc\uc9c0\ub97c \ub2e4\uc2dc \ubcf4\ub0b4\uc138\uc694.", resumed: "\ucc44\ud305\uc744 \uc0c8\ub85c\uace0\uce68\ud588\uc2b5\ub2c8\ub2e4." },
   hi: { name: "\u0939\u093f\u0928\u094d\u0926\u0940",
     m_newIp: "\u0928\u092f\u093e IP", m_connection: "\u0915\u0928\u0947\u0915\u094d\u0936\u0928", m_direct: "\u0938\u0940\u0927\u093e", m_wg: "\u092c\u093f\u0932\u094d\u091f-\u0907\u0928 WARP", m_wgfile: "WireGuard \u092b\u093c\u093e\u0907\u0932", m_free: "\u092e\u0941\u092b\u093c\u094d\u0924 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 (\u0905\u0935\u093f\u0936\u094d\u0935\u0938\u0928\u0940\u092f)", m_list: "\u092e\u0947\u0930\u0940 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0938\u0942\u091a\u0940",
     m_chooseWg: "WireGuard \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902...", m_settings: "\u0938\u0947\u091f\u093f\u0902\u0917 \u092c\u0926\u0932\u0947\u0902 (\u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940, \u0938\u0902\u0926\u0930\u094d\u092d)", m_auto: "\u0911\u091f\u094b-\u0930\u094b\u091f\u0947\u091f", m_clear: "\u0938\u093e\u092b\u093c \u0915\u0930\u0947\u0902", m_clearLogin: "\u0932\u0949\u0917\u093f\u0928 (\u091a\u0948\u091f \u092c\u0928\u0947 \u0930\u0939\u0947\u0902\u0917\u0947)", m_restoreLogin: "\u0932\u0949\u0917\u093f\u0928 \u092c\u0939\u093e\u0932 \u0915\u0930\u0947\u0902",
-    m_clearCache: "\u0915\u0948\u0936 \u0914\u0930 \u0932\u0949\u0917", m_status: "\u0938\u094d\u0925\u093f\u0924\u093f", m_restart: "{app} \u092b\u093f\u0930 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_quit: "\u092c\u093e\u0939\u0930 \u0928\u093f\u0915\u0932\u0947\u0902", m_language: "\u092d\u093e\u0937\u093e", m_langAuto: "\u0938\u094d\u0935\u091a\u093e\u0932\u093f\u0924",
+    m_clearCache: "\u0915\u0948\u0936 \u0914\u0930 \u0932\u0949\u0917", m_status: "\u0938\u094d\u0925\u093f\u0924\u093f", m_resume: "\u091a\u0948\u091f \u092b\u093f\u0930 \u0938\u0947 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_restart: "{app} \u092b\u093f\u0930 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", m_quit: "\u092c\u093e\u0939\u0930 \u0928\u093f\u0915\u0932\u0947\u0902", m_language: "\u092d\u093e\u0937\u093e", m_langAuto: "\u0938\u094d\u0935\u091a\u093e\u0932\u093f\u0924",
     busy: "\u0915\u094b\u0908 \u0926\u0942\u0938\u0930\u0940 \u0915\u093e\u0930\u094d\u0930\u0935\u093e\u0908 \u0905\u092d\u0940 \u091a\u0932 \u0930\u0939\u0940 \u0939\u0948\u0964", ipWg: "\u0928\u092f\u093e IP {ip} (\u092c\u093f\u0932\u094d\u091f-\u0907\u0928 WARP)", ipFree: "\u0928\u092f\u093e IP {ip} (\u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 {host})", ipList: "\u0928\u092f\u093e IP {ip} (\u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 {host})",
     wgfileFixed: "WireGuard \u092b\u093c\u093e\u0907\u0932 \u0915\u093e \u090f\u0917\u094d\u091c\u093c\u093f\u091f IP \u0924\u092f \u0939\u094b\u0924\u093e \u0939\u0948\u0964 {msg}\u0964 \u092c\u0926\u0932\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0926\u0942\u0938\u0930\u0940 \u092b\u093c\u093e\u0907\u0932 \u092f\u093e \u0926\u0942\u0938\u0930\u093e \u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u091a\u0941\u0928\u0947\u0902\u0964",
     sameIp: "\u0928\u092f\u093e WARP \u0916\u093e\u0924\u093e \u092c\u0928\u093e, \u0932\u0947\u0915\u093f\u0928 IP \u0905\u092c \u092d\u0940 {ip} \u0939\u0948 (WARP \u0938\u092c\u0938\u0947 \u0928\u091c\u093c\u0926\u0940\u0915\u0940 Cloudflare \u0938\u0930\u094d\u0935\u0930 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0924\u093e \u0939\u0948)", noAnswer: "WARP \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e",
@@ -2154,11 +2169,11 @@ const LANGS = {
     eReg: "WARP \u092a\u0902\u091c\u0940\u0915\u0930\u0923 \u0905\u0938\u094d\u0935\u0940\u0915\u093e\u0930 \u0939\u0941\u0906 (HTTP {status}); \u0915\u0941\u091b \u092e\u093f\u0928\u091f \u092c\u093e\u0926 \u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902", eNoFile: "\u0905\u092d\u0940 \u0924\u0915 \u0915\u094b\u0908 WireGuard \u092b\u093c\u093e\u0907\u0932 \u0928\u0939\u0940\u0902 \u091a\u0941\u0928\u0940 \u0917\u0908\u0964 \u091f\u094d\u0930\u0947 > \u0915\u0928\u0947\u0915\u094d\u0936\u0928 > WireGuard \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902\u0964",
     eFileDead: "\u0909\u0938 WireGuard \u092b\u093c\u093e\u0907\u0932 \u0915\u0940 \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e", eWarpDead: "WARP \u091f\u0928\u0932 \u0928\u0947 \u091c\u0935\u093e\u092c \u0928\u0939\u0940\u0902 \u0926\u093f\u092f\u093e (\u0915\u094d\u092f\u093e UDP 2408 \u092c\u0902\u0926 \u0939\u0948?)",
     eNoList: "\u0915\u094b\u0908 \u092d\u0940 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0938\u0942\u091a\u0940 \u0921\u093e\u0909\u0928\u0932\u094b\u0921 \u0928\u0939\u0940\u0902 \u0939\u094b \u0938\u0915\u0940", eNoProxy: "\u0938\u092e\u092f \u092a\u0930 \u0915\u094b\u0908 \u0938\u093e\u0930\u094d\u0935\u091c\u0928\u093f\u0915 \u092a\u094d\u0930\u0949\u0915\u094d\u0938\u0940 \u0928\u0939\u0940\u0902 \u091a\u0932\u093e (\u092b\u093f\u0930 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902)", dlgChoose: "WireGuard .conf \u092b\u093c\u093e\u0907\u0932 \u091a\u0941\u0928\u0947\u0902", m_autostart: "Windows \u0915\u0947 \u0938\u093e\u0925 \u0936\u0941\u0930\u0942 \u0915\u0930\u0947\u0902", desktopStarted: "OpenCode \u0936\u0941\u0930\u0942 \u0939\u094b \u0917\u092f\u093e\u0964", noDesktop: "OpenCode \u0921\u0947\u0938\u094d\u0915\u091f\u0949\u092a \u0928\u0939\u0940\u0902 \u092e\u093f\u0932\u093e\u0964 \u092a\u0939\u0932\u0947 \u0907\u0938\u0947 \u0907\u0902\u0938\u094d\u091f\u0949\u0932 \u0915\u0930\u0947\u0902 (install.ps1 -download)\u0964",
-    sendAgain: "IP \u092c\u0926\u0932 \u0917\u092f\u093e\u0964 \u0905\u092a\u0928\u093e \u0938\u0902\u0926\u0947\u0936 \u092b\u093f\u0930 \u092d\u0947\u091c\u0947\u0902\u0964" },
+    sendAgain: "IP \u092c\u0926\u0932 \u0917\u092f\u093e\u0964 \u0905\u092a\u0928\u093e \u0938\u0902\u0926\u0947\u0936 \u092b\u093f\u0930 \u092d\u0947\u091c\u0947\u0902\u0964", resumed: "\u091a\u0948\u091f \u092b\u093f\u0930 \u0938\u0947 \u0932\u094b\u0921 \u0939\u094b \u0917\u0908." },
   ar: { name: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
     m_newIp: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f", m_connection: "\u0627\u0644\u0627\u062a\u0635\u0627\u0644", m_direct: "\u0645\u0628\u0627\u0634\u0631", m_wg: "WARP \u0627\u0644\u0645\u062f\u0645\u062c", m_wgfile: "\u0645\u0644\u0641 WireGuard", m_free: "\u0648\u0643\u0644\u0627\u0621 \u0639\u0627\u0645\u0648\u0646 \u0645\u062c\u0627\u0646\u064a\u0648\u0646 (\u063a\u064a\u0631 \u0645\u0648\u062b\u0648\u0642\u064a\u0646)", m_list: "\u0642\u0627\u0626\u0645\u0629 \u0648\u0643\u0644\u0627\u0626\u064a",
     m_chooseWg: "\u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard...", m_settings: "\u062a\u0639\u062f\u064a\u0644 \u0627\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a (\u0627\u0644\u0648\u0643\u0644\u0627\u0621\u060c \u0627\u0644\u0633\u064a\u0627\u0642)", m_auto: "\u0627\u0644\u062a\u0628\u062f\u064a\u0644 \u0627\u0644\u062a\u0644\u0642\u0627\u0626\u064a", m_clear: "\u062a\u0646\u0638\u064a\u0641", m_clearLogin: "\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 (\u062a\u0628\u0642\u0649 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0627\u062a)", m_restoreLogin: "\u0627\u0633\u062a\u0639\u0627\u062f\u0629 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644",
-    m_clearCache: "\u0627\u0644\u0630\u0627\u0643\u0631\u0629 \u0627\u0644\u0645\u0624\u0642\u062a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a", m_status: "\u0627\u0644\u062d\u0627\u0644\u0629", m_restart: "\u0625\u0639\u0627\u062f\u0629 \u062a\u0634\u063a\u064a\u0644 {app}", m_quit: "\u0625\u0646\u0647\u0627\u0621", m_language: "\u0627\u0644\u0644\u063a\u0629", m_langAuto: "\u062a\u0644\u0642\u0627\u0626\u064a",
+    m_clearCache: "\u0627\u0644\u0630\u0627\u0643\u0631\u0629 \u0627\u0644\u0645\u0624\u0642\u062a\u0629 \u0648\u0627\u0644\u0633\u062c\u0644\u0627\u062a", m_status: "\u0627\u0644\u062d\u0627\u0644\u0629", m_resume: "\u0627\u0633\u062a\u0626\u0646\u0627\u0641 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0629", m_restart: "\u0625\u0639\u0627\u062f\u0629 \u062a\u0634\u063a\u064a\u0644 {app}", m_quit: "\u0625\u0646\u0647\u0627\u0621", m_language: "\u0627\u0644\u0644\u063a\u0629", m_langAuto: "\u062a\u0644\u0642\u0627\u0626\u064a",
     busy: "\u0625\u062c\u0631\u0627\u0621 \u0622\u062e\u0631 \u0645\u0627 \u0632\u0627\u0644 \u0642\u064a\u062f \u0627\u0644\u062a\u0646\u0641\u064a\u0630.", ipWg: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (WARP \u0627\u0644\u0645\u062f\u0645\u062c)", ipFree: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (\u0648\u0643\u064a\u0644 \u0639\u0627\u0645 {host})", ipList: "\u0639\u0646\u0648\u0627\u0646 IP \u062c\u062f\u064a\u062f {ip} (\u0648\u0643\u064a\u0644 {host})",
     wgfileFixed: "\u0645\u0644\u0641 WireGuard \u0644\u0647 \u0639\u0646\u0648\u0627\u0646 IP \u062e\u0631\u0648\u062c \u062b\u0627\u0628\u062a. {msg}. \u0627\u062e\u062a\u0631 \u0645\u0644\u0641\u064b\u0627 \u0622\u062e\u0631 \u0623\u0648 \u0627\u062a\u0635\u0627\u0644\u064b\u0627 \u0622\u062e\u0631 \u0644\u062a\u063a\u064a\u064a\u0631\u0647.",
     sameIp: "\u062d\u0633\u0627\u0628 WARP \u062c\u062f\u064a\u062f\u060c \u0644\u0643\u0646 \u0639\u0646\u0648\u0627\u0646 IP \u0645\u0627 \u0632\u0627\u0644 {ip} (\u064a\u0633\u062a\u062e\u062f\u0645 WARP \u0623\u0642\u0631\u0628 \u062e\u0627\u062f\u0645 Cloudflare)", noAnswer: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 WARP",
@@ -2174,11 +2189,11 @@ const LANGS = {
     eReg: "\u062a\u0645 \u0631\u0641\u0636 \u062a\u0633\u062c\u064a\u0644 WARP (HTTP {status})\u061b \u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649 \u0628\u0639\u062f \u062f\u0642\u0627\u0626\u0642", eNoFile: "\u0644\u0645 \u064a\u062a\u0645 \u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard \u0628\u0639\u062f. \u0639\u0644\u0628\u0629 \u0627\u0644\u0646\u0638\u0627\u0645 > \u0627\u0644\u0627\u062a\u0635\u0627\u0644 > \u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0644\u0641 WireGuard.",
     eFileDead: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 \u0645\u0644\u0641 WireGuard \u0647\u0630\u0627", eWarpDead: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0646\u0641\u0642 WARP (\u0647\u0644 \u0627\u0644\u0645\u0646\u0641\u0630 UDP 2408 \u0645\u062d\u0638\u0648\u0631\u061f)",
     eNoList: "\u062a\u0639\u0630\u0631 \u062a\u0646\u0632\u064a\u0644 \u0623\u064a \u0642\u0627\u0626\u0645\u0629 \u0648\u0643\u0644\u0627\u0621 \u0639\u0627\u0645\u064a\u0646", eNoProxy: "\u0644\u0645 \u064a\u0633\u062a\u062c\u0628 \u0623\u064a \u0648\u0643\u064a\u0644 \u0639\u0627\u0645 \u0641\u064a \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u0645\u0646\u0627\u0633\u0628 (\u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649)", dlgChoose: "\u0627\u062e\u062a\u0631 \u0645\u0644\u0641 WireGuard \u0628\u0635\u064a\u063a\u0629 .conf", m_autostart: "\u0627\u0644\u0628\u062f\u0621 \u0645\u0639 Windows", desktopStarted: "\u062a\u0645 \u062a\u0634\u063a\u064a\u0644 OpenCode.", noDesktop: "\u0644\u0645 \u064a\u062a\u0645 \u0627\u0644\u0639\u062b\u0648\u0631 \u0639\u0644\u0649 OpenCode \u0644\u0633\u0637\u062d \u0627\u0644\u0645\u0643\u062a\u0628. \u062b\u0628\u0651\u062a\u0647 \u0623\u0648\u0644\u0627\u064b (install.ps1 -download).",
-    sendAgain: "\u062a\u0645 \u062a\u063a\u064a\u064a\u0631 \u0639\u0646\u0648\u0627\u0646 IP. \u0623\u0639\u062f \u0625\u0631\u0633\u0627\u0644 \u0631\u0633\u0627\u0644\u062a\u0643." },
+    sendAgain: "\u062a\u0645 \u062a\u063a\u064a\u064a\u0631 \u0639\u0646\u0648\u0627\u0646 IP. \u0623\u0639\u062f \u0625\u0631\u0633\u0627\u0644 \u0631\u0633\u0627\u0644\u062a\u0643.", resumed: "\u062a\u0645\u062a \u0625\u0639\u0627\u062f\u0629 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u062d\u0627\u062f\u062b\u0629." },
   id: { name: "Bahasa Indonesia",
     m_newIp: "IP baru", m_connection: "Koneksi", m_direct: "Langsung", m_wg: "WARP bawaan", m_wgfile: "Berkas WireGuard", m_free: "Proxy publik gratis (tidak tepercaya)", m_list: "Daftar proxy saya",
     m_chooseWg: "Pilih berkas WireGuard...", m_settings: "Ubah pengaturan (proxy, konteks)", m_auto: "Rotasi otomatis", m_clear: "Bersihkan", m_clearLogin: "Login (obrolan tetap ada)", m_restoreLogin: "Pulihkan login",
-    m_clearCache: "Cache dan log", m_status: "Status", m_restart: "Mulai ulang {app}", m_quit: "Keluar", m_language: "Bahasa", m_langAuto: "Otomatis",
+    m_clearCache: "Cache dan log", m_status: "Status", m_resume: "Lanjutkan obrolan", m_restart: "Mulai ulang {app}", m_quit: "Keluar", m_language: "Bahasa", m_langAuto: "Otomatis",
     busy: "Tindakan lain masih berjalan.", ipWg: "IP baru {ip} (WARP bawaan)", ipFree: "IP baru {ip} (proxy publik {host})", ipList: "IP baru {ip} (proxy {host})",
     wgfileFixed: "Berkas WireGuard punya IP keluar yang tetap. {msg}. Pilih berkas atau Koneksi lain untuk mengubahnya.",
     sameIp: "Akun WARP baru, tetapi IP tetap {ip} (WARP memakai server Cloudflare terdekat)", noAnswer: "Terowongan WARP tidak merespons",
@@ -2194,7 +2209,7 @@ const LANGS = {
     eReg: "Pendaftaran WARP ditolak (HTTP {status}); coba lagi beberapa menit lagi", eNoFile: "Belum ada berkas WireGuard yang dipilih. Baki > Koneksi > Pilih berkas WireGuard.",
     eFileDead: "Terowongan berkas WireGuard itu tidak merespons", eWarpDead: "Terowongan WARP tidak merespons (apakah UDP 2408 diblokir?)",
     eNoList: "Tidak bisa mengunduh daftar proxy publik mana pun", eNoProxy: "Tidak ada proxy publik yang merespons tepat waktu (coba lagi)", dlgChoose: "Pilih berkas WireGuard .conf", m_autostart: "Mulai bersama Windows", desktopStarted: "OpenCode dimulai.", noDesktop: "OpenCode desktop tidak ditemukan. Pasang dulu (install.ps1 -download).",
-    sendAgain: "IP berubah. Kirim pesan Anda lagi." },
+    sendAgain: "IP berubah. Kirim pesan Anda lagi.", resumed: "Obrolan dimuat ulang." },
 }
 // "xx-YY" or "xx" from the system -> one of the languages above (English if there is none)
 const pickLang = (code) => {
@@ -3114,8 +3129,9 @@ function hold(ms) {
 }
 
 // Runs in the page. It must be self-contained: the main process sends its source to executeJavaScript.
+// One snapshot, no timers: Chromium throttles timers of a background window, so a "wait 100ms" loop in the page used to
+// stretch a single check to minutes while the connection was held busy.
 function resumeInPage(sessionID) {
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
   const limit = () => document.querySelector('[data-component="session-free-limit"]')
   // The prompt is contenteditable=true, but a disabled prompt is "false" and newer builds may mark it
@@ -3123,58 +3139,49 @@ function resumeInPage(sessionID) {
   const editor = () => [...document.querySelectorAll('[data-component="session-composer-dock"] [contenteditable], [data-slot="composer-face"] [contenteditable]')]
     .filter((n) => n.isConnected && n.getClientRects().length && n.isContentEditable !== false && (n.getAttribute("contenteditable") || "") !== "false")
     .at(-1)
-  return (async () => {
-    if (!at()) {
-      const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
-      if (!link) return "notab"
-      link.click()
-      for (let i = 0; i < 100 && !at(); i++) await sleep(100)
-      if (!at()) return "notab"
-    }
-    if (limit()) return "limit"
-    let el
-    for (let i = 0; i < 100; i++) {
-      el = editor()
-      if (el && el.isConnected && el.getClientRects().length) break
-      // The panel mounts after the route does; a composer that is already gone may be replaced by it.
-      if (limit()) return "limit"
-      await sleep(100)
-    }
-    if (!el || !el.isConnected) return limit() ? "limit" : "none"
-    el.focus()
-    const text = (el.innerText || "").trim()
-    if (!text) return "empty"
-    // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
-    // refusal is safe: it matches the last message in the chat.
-    const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
-      .map((node) => (node.innerText || "").trim())
-      .filter(Boolean)
-      .at(-1)
-    if (!sent) return "draft"
-    const same = (a, b) =>
-      a === b || a.includes(b) || b.includes(a) ||
-      (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
-    return same(text, sent) ? "text" : "draft"
-  })()
+  if (!at()) {
+    const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+    if (!link) return "notab"
+    link.click()
+    if (!at()) return "switching"
+  }
+  if (limit()) return "limit"
+  const el = editor()
+  if (!el) return limit() ? "limit" : "none"
+  el.focus()
+  const text = (el.innerText || "").trim()
+  if (!text) return "empty"
+  // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
+  // refusal is safe: it matches the last message in the chat.
+  const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
+    .map((node) => (node.innerText || "").trim())
+    .filter(Boolean)
+    .at(-1)
+  if (!sent) return "draft"
+  const same = (a, b) =>
+    a === b || a.includes(b) || b.includes(a) ||
+    (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
+  return same(text, sent) ? "text" : "draft"
 }
 
 async function resume(wc, sessionID) {
-  // Only the chat that failed may be typed into: another open tab would receive the "continue". At startup the tab bar
-  // is still being restored, so a missing tab is retried instead of giving up.
+  // Only the chat that failed may be typed into: another open tab would receive the "continue". The main process polls
+  // with its own (unthrottled) timers until the chat is ready, the tab turns up, or the deadline passes.
+  const deadline = Date.now() + 25000
   let target, state = "none"
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (;;) {
     const list = [...new Set([...(wc ? [wc] : []), ...pages])]
-    state = "none"; target = undefined
+    state = "notab"; target = undefined
     for (const w of list) {
       if (!w || w.isDestroyed() || typeof w.executeJavaScript !== "function") continue
-      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "error")
+      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "none")
       if (s === "text" || s === "empty" || s === "limit" || s === "draft") { target = w; state = s; break }
-      if (s === "notab") continue
-      state = s
+      if (s === "notab") continue                 // another window may still have that tab
+      if (state === "notab" || s === "switching") { state = s; target = target ?? w }
     }
-    if (state !== "notab" && state !== "none") break
-    if (attempt === 2 || (state === "none" && attempt > 0)) break
-    await sleep(2500)
+    if (state === "text" || state === "empty" || state === "limit" || state === "draft") break
+    if (Date.now() >= deadline) break
+    await sleep(400)
   }
   if (state !== "text" && state !== "empty") return { state, wc: target }
   target.focus()
@@ -3193,12 +3200,10 @@ function canRecover(sessionID) {
   return true
 }
 
-async function recoverLimit(wc, sessionID) {
-  // A stored free-limit time from an older run (or an older renderer) replaces the composer; a renderer that no longer
-  // has a working composer (contenteditable gone or false) leaves the chat unusable. Drop the stored state and the
-  // cached bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
-  if (!wc || wc.isDestroyed()) return "none"
-  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+// The "clear cache and restart" workaround without a restart: drop the stored free-limit time and the cached renderer
+// bundle, then reload the window. Used by auto-rotate and by the tray's "Resume chat".
+async function refreshChat(wc) {
+  if (!wc || wc.isDestroyed()) return
   if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
   try { await wc.session.clearCache() } catch {}
   try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
@@ -3211,6 +3216,12 @@ async function recoverLimit(wc, sessionID) {
   wc.reload()
   await loaded
   await sleep(1500)
+}
+
+async function recoverLimit(wc, sessionID) {
+  if (!wc || wc.isDestroyed()) return "none"
+  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+  await refreshChat(wc)
   return (await resume(wc, sessionID)).state
 }
 
@@ -3238,6 +3249,9 @@ async function pump() {
     lastRotation = Date.now()
     streak++
     streakAt = lastRotation
+    // The tunnel is up; the tray works again while the chats are resumed and reloaded.
+    busy = false
+    try { buildMenu() } catch {}
     const todo = [...waiting]
     waiting.clear()
     for (const [id, wc] of todo) {

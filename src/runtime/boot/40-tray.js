@@ -1,6 +1,13 @@
 // ---------------------------------------------------------------- tray menu
 const LOGO = "data:image/png;base64,@@TRAY_ICON_B64@@"
 let tray
+// One click for the "chat has no composer" state: same clean-up as Clear > Cache and logs, but without restarting.
+const resumeChat = async () => {
+  const wc = pages.at(-1)
+  if (!wc || wc.isDestroyed()) return
+  log("resume chat: reloading the window")
+  try { await refreshChat(wc); note(t("resumed")) } catch (e) { note(why(e)) }
+}
 function buildMenu() {
   if (!tray) return
   cfg = loadCfg()
@@ -23,6 +30,7 @@ function buildMenu() {
       { label: t("m_restoreLogin"), click: restoreLogin },
       { label: t("m_clearCache"), click: clearCache },
     ] },
+    { label: t("m_resume"), click: resumeChat },
     { label: t("m_status"), click: guard(status) },
     { type: "separator" },
     { label: t("m_language"), submenu: [

@@ -11,8 +11,10 @@ const source = readFileSync(path.join(SRC, "runtime/boot/30-auto-rotate.js"), "u
 const start = source.indexOf("function resumeInPage(")
 const end = source.indexOf("\n}\n\nasync function resume", start)
 const fnSource = source.slice(start, end + 2)
+const resumeStart = source.indexOf("async function resume(")
+const resumeSource = source.slice(resumeStart, source.indexOf("\n}\n\nfunction canRecover", resumeStart) + 2)
 
-const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message", editable = "true" } = {}) => {
+const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message", editable = "true", defer = false } = {}) => {
   const location = { pathname: "/server/x/session/" + session }
   const editor = {
     isConnected: true,
@@ -24,7 +26,10 @@ const page = ({ session = "ses_a", composer = "text", panel = false, tab = true,
   }
   const link = {
     getAttribute: () => "/server/x/session/ses_b",
-    click() { location.pathname = "/server/x/session/ses_b" },
+    click() {
+      if (defer) setTimeout(() => { location.pathname = "/server/x/session/ses_b" }, 5)
+      else location.pathname = "/server/x/session/ses_b"
+    },
   }
   const document = {
     querySelectorAll: (selector) => {
@@ -76,4 +81,36 @@ test("a disabled composer is reported, never typed into", async () => {
 
 test("a chat whose tab is not open is reported instead of typing somewhere else", async () => {
   assert.equal((await run({ session: "ses_a", tab: false }, "ses_b")).result, "notab")
+})
+
+// resume() polls from the main process: a background window's timers are throttled, so waiting must not happen in the page.
+const mainProcess = (p, step) => {
+  const pageCtx = vm.createContext({ location: p.location, document: p.document, setTimeout: (fn, ms) => setTimeout(fn, ms) })
+  const wc = {
+    isDestroyed: () => false,
+    focus() { this.focused = true },
+    insertText(text) { this.text = text },
+    sendInputEvent() { this.keys = (this.keys ?? 0) + 1 },
+    executeJavaScript: (code) => Promise.resolve(vm.runInContext(code, pageCtx)),
+  }
+  const clock = { t: 0, now: () => (clock.t += step) }
+  const ctx = vm.createContext({ pages: [], Date: clock, sleep: () => new Promise((r) => setTimeout(r, 0)) })
+  vm.runInContext(fnSource + "\n" + resumeSource, ctx)
+  return { ctx, wc }
+}
+
+test("resume waits for the tab to finish opening, then sends 'continue'", async () => {
+  const { ctx, wc } = mainProcess(page({ session: "ses_a", composer: "", defer: true }), 250)
+  const r = await ctx.resume(wc, "ses_b")
+  assert.equal(r.state, "sent")
+  assert.equal(wc.text, "continue")
+  assert.equal(wc.keys, 2)
+})
+
+test("resume stops at the deadline when the chat has no open tab", async () => {
+  const { ctx, wc } = mainProcess(page({ session: "ses_a", tab: false }), 1000)
+  const r = await ctx.resume(wc, "ses_b")
+  assert.equal(r.state, "notab")
+  assert.equal(wc.text, undefined)
+  assert.equal(wc.keys, undefined)
 })

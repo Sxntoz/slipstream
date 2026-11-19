@@ -21,8 +21,9 @@ function hold(ms) {
 }
 
 // Runs in the page. It must be self-contained: the main process sends its source to executeJavaScript.
+// One snapshot, no timers: Chromium throttles timers of a background window, so a "wait 100ms" loop in the page used to
+// stretch a single check to minutes while the connection was held busy.
 function resumeInPage(sessionID) {
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
   const limit = () => document.querySelector('[data-component="session-free-limit"]')
   // The prompt is contenteditable=true, but a disabled prompt is "false" and newer builds may mark it
@@ -30,58 +31,49 @@ function resumeInPage(sessionID) {
   const editor = () => [...document.querySelectorAll('[data-component="session-composer-dock"] [contenteditable], [data-slot="composer-face"] [contenteditable]')]
     .filter((n) => n.isConnected && n.getClientRects().length && n.isContentEditable !== false && (n.getAttribute("contenteditable") || "") !== "false")
     .at(-1)
-  return (async () => {
-    if (!at()) {
-      const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
-      if (!link) return "notab"
-      link.click()
-      for (let i = 0; i < 100 && !at(); i++) await sleep(100)
-      if (!at()) return "notab"
-    }
-    if (limit()) return "limit"
-    let el
-    for (let i = 0; i < 100; i++) {
-      el = editor()
-      if (el && el.isConnected && el.getClientRects().length) break
-      // The panel mounts after the route does; a composer that is already gone may be replaced by it.
-      if (limit()) return "limit"
-      await sleep(100)
-    }
-    if (!el || !el.isConnected) return limit() ? "limit" : "none"
-    el.focus()
-    const text = (el.innerText || "").trim()
-    if (!text) return "empty"
-    // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
-    // refusal is safe: it matches the last message in the chat.
-    const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
-      .map((node) => (node.innerText || "").trim())
-      .filter(Boolean)
-      .at(-1)
-    if (!sent) return "draft"
-    const same = (a, b) =>
-      a === b || a.includes(b) || b.includes(a) ||
-      (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
-    return same(text, sent) ? "text" : "draft"
-  })()
+  if (!at()) {
+    const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+    if (!link) return "notab"
+    link.click()
+    if (!at()) return "switching"
+  }
+  if (limit()) return "limit"
+  const el = editor()
+  if (!el) return limit() ? "limit" : "none"
+  el.focus()
+  const text = (el.innerText || "").trim()
+  if (!text) return "empty"
+  // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
+  // refusal is safe: it matches the last message in the chat.
+  const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
+    .map((node) => (node.innerText || "").trim())
+    .filter(Boolean)
+    .at(-1)
+  if (!sent) return "draft"
+  const same = (a, b) =>
+    a === b || a.includes(b) || b.includes(a) ||
+    (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
+  return same(text, sent) ? "text" : "draft"
 }
 
 async function resume(wc, sessionID) {
-  // Only the chat that failed may be typed into: another open tab would receive the "continue". At startup the tab bar
-  // is still being restored, so a missing tab is retried instead of giving up.
+  // Only the chat that failed may be typed into: another open tab would receive the "continue". The main process polls
+  // with its own (unthrottled) timers until the chat is ready, the tab turns up, or the deadline passes.
+  const deadline = Date.now() + 25000
   let target, state = "none"
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (;;) {
     const list = [...new Set([...(wc ? [wc] : []), ...pages])]
-    state = "none"; target = undefined
+    state = "notab"; target = undefined
     for (const w of list) {
       if (!w || w.isDestroyed() || typeof w.executeJavaScript !== "function") continue
-      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "error")
+      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "none")
       if (s === "text" || s === "empty" || s === "limit" || s === "draft") { target = w; state = s; break }
-      if (s === "notab") continue
-      state = s
+      if (s === "notab") continue                 // another window may still have that tab
+      if (state === "notab" || s === "switching") { state = s; target = target ?? w }
     }
-    if (state !== "notab" && state !== "none") break
-    if (attempt === 2 || (state === "none" && attempt > 0)) break
-    await sleep(2500)
+    if (state === "text" || state === "empty" || state === "limit" || state === "draft") break
+    if (Date.now() >= deadline) break
+    await sleep(400)
   }
   if (state !== "text" && state !== "empty") return { state, wc: target }
   target.focus()
@@ -100,12 +92,10 @@ function canRecover(sessionID) {
   return true
 }
 
-async function recoverLimit(wc, sessionID) {
-  // A stored free-limit time from an older run (or an older renderer) replaces the composer; a renderer that no longer
-  // has a working composer (contenteditable gone or false) leaves the chat unusable. Drop the stored state and the
-  // cached bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
-  if (!wc || wc.isDestroyed()) return "none"
-  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+// The "clear cache and restart" workaround without a restart: drop the stored free-limit time and the cached renderer
+// bundle, then reload the window. Used by auto-rotate and by the tray's "Resume chat".
+async function refreshChat(wc) {
+  if (!wc || wc.isDestroyed()) return
   if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
   try { await wc.session.clearCache() } catch {}
   try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
@@ -118,6 +108,12 @@ async function recoverLimit(wc, sessionID) {
   wc.reload()
   await loaded
   await sleep(1500)
+}
+
+async function recoverLimit(wc, sessionID) {
+  if (!wc || wc.isDestroyed()) return "none"
+  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
+  await refreshChat(wc)
   return (await resume(wc, sessionID)).state
 }
 
@@ -145,6 +141,9 @@ async function pump() {
     lastRotation = Date.now()
     streak++
     streakAt = lastRotation
+    // The tunnel is up; the tray works again while the chats are resumed and reloaded.
+    busy = false
+    try { buildMenu() } catch {}
     const todo = [...waiting]
     waiting.clear()
     for (const [id, wc] of todo) {
@@ -186,8 +185,16 @@ if (cfg.mode === "wg" || cfg.mode === "wgfile" || cfg.mode === "free") {
   busy = true
   serial(() => (cfg.mode === "free" ? freeFind().then((f) => log(`Public proxy ${f.proxy}, IP ${f.ip}`)) : wgUp(false).then(log)))
     .catch((e) => {
-      log(`${cfg.mode}: ${why(e)} (back to direct)`)
+      const failed = cfg.mode
+      log(`${failed}: ${why(e)} (back to direct)`)
       wgStop(); cfg.mode = "none"; saveCfg(cfg)
+      // One dead tunnel must not leave auto-rotate stuck on Direct for the rest of the day. Try the saved connection
+      // once more, unless the user picked something else in the meantime.
+      setTimeout(() => {
+        if (loadCfg().mode !== "none") return
+        log("trying the saved connection again")
+        serial(() => switchModeNow(failed)).then(log).catch((err) => log(why(err)))
+      }, 60000)
     })
     .finally(() => { busy = false; pump().catch((e) => log(why(e))) })
 }
