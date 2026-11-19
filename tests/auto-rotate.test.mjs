@@ -14,8 +14,8 @@ const fnSource = source.slice(start, end + 2)
 const resumeStart = source.indexOf("async function resume(")
 const resumeSource = source.slice(resumeStart, source.indexOf("\n}\n\nfunction canRecover", resumeStart) + 2)
 
-const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message", editable = "true", defer = false } = {}) => {
-  const location = { pathname: "/server/x/session/" + session }
+const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message", editable = "true", defer = false, path } = {}) => {
+  const location = { pathname: path ?? "/server/x/session/" + session }
   const editor = {
     isConnected: true,
     isContentEditable: editable !== "false",
@@ -48,9 +48,17 @@ const page = ({ session = "ses_a", composer = "text", panel = false, tab = true,
 
 const run = async (options, session) => {
   const p = page(options)
-  const context = vm.createContext({ location: p.location, document: p.document, setTimeout: (fn) => setTimeout(fn, 0) })
+  const pushed = []
+  const context = vm.createContext({
+    location: p.location,
+    document: p.document,
+    setTimeout: (fn) => setTimeout(fn, 0),
+    history: { pushState: (_s, _t, href) => { pushed.push(href); p.location.pathname = href } },
+    window: { dispatchEvent: () => {} },
+    PopStateEvent: function () {},
+  })
   const result = await vm.runInContext(`(${fnSource})`, context)(session)
-  return { result, page: p }
+  return { result, page: p, pushed }
 }
 
 test("the failed chat is the one that gets the message, even when another tab is open", async () => {
@@ -79,13 +87,28 @@ test("a disabled composer is reported, never typed into", async () => {
   assert.equal(page.editor.focused, undefined)
 })
 
-test("a chat whose tab is not open is reported instead of typing somewhere else", async () => {
-  assert.equal((await run({ session: "ses_a", tab: false }, "ses_b")).result, "notab")
+test("a chat whose tab is closed is opened in the window, not abandoned", async () => {
+  const { result, pushed } = await run({ session: "ses_a", tab: false }, "ses_b")
+  assert.equal(result, "switching")
+  assert.deepEqual(pushed, ["/server/x/session/ses_b"])
+})
+
+test("a page with no session route is never hijacked into another chat", async () => {
+  const { result, pushed } = await run({ session: "ses_a", tab: false, path: "/" }, "ses_b")
+  assert.equal(result, "notab")
+  assert.deepEqual(pushed, [])
 })
 
 // resume() polls from the main process: a background window's timers are throttled, so waiting must not happen in the page.
 const mainProcess = (p, step) => {
-  const pageCtx = vm.createContext({ location: p.location, document: p.document, setTimeout: (fn, ms) => setTimeout(fn, ms) })
+  const pageCtx = vm.createContext({
+    location: p.location,
+    document: p.document,
+    setTimeout: (fn, ms) => setTimeout(fn, ms),
+    history: { pushState: (_s, _t, href) => { p.location.pathname = href } },
+    window: { dispatchEvent: () => {} },
+    PopStateEvent: function () {},
+  })
   const wc = {
     isDestroyed: () => false,
     focus() { this.focused = true },
@@ -107,8 +130,8 @@ test("resume waits for the tab to finish opening, then sends 'continue'", async 
   assert.equal(wc.keys, 2)
 })
 
-test("resume stops at the deadline when the chat has no open tab", async () => {
-  const { ctx, wc } = mainProcess(page({ session: "ses_a", tab: false }), 1000)
+test("resume stops at the deadline when the chat cannot be opened", async () => {
+  const { ctx, wc } = mainProcess(page({ session: "ses_a", tab: false, path: "/" }), 1000)
   const r = await ctx.resume(wc, "ses_b")
   assert.equal(r.state, "notab")
   assert.equal(wc.text, undefined)

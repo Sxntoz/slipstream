@@ -8,6 +8,8 @@ let rotating = false
 const waiting = new Map()      // sessionID -> webContents (or null when the log reported it)
 const handled = new Map()      // sessionID -> last time it was accepted, so the two signals do not rotate twice
 const recovered = new Map()    // sessionID -> last automatic reload, so one slow chat is not reloaded again and again
+const resumedAt = new Map()    // sessionID -> last message actually sent, so a new refusal after it is never ignored
+const retries = new Map()      // sessionID -> failed resume attempts, so nobody has to babysit the app
 const pages = []               // open app windows; a limit can arrive on any of them
 app.on("web-contents-created", (_e, wc) => {
   if (wc.getType() !== "window") return
@@ -32,10 +34,20 @@ function resumeInPage(sessionID) {
     .filter((n) => n.isConnected && n.getClientRects().length && n.isContentEditable !== false && (n.getAttribute("contenteditable") || "") !== "false")
     .at(-1)
   if (!at()) {
-    const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
-    if (!link) return "notab"
-    link.click()
-    if (!at()) return "switching"
+    const links = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')]
+    const link = links.find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+    if (link) { link.click(); if (!at()) return "switching" }
+    else {
+      // The chat is not open (closed tab, a window that just started, someone away from the PC). Open it in this window
+      // instead of giving up: the rotation is only useful if the failed chat can go on by itself.
+      const base = (links.map((a) => a.getAttribute("href") || "").find((h) => h.includes("/session/")) ?? location.pathname).replace(/\/session\/[^/]*$/, "")
+      if (!base.includes("/server/")) return "notab"
+      try {
+        history.pushState(null, "", base + "/session/" + sessionID)
+        window.dispatchEvent(new PopStateEvent("popstate"))
+        return "switching"
+      } catch { return "notab" }
+    }
   }
   if (limit()) return "limit"
   const el = editor()
@@ -133,6 +145,7 @@ async function pump() {
   if (streak >= 10) return hold(60000)
   rotating = true
   busy = true
+  let delay = 1500
   try {
     note(t("limitRotating"))
     await sleep(400)
@@ -151,12 +164,18 @@ async function pump() {
       // "none" is the same dead end as the limit panel: the chat is open but there is no usable composer. Reload it
       // the way the user would, instead of logging a failure and leaving the chat stuck.
       if ((r.state === "limit" || r.state === "none") && canRecover(id)) r = { state: await recoverLimit(r.wc, id), wc: r.wc }
-      if (r.state !== "sent") log(`could not resume ${id}: ${r.state}`)
+      if (r.state === "sent") { retries.delete(id); resumedAt.set(id, Date.now()); continue }
+      log(`could not resume ${id}: ${r.state}`)
+      // Nobody may be watching: keep trying a few times instead of leaving the chat dead until the next refusal.
+      // A draft is the one case to leave alone, since sending it would put words in the user's mouth.
+      const tries = retries.get(id) ?? 0
+      if (r.state !== "draft" && tries < 3) { retries.set(id, tries + 1); waiting.set(id, r.wc ?? wc); delay = 45000 }
+      else { retries.delete(id); log(`giving up on ${id} after ${tries + 1} attempts`) }
     }
   } catch (e) { note(why(e)) } finally {
     busy = false
     rotating = false
-    if (waiting.size) hold(1500)
+    if (waiting.size) hold(delay)
   }
 }
 
@@ -166,9 +185,10 @@ function onLimit(wc, sessionID) {
   const id = /^ses_[A-Za-z0-9]+$/.test(String(sessionID ?? "")) ? String(sessionID) : "?"
   if (id === "?") return
   const now = Date.now()
-  // The renderer event and the sidecar log line describe the same refusal; a real new refusal after the rotation
-  // comes later and must still be accepted.
-  if (now - (handled.get(id) ?? 0) < 20000) return
+  // The renderer event and the sidecar log line describe the same refusal; a refusal that arrives after a message was
+  // actually sent is a NEW refusal and must rotate again, even inside that 20s window.
+  const last = handled.get(id) ?? 0
+  if (now - last < 20000 && last > (resumedAt.get(id) ?? 0)) return
   if (cfg.mode === "none") {
     if (now - warnedAt > 600000) { warnedAt = now; note(t("limitWarn")) }
     waiting.clear()
