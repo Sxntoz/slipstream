@@ -197,7 +197,7 @@ import { execFileSync } from "node:child_process"
 import dgram from "node:dgram"
 import { lookup as dnsLookup } from "node:dns/promises"
 import crypto, { generateKeyPairSync } from "node:crypto"
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync, readdirSync, statSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync, readdirSync, statSync, openSync, readSync, closeSync } from "node:fs"
 import https from "node:https"
 import net from "node:net"
 import os from "node:os"
@@ -271,13 +271,25 @@ function runPending() {
 }
 runPending()
 
-// The app keeps the free-limit time in its database after a limit error and shows its tray until then. Clear it before the app opens the database.
-try {
-  const { DatabaseSync } = await import("node:sqlite")
-  const db = new DatabaseSync(path.join(userData, "drafts.sqlite"))
-  db.prepare("update state set value = ? where name = 'opencode.global.dat' and key = 'free-limit'").run('{"resetAt":null}')
-  db.close()
-} catch (e) { log("free-limit state not cleared: " + why(e)) }
+// The app keeps the free-limit time in its database after a limit error and shows its tray until then. Clear it before
+// the app opens the database, and any time a cached/older renderer wrote it again while the app was running.
+async function clearFreeLimitState() {
+  for (let i = 0; i < 3; i++) {
+    try {
+      const { DatabaseSync } = await import("node:sqlite")
+      const db = new DatabaseSync(path.join(userData, "drafts.sqlite"))
+      try {
+        db.exec("PRAGMA busy_timeout = 2000")
+        db.prepare("update state set value = ? where name = 'opencode.global.dat' and key = 'free-limit'").run('{"resetAt":null}')
+      } finally { db.close() }
+      return
+    } catch (e) {
+      if (i === 2) log("free-limit state not cleared: " + why(e))
+      else await sleep(400)
+    }
+  }
+}
+await clearFreeLimitState()
 
 // ---------------------------------------------------------------- settings (proxy.json)
 const proxyFile = path.join(stateDir, "proxy.json")
@@ -614,6 +626,15 @@ async function dial(up, host, port, timeout = 15000) {
 }
 
 const isLocal = (h) => /^(localhost|127\.\d+\.\d+\.\d+|::1|\[::1\])$/i.test(h)   // OpenCode's own service is always reached directly
+// A client socket must not outlive its upstream. When a tunnel is replaced, the old upstream streams close; without
+// this the sidecar kept dead keep-alive sockets and the app needed a restart to send again.
+const link = (client, out) => {
+  if (client.destroyed) { try { out.destroy() } catch {}; return }
+  if (out.destroyed) { try { client.destroy() } catch {}; return }
+  out.on("error", () => { try { client.destroy() } catch {} })
+  out.on("close", () => { try { client.destroy() } catch {} })
+  client.on("close", () => { try { out.destroy() } catch {} })
+}
 const gate = net.createServer((client) => {
   client.on("error", () => {})
   let buf = Buffer.alloc(0)
@@ -627,11 +648,11 @@ const gate = net.createServer((client) => {
       if (method === "CONNECT") {
         const i = target.lastIndexOf(":"), host = target.slice(0, i).replace(/^\[|\]$/g, "")
         const out = await dial(isLocal(host) ? undefined : upstream(), host, Number(target.slice(i + 1)))
-        out.on("error", () => client.destroy()); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
+        link(client, out); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
         if (rest.length) out.write(rest); client.pipe(out); out.pipe(client); client.resume()
       } else {
         const u = new URL(target), out = await dial(isLocal(u.hostname) ? undefined : upstream(), u.hostname, Number(u.port || 80))
-        out.on("error", () => client.destroy())
+        link(client, out)
         out.write(Buffer.concat([Buffer.from(`${method} ${u.pathname}${u.search} ${ver}\r\n${head.split("\r\n").slice(1).filter((l) => !/^proxy-/i.test(l)).join("\r\n")}\r\n\r\n`, "latin1"), rest]))
         client.pipe(out); out.pipe(client); client.resume()
       }
@@ -1038,7 +1059,8 @@ class UserWireGuard {
   }
   stop() {
     clearInterval(this.keep); clearInterval(this.rekey)
-    for (const t of [...this.tcp.values()]) t.destroy()
+    for (const t of [...this.tcp.values()]) t.destroy(new Error("tunnel stopped"))
+    this.tcp.clear(); this.udp.clear(); this.ports.clear()
     try { this.sock?.close() } catch {}
     this.session = null
   }
@@ -1334,8 +1356,17 @@ async function freeFind() {
 
 const listEntries = () => cfg.list.map((x) => String(x).trim()).filter((x) => x && !x.startsWith("#") && parseUp(x))
 
+// One connection change at a time. The startup bring-up, a tray action and auto-rotate used to restart the tunnel
+// under each other; the bring-up then failed and put the saved mode back to Direct.
+let connChain = Promise.resolve()
+const serial = (fn) => {
+  const run = connChain.then(fn, fn)
+  connChain = run.then(() => {}, () => {})
+  return run
+}
+
 let rotatedOk = false
-async function newIp() {
+async function newIpNow() {
   rotatedOk = false
   cfg = loadCfg()
   if (cfg.mode === "free") { const f = await freeFind(); rotatedOk = true; return t("ipFree", { ip: f.ip, host: parseUp(f.proxy).host }) }
@@ -1364,6 +1395,7 @@ async function newIp() {
   }
   return t("directNoIp")
 }
+const newIp = () => serial(newIpNow)
 
 const status = async () => {
   const ip = await traceVia(upstream()).catch(() => undefined)
@@ -1378,7 +1410,7 @@ const chooseWgFile = async () => {
   writeFileSync(wgFile, JSON.stringify({ priv: c.priv, peerKey: c.peerKey, psk: c.psk, endpoint: c.endpoint, v4: c.v4, v6: c.v6, dns: c.dns, mtu: c.mtu }, null, 2))
   return true
 }
-const switchMode = async (mode, pick = false) => {
+const switchModeNow = async (mode, pick = false) => {
   cfg = loadCfg(); const before = cfg.mode
   const fallback = (e) => { cfg.mode = "none"; saveCfg(cfg); wgStop(); return new Error(why(e) + " " + t("backDirect")) }
   try {
@@ -1390,6 +1422,7 @@ const switchMode = async (mode, pick = false) => {
   } catch (e) { throw fallback(e) }
   return mode === "list" ? t("onList") : t("onDirect")
 }
+const switchMode = (mode, pick = false) => serial(() => switchModeNow(mode, pick))
 const useMode = (mode, pick = false) => guard(() => switchMode(mode, pick))
 
 const toggleAuto = () => { cfg = loadCfg(); cfg.autoRotate = !cfg.autoRotate; saveCfg(cfg); note(t(cfg.autoRotate ? "autoOn" : "autoOff")) }
@@ -1415,49 +1448,176 @@ const clearCache = () => later(["cache"])
 
 // ---------------------------------------------------------------- auto-rotate
 // The app (patched by the installer) reports each free-limit error to the page; the page logs "__OC_LIMIT__<session>".
+// boot/45-limit-log.js adds the same signal from the sidecar log, so a renderer that is still loading or running an
+// older cached bundle cannot leave a chat behind.
 let lastRotation = 0, streak = 0, streakAt = 0, warnedAt = 0
-async function resume(wc) {
-  // The app puts the stopped message back in the prompt box; if it is empty, send "continue". Then Enter.
-  const state = await wc.executeJavaScript(`(() => {
-    const el = document.querySelector('[data-component=composer-editor] [contenteditable], [data-component=composer-editor][contenteditable], [contenteditable="true"]')
-    if (!el) return "none"
-    el.focus()
-    return el.innerText.trim() ? "text" : "empty"
-  })()`).catch(() => "none")
-  if (state === "none") return
-  wc.focus()
-  if (state === "empty") wc.insertText("continue")
-  await sleep(200)
-  wc.sendInputEvent({ type: "keyDown", keyCode: "Enter" })
-  wc.sendInputEvent({ type: "keyUp", keyCode: "Enter" })
+let rotationTimer
+let rotating = false
+const waiting = new Map()      // sessionID -> webContents (or null when the log reported it)
+const handled = new Map()      // sessionID -> last time it was accepted, so the two signals do not rotate twice
+const pages = []               // open app windows; a limit can arrive on any of them
+app.on("web-contents-created", (_e, wc) => {
+  if (wc.getType() !== "window") return
+  pages.push(wc)
+  wc.once("destroyed", () => { const i = pages.indexOf(wc); if (i >= 0) pages.splice(i, 1) })
+})
+
+function hold(ms) {
+  clearTimeout(rotationTimer)
+  rotationTimer = setTimeout(() => { rotationTimer = null; pump().catch((e) => log(why(e))) }, Math.max(100, ms))
 }
-async function onLimit(wc) {
+
+// Runs in the page. It must be self-contained: the main process sends its source to executeJavaScript.
+function resumeInPage(sessionID) {
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+  const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
+  return (async () => {
+    if (!at()) {
+      const link = [...document.querySelectorAll('a[data-slot="tab-link"]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+      if (!link) return "notab"
+      link.click()
+      for (let i = 0; i < 100 && !at(); i++) await sleep(100)
+      if (!at()) return "notab"
+    }
+    if (document.querySelector('[data-component="session-free-limit"]')) return "limit"
+    let el
+    for (let i = 0; i < 80; i++) {
+      el = document.querySelector('[data-component="session-composer-dock"] [contenteditable="true"]')
+      if (el && el.isConnected && el.getClientRects().length) break
+      await sleep(100)
+    }
+    if (!el || !el.isConnected) return "none"
+    el.focus()
+    const text = (el.innerText || "").trim()
+    if (!text) return "empty"
+    // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
+    // refusal is safe: it matches the last message in the chat.
+    const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
+      .map((node) => (node.innerText || "").trim())
+      .filter(Boolean)
+      .at(-1)
+    if (!sent) return "draft"
+    const same = (a, b) =>
+      a === b || a.includes(b) || b.includes(a) ||
+      (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
+    return same(text, sent) ? "text" : "draft"
+  })()
+}
+
+async function resume(wc, sessionID) {
+  // Only the chat that failed may be typed into: another open tab would receive the "continue". At startup the tab bar
+  // is still being restored, so a missing tab is retried instead of giving up.
+  let target, state = "none"
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const list = [...new Set([...(wc ? [wc] : []), ...pages])]
+    state = "none"; target = undefined
+    for (const w of list) {
+      if (!w || w.isDestroyed() || typeof w.executeJavaScript !== "function") continue
+      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "error")
+      if (s === "text" || s === "empty" || s === "limit" || s === "draft") { target = w; state = s; break }
+      if (s === "notab") continue
+      state = s
+    }
+    if (state !== "notab" && state !== "none") break
+    if (attempt === 2 || (state === "none" && attempt > 0)) break
+    await sleep(2500)
+  }
+  if (state !== "text" && state !== "empty") return { state, wc: target }
+  target.focus()
+  if (state === "empty") target.insertText("continue")
+  await sleep(250)
+  target.sendInputEvent({ type: "keyDown", keyCode: "Enter" })
+  target.sendInputEvent({ type: "keyUp", keyCode: "Enter" })
+  return { state: "sent", wc: target }
+}
+
+async function recoverLimit(wc, sessionID) {
+  // A stored free-limit time from an older run (or an older renderer) replaces the composer. Drop it, drop the cached
+  // bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
+  log("free-limit panel is blocking the composer; clearing it and reloading")
+  if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
+  try { await wc.session.clearCache() } catch {}
+  try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
+  const loaded = new Promise((resolve) => {
+    let done = false
+    const finish = () => { if (done) return; done = true; try { wc.off("did-finish-load", finish) } catch {}; resolve() }
+    wc.once("did-finish-load", finish)
+    setTimeout(finish, 15000)
+  })
+  wc.reload()
+  await loaded
+  await sleep(1500)
+  return (await resume(wc, sessionID)).state
+}
+
+async function pump() {
+  if (rotating || !waiting.size) return
   cfg = loadCfg()
+  if (!cfg.autoRotate) { waiting.clear(); return }
   const now = Date.now()
-  if (!cfg.autoRotate || busy || now - lastRotation < 15000) return
   if (cfg.mode === "none") {
     if (now - warnedAt > 600000) { warnedAt = now; note(t("limitWarn")) }
+    waiting.clear()
     return
   }
+  if (busy) return hold(1200)
+  if (now - lastRotation < 15000) return hold(15000 - (now - lastRotation))
   if (now - streakAt > 180000) streak = 0
-  if (streak >= 10) return                       // 10 in a row without a free message: stop, try again in 3 minutes
-  streak++; streakAt = now; lastRotation = now
+  if (streak >= 10) return hold(60000)
+  rotating = true
   busy = true
   try {
     note(t("limitRotating"))
-    await sleep(600)
+    await sleep(400)
     const msg = await newIp()
     note(msg)
-    if (rotatedOk) { await sleep(800); await resume(wc) }
-  } catch (e) { note(why(e)) } finally { busy = false; lastRotation = Date.now() }
+    lastRotation = Date.now()
+    streak++
+    streakAt = lastRotation
+    const todo = [...waiting]
+    waiting.clear()
+    for (const [id, wc] of todo) {
+      let r = await resume(wc, id)
+      if (r.state === "limit") r = { state: await recoverLimit(r.wc, id), wc: r.wc }
+      if (r.state !== "sent") log(`could not resume ${id}: ${r.state}`)
+    }
+  } catch (e) { note(why(e)) } finally {
+    busy = false
+    rotating = false
+    if (waiting.size) hold(1500)
+  }
+}
+
+function onLimit(wc, sessionID) {
+  cfg = loadCfg()
+  if (!cfg.autoRotate) return
+  const id = /^ses_[A-Za-z0-9]+$/.test(String(sessionID ?? "")) ? String(sessionID) : "?"
+  if (id === "?") return
+  const now = Date.now()
+  // The renderer event and the sidecar log line describe the same refusal; a real new refusal after the rotation
+  // comes later and must still be accepted.
+  if (now - (handled.get(id) ?? 0) < 20000) return
+  if (cfg.mode === "none") {
+    if (now - warnedAt > 600000) { warnedAt = now; note(t("limitWarn")) }
+    waiting.clear()
+    return
+  }
+  handled.set(id, now)
+  if (handled.size > 200) for (const [key, at] of handled) if (now - at > 600000) handled.delete(key)
+  if (!waiting.has(id) || (!waiting.get(id) && wc)) waiting.set(id, wc ?? null)
+  pump().catch((e) => log(why(e)))
 }
 
 if (cfg.mode === "wg" || cfg.mode === "wgfile" || cfg.mode === "free") {
-  setTimeout(() => (cfg.mode === "free" ? freeFind().then((f) => log(`Public proxy ${f.proxy}, IP ${f.ip}`)) : wgUp(false).then(log)).catch((e) => {
-    log(`${cfg.mode}: ${why(e)} (back to direct)`); wgStop(); cfg.mode = "none"; saveCfg(cfg)
-  }), 0)
+  // Serialized with New IP and Connection: a rotation must never restart the tunnel while it is still coming up.
+  busy = true
+  serial(() => (cfg.mode === "free" ? freeFind().then((f) => log(`Public proxy ${f.proxy}, IP ${f.ip}`)) : wgUp(false).then(log)))
+    .catch((e) => {
+      log(`${cfg.mode}: ${why(e)} (back to direct)`)
+      wgStop(); cfg.mode = "none"; saveCfg(cfg)
+    })
+    .finally(() => { busy = false; pump().catch((e) => log(why(e))) })
 }
-
 // ---------------------------------------------------------------- tray menu
 const LOGO = "data:image/png;base64,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"
 let tray
@@ -1508,6 +1668,37 @@ app.whenReady().then(async () => {
   } catch (e) { log("tray failed: " + why(e)) }
 })
 
+// ---------------------------------------------------------------- second free-limit signal: the sidecar log
+// The renderer only reports a free limit after its bundle has loaded and the patch is inside it. A chat that was already
+// running when the app started can hit the limit before that, and an older cached bundle never reports at all. The
+// sidecar writes every refusal to its log, so auto-rotate still sees it and can resume the exact chat.
+const LIMIT_LOG = path.join(dataDir, "log", "opencode.log")
+const LIMIT_TEXT = /Free usage limit reached/i
+const LIMIT_SESSION = /sessionID=(ses_[A-Za-z0-9]+)/
+let limitLogAt = 0
+let limitTail = ""
+try { limitLogAt = existsSync(LIMIT_LOG) ? statSync(LIMIT_LOG).size : 0 } catch {}
+setInterval(() => {
+  try {
+    if (!existsSync(LIMIT_LOG)) return
+    const size = statSync(LIMIT_LOG).size
+    if (size < limitLogAt) { limitLogAt = 0; limitTail = "" }            // the log was rotated
+    if (size === limitLogAt) return
+    const len = Math.min(size - limitLogAt, 1_000_000)
+    const buf = Buffer.alloc(len)
+    const fd = openSync(LIMIT_LOG, "r")
+    try { readSync(fd, buf, 0, len, limitLogAt) } finally { closeSync(fd) }
+    limitLogAt += len
+    const lines = (limitTail + buf.toString("utf8")).split(/\r?\n/)
+    limitTail = lines.pop() ?? ""                                        // a write can end in the middle of a line
+    if (limitTail.length > 65536) limitTail = limitTail.slice(-65536)
+    for (const line of lines) {
+      if (!LIMIT_TEXT.test(line)) continue
+      const id = LIMIT_SESSION.exec(line)?.[1]
+      if (id) onLimit(undefined, id)
+    }
+  } catch (e) { log("limit log: " + why(e)) }
+}, 2000)
 // ---------------------------------------------------------------- remove the "subscribe to Go" popup and texts
 // (the persistent "Free limit reached" tray is stopped in the app code itself by the patcher)
 const stripUpsell = () => {
@@ -1545,7 +1736,7 @@ app.on("web-contents-created", (_e, wc) => {
   wc.on("dom-ready", () => { wc.executeJavaScript("(" + stripUpsell.toString() + ")()").catch(() => {}) })
   wc.on("console-message", (...a) => {
     const msg = typeof a[0]?.message === "string" ? a[0].message : a[2]
-    if (typeof msg === "string" && msg.startsWith("__OC_LIMIT__")) onLimit(wc)
+    if (typeof msg === "string" && msg.startsWith("__OC_LIMIT__")) onLimit(wc, msg.slice("__OC_LIMIT__".length))
   })
 })
 
@@ -1648,7 +1839,7 @@ import { execFileSync } from "node:child_process"
 import dgram from "node:dgram"
 import { lookup as dnsLookup } from "node:dns/promises"
 import crypto, { generateKeyPairSync } from "node:crypto"
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync, readdirSync, statSync } from "node:fs"
+import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync, readdirSync, statSync, openSync, readSync, closeSync } from "node:fs"
 import https from "node:https"
 import net from "node:net"
 import os from "node:os"
@@ -2057,6 +2248,15 @@ async function dial(up, host, port, timeout = 15000) {
 }
 
 const isLocal = (h) => /^(localhost|127\.\d+\.\d+\.\d+|::1|\[::1\])$/i.test(h)   // OpenCode's own service is always reached directly
+// A client socket must not outlive its upstream. When a tunnel is replaced, the old upstream streams close; without
+// this the sidecar kept dead keep-alive sockets and the app needed a restart to send again.
+const link = (client, out) => {
+  if (client.destroyed) { try { out.destroy() } catch {}; return }
+  if (out.destroyed) { try { client.destroy() } catch {}; return }
+  out.on("error", () => { try { client.destroy() } catch {} })
+  out.on("close", () => { try { client.destroy() } catch {} })
+  client.on("close", () => { try { out.destroy() } catch {} })
+}
 const gate = net.createServer((client) => {
   client.on("error", () => {})
   let buf = Buffer.alloc(0)
@@ -2070,11 +2270,11 @@ const gate = net.createServer((client) => {
       if (method === "CONNECT") {
         const i = target.lastIndexOf(":"), host = target.slice(0, i).replace(/^\[|\]$/g, "")
         const out = await dial(isLocal(host) ? undefined : upstream(), host, Number(target.slice(i + 1)))
-        out.on("error", () => client.destroy()); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
+        link(client, out); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
         if (rest.length) out.write(rest); client.pipe(out); out.pipe(client); client.resume()
       } else {
         const u = new URL(target), out = await dial(isLocal(u.hostname) ? undefined : upstream(), u.hostname, Number(u.port || 80))
-        out.on("error", () => client.destroy())
+        link(client, out)
         out.write(Buffer.concat([Buffer.from(`${method} ${u.pathname}${u.search} ${ver}\r\n${head.split("\r\n").slice(1).filter((l) => !/^proxy-/i.test(l)).join("\r\n")}\r\n\r\n`, "latin1"), rest]))
         client.pipe(out); out.pipe(client); client.resume()
       }
@@ -2481,7 +2681,8 @@ class UserWireGuard {
   }
   stop() {
     clearInterval(this.keep); clearInterval(this.rekey)
-    for (const t of [...this.tcp.values()]) t.destroy()
+    for (const t of [...this.tcp.values()]) t.destroy(new Error("tunnel stopped"))
+    this.tcp.clear(); this.udp.clear(); this.ports.clear()
     try { this.sock?.close() } catch {}
     this.session = null
   }
@@ -2777,8 +2978,17 @@ async function freeFind() {
 
 const listEntries = () => cfg.list.map((x) => String(x).trim()).filter((x) => x && !x.startsWith("#") && parseUp(x))
 
+// One connection change at a time. The startup bring-up, a tray action and auto-rotate used to restart the tunnel
+// under each other; the bring-up then failed and put the saved mode back to Direct.
+let connChain = Promise.resolve()
+const serial = (fn) => {
+  const run = connChain.then(fn, fn)
+  connChain = run.then(() => {}, () => {})
+  return run
+}
+
 let rotatedOk = false
-async function newIp() {
+async function newIpNow() {
   rotatedOk = false
   cfg = loadCfg()
   if (cfg.mode === "free") { const f = await freeFind(); rotatedOk = true; return t("ipFree", { ip: f.ip, host: parseUp(f.proxy).host }) }
@@ -2807,6 +3017,7 @@ async function newIp() {
   }
   return t("directNoIp")
 }
+const newIp = () => serial(newIpNow)
 
 const status = async () => {
   const ip = await traceVia(upstream()).catch(() => undefined)
@@ -2821,7 +3032,7 @@ const chooseWgFile = async () => {
   writeFileSync(wgFile, JSON.stringify({ priv: c.priv, peerKey: c.peerKey, psk: c.psk, endpoint: c.endpoint, v4: c.v4, v6: c.v6, dns: c.dns, mtu: c.mtu }, null, 2))
   return true
 }
-const switchMode = async (mode, pick = false) => {
+const switchModeNow = async (mode, pick = false) => {
   cfg = loadCfg(); const before = cfg.mode
   const fallback = (e) => { cfg.mode = "none"; saveCfg(cfg); wgStop(); return new Error(why(e) + " " + t("backDirect")) }
   try {
@@ -2833,6 +3044,7 @@ const switchMode = async (mode, pick = false) => {
   } catch (e) { throw fallback(e) }
   return mode === "list" ? t("onList") : t("onDirect")
 }
+const switchMode = (mode, pick = false) => serial(() => switchModeNow(mode, pick))
 const useMode = (mode, pick = false) => guard(() => switchMode(mode, pick))
 
 const toggleAuto = () => { cfg = loadCfg(); cfg.autoRotate = !cfg.autoRotate; saveCfg(cfg); note(t(cfg.autoRotate ? "autoOn" : "autoOff")) }
@@ -2858,47 +3070,169 @@ const clearCache = () => later(["cache"])
 
 // ---------------------------------------------------------------- auto-rotate
 // The app (patched by the installer) reports each free-limit error to the page; the page logs "__OC_LIMIT__<session>".
+// boot/45-limit-log.js adds the same signal from the sidecar log, so a renderer that is still loading or running an
+// older cached bundle cannot leave a chat behind.
 let lastRotation = 0, streak = 0, streakAt = 0, warnedAt = 0
-async function resume(wc) {
-  // The app puts the stopped message back in the prompt box; if it is empty, send "continue". Then Enter.
-  const state = await wc.executeJavaScript(`(() => {
-    const el = document.querySelector('[data-component=composer-editor] [contenteditable], [data-component=composer-editor][contenteditable], [contenteditable="true"]')
-    if (!el) return "none"
-    el.focus()
-    return el.innerText.trim() ? "text" : "empty"
-  })()`).catch(() => "none")
-  if (state === "none") return
-  wc.focus()
-  if (state === "empty") wc.insertText("continue")
-  await sleep(200)
-  wc.sendInputEvent({ type: "keyDown", keyCode: "Enter" })
-  wc.sendInputEvent({ type: "keyUp", keyCode: "Enter" })
+let rotationTimer
+let rotating = false
+const waiting = new Map()      // sessionID -> webContents (or null when the log reported it)
+const handled = new Map()      // sessionID -> last time it was accepted, so the two signals do not rotate twice
+const pages = []               // open app windows; a limit can arrive on any of them
+app.on("web-contents-created", (_e, wc) => {
+  if (wc.getType() !== "window") return
+  pages.push(wc)
+  wc.once("destroyed", () => { const i = pages.indexOf(wc); if (i >= 0) pages.splice(i, 1) })
+})
+
+function hold(ms) {
+  clearTimeout(rotationTimer)
+  rotationTimer = setTimeout(() => { rotationTimer = null; pump().catch((e) => log(why(e))) }, Math.max(100, ms))
 }
-async function onLimit(wc) {
+
+// Runs in the page. It must be self-contained: the main process sends its source to executeJavaScript.
+function resumeInPage(sessionID) {
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+  const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
+  return (async () => {
+    if (!at()) {
+      const link = [...document.querySelectorAll('a[data-slot="tab-link"]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+      if (!link) return "notab"
+      link.click()
+      for (let i = 0; i < 100 && !at(); i++) await sleep(100)
+      if (!at()) return "notab"
+    }
+    if (document.querySelector('[data-component="session-free-limit"]')) return "limit"
+    let el
+    for (let i = 0; i < 80; i++) {
+      el = document.querySelector('[data-component="session-composer-dock"] [contenteditable="true"]')
+      if (el && el.isConnected && el.getClientRects().length) break
+      await sleep(100)
+    }
+    if (!el || !el.isConnected) return "none"
+    el.focus()
+    const text = (el.innerText || "").trim()
+    if (!text) return "empty"
+    // A draft the user was typing must not be sent by the rotation. Only the message the app handed back after the
+    // refusal is safe: it matches the last message in the chat.
+    const sent = [...document.querySelectorAll('[data-component="user-message"] [data-slot="user-message-text"]')]
+      .map((node) => (node.innerText || "").trim())
+      .filter(Boolean)
+      .at(-1)
+    if (!sent) return "draft"
+    const same = (a, b) =>
+      a === b || a.includes(b) || b.includes(a) ||
+      (a.length >= 40 && b.includes(a.slice(0, 40))) || (b.length >= 40 && a.includes(b.slice(0, 40)))
+    return same(text, sent) ? "text" : "draft"
+  })()
+}
+
+async function resume(wc, sessionID) {
+  // Only the chat that failed may be typed into: another open tab would receive the "continue". At startup the tab bar
+  // is still being restored, so a missing tab is retried instead of giving up.
+  let target, state = "none"
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const list = [...new Set([...(wc ? [wc] : []), ...pages])]
+    state = "none"; target = undefined
+    for (const w of list) {
+      if (!w || w.isDestroyed() || typeof w.executeJavaScript !== "function") continue
+      const s = await w.executeJavaScript(`(${resumeInPage.toString()})(${JSON.stringify(sessionID)})`).catch(() => "error")
+      if (s === "text" || s === "empty" || s === "limit" || s === "draft") { target = w; state = s; break }
+      if (s === "notab") continue
+      state = s
+    }
+    if (state !== "notab" && state !== "none") break
+    if (attempt === 2 || (state === "none" && attempt > 0)) break
+    await sleep(2500)
+  }
+  if (state !== "text" && state !== "empty") return { state, wc: target }
+  target.focus()
+  if (state === "empty") target.insertText("continue")
+  await sleep(250)
+  target.sendInputEvent({ type: "keyDown", keyCode: "Enter" })
+  target.sendInputEvent({ type: "keyUp", keyCode: "Enter" })
+  return { state: "sent", wc: target }
+}
+
+async function recoverLimit(wc, sessionID) {
+  // A stored free-limit time from an older run (or an older renderer) replaces the composer. Drop it, drop the cached
+  // bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
+  log("free-limit panel is blocking the composer; clearing it and reloading")
+  if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
+  try { await wc.session.clearCache() } catch {}
+  try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
+  const loaded = new Promise((resolve) => {
+    let done = false
+    const finish = () => { if (done) return; done = true; try { wc.off("did-finish-load", finish) } catch {}; resolve() }
+    wc.once("did-finish-load", finish)
+    setTimeout(finish, 15000)
+  })
+  wc.reload()
+  await loaded
+  await sleep(1500)
+  return (await resume(wc, sessionID)).state
+}
+
+async function pump() {
+  if (rotating || !waiting.size) return
   cfg = loadCfg()
+  if (!cfg.autoRotate) { waiting.clear(); return }
   const now = Date.now()
-  if (!cfg.autoRotate || busy || now - lastRotation < 15000) return
   if (cfg.mode === "none") {
     if (now - warnedAt > 600000) { warnedAt = now; note(t("limitWarn")) }
+    waiting.clear()
     return
   }
+  if (busy) return hold(1200)
+  if (now - lastRotation < 15000) return hold(15000 - (now - lastRotation))
   if (now - streakAt > 180000) streak = 0
-  if (streak >= 10) return                       // 10 in a row without a free message: stop, try again in 3 minutes
-  streak++; streakAt = now; lastRotation = now
+  if (streak >= 10) return hold(60000)
+  rotating = true
   busy = true
   try {
     note(t("limitRotating"))
-    await sleep(600)
+    await sleep(400)
     const msg = await newIp()
     note(msg)
-    if (rotatedOk) { await sleep(800); await resume(wc) }
-  } catch (e) { note(why(e)) } finally { busy = false; lastRotation = Date.now() }
+    lastRotation = Date.now()
+    streak++
+    streakAt = lastRotation
+    const todo = [...waiting]
+    waiting.clear()
+    for (const [id, wc] of todo) {
+      let r = await resume(wc, id)
+      if (r.state === "limit") r = { state: await recoverLimit(r.wc, id), wc: r.wc }
+      if (r.state !== "sent") log(`could not resume ${id}: ${r.state}`)
+    }
+  } catch (e) { note(why(e)) } finally {
+    busy = false
+    rotating = false
+    if (waiting.size) hold(1500)
+  }
+}
+
+function onLimit(wc, sessionID) {
+  cfg = loadCfg()
+  if (!cfg.autoRotate) return
+  const id = /^ses_[A-Za-z0-9]+$/.test(String(sessionID ?? "")) ? String(sessionID) : "?"
+  if (id === "?") return
+  const now = Date.now()
+  // The renderer event and the sidecar log line describe the same refusal; a real new refusal after the rotation
+  // comes later and must still be accepted.
+  if (now - (handled.get(id) ?? 0) < 20000) return
+  if (cfg.mode === "none") {
+    if (now - warnedAt > 600000) { warnedAt = now; note(t("limitWarn")) }
+    waiting.clear()
+    return
+  }
+  handled.set(id, now)
+  if (handled.size > 200) for (const [key, at] of handled) if (now - at > 600000) handled.delete(key)
+  if (!waiting.has(id) || (!waiting.get(id) && wc)) waiting.set(id, wc ?? null)
+  pump().catch((e) => log(why(e)))
 }
 
 
 // ================================================================ terminal commands
 import { spawn } from "node:child_process"
-import { openSync, readSync, closeSync } from "node:fs"
 
 const argv = process.argv.slice(2)
 const print = (m) => console.log(m)
@@ -2932,8 +3266,8 @@ async function bringUp(quiet = false) {
   cfg = loadCfg()
   const say2 = quiet ? () => {} : print
   try {
-    if (cfg.mode === "wg" || cfg.mode === "wgfile") say2(await wgUp(false))
-    else if (cfg.mode === "free") { const f = await freeFind(); say2(t("onFree", { host: parseUp(f.proxy).host, ip: f.ip })) }
+    if (cfg.mode === "wg" || cfg.mode === "wgfile") say2(await serial(() => wgUp(false)))
+    else if (cfg.mode === "free") { const f = await serial(() => freeFind()); say2(t("onFree", { host: parseUp(f.proxy).host, ip: f.ip })) }
   } catch (e) { print(why(e) + " " + t("backDirect")); wgStop(); cfg.mode = "none"; saveCfg(cfg) }
 }
 // ---- what the tray draws. A plain description with the labels already in the user's language, so the tray script only has to show it.
@@ -3711,6 +4045,13 @@ try {
   return
 }
 Ok (T 'trayOk')
+
+# The renderer JavaScript is cached by Chromium under the same file name. The patch keeps that name, so a cached copy
+# would keep running the old code (and the free-limit tray) until the cache is cleared. Drop only the caches.
+$ocData = Join-Path $env:APPDATA 'ai.opencode.desktop'
+foreach ($cache in 'Cache', 'Code Cache', 'GPUCache', 'DawnGraphiteCache', 'DawnWebGPUCache', 'GrShaderCache', 'ShaderCache', 'GPUPersistentCache', 'Shared Dictionary') {
+  Remove-Item (Join-Path $ocData $cache) -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 # OpenCode's updater would replace the patched app, so it is pointed at nothing (-block_update_off undoes this)
 if ($blockUpdates -and (Test-Path $upd) -and -not (Test-Path $updBak)) {

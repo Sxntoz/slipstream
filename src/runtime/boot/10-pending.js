@@ -38,11 +38,23 @@ function runPending() {
 }
 runPending()
 
-// The app keeps the free-limit time in its database after a limit error and shows its tray until then. Clear it before the app opens the database.
-try {
-  const { DatabaseSync } = await import("node:sqlite")
-  const db = new DatabaseSync(path.join(userData, "drafts.sqlite"))
-  db.prepare("update state set value = ? where name = 'opencode.global.dat' and key = 'free-limit'").run('{"resetAt":null}')
-  db.close()
-} catch (e) { log("free-limit state not cleared: " + why(e)) }
+// The app keeps the free-limit time in its database after a limit error and shows its tray until then. Clear it before
+// the app opens the database, and any time a cached/older renderer wrote it again while the app was running.
+async function clearFreeLimitState() {
+  for (let i = 0; i < 3; i++) {
+    try {
+      const { DatabaseSync } = await import("node:sqlite")
+      const db = new DatabaseSync(path.join(userData, "drafts.sqlite"))
+      try {
+        db.exec("PRAGMA busy_timeout = 2000")
+        db.prepare("update state set value = ? where name = 'opencode.global.dat' and key = 'free-limit'").run('{"resetAt":null}')
+      } finally { db.close() }
+      return
+    } catch (e) {
+      if (i === 2) log("free-limit state not cleared: " + why(e))
+      else await sleep(400)
+    }
+  }
+}
+await clearFreeLimitState()
 

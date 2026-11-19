@@ -44,6 +44,7 @@
     "runtime/boot/20-desktop-actions.js",
     "runtime/boot/30-auto-rotate.js",
     "runtime/boot/40-tray.js",
+    "runtime/boot/45-limit-log.js",
     "runtime/boot/50-upsell.js",
     "runtime/boot/99-handover.js"
   ],

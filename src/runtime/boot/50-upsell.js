@@ -35,7 +35,7 @@ app.on("web-contents-created", (_e, wc) => {
   wc.on("dom-ready", () => { wc.executeJavaScript("(" + stripUpsell.toString() + ")()").catch(() => {}) })
   wc.on("console-message", (...a) => {
     const msg = typeof a[0]?.message === "string" ? a[0].message : a[2]
-    if (typeof msg === "string" && msg.startsWith("__OC_LIMIT__")) onLimit(wc)
+    if (typeof msg === "string" && msg.startsWith("__OC_LIMIT__")) onLimit(wc, msg.slice("__OC_LIMIT__".length))
   })
 })
 

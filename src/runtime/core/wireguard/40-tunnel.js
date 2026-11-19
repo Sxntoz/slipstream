@@ -32,7 +32,8 @@ class UserWireGuard {
   }
   stop() {
     clearInterval(this.keep); clearInterval(this.rekey)
-    for (const t of [...this.tcp.values()]) t.destroy()
+    for (const t of [...this.tcp.values()]) t.destroy(new Error("tunnel stopped"))
+    this.tcp.clear(); this.udp.clear(); this.ports.clear()
     try { this.sock?.close() } catch {}
     this.session = null
   }

@@ -60,6 +60,15 @@ async function dial(up, host, port, timeout = 15000) {
 }
 
 const isLocal = (h) => /^(localhost|127\.\d+\.\d+\.\d+|::1|\[::1\])$/i.test(h)   // OpenCode's own service is always reached directly
+// A client socket must not outlive its upstream. When a tunnel is replaced, the old upstream streams close; without
+// this the sidecar kept dead keep-alive sockets and the app needed a restart to send again.
+const link = (client, out) => {
+  if (client.destroyed) { try { out.destroy() } catch {}; return }
+  if (out.destroyed) { try { client.destroy() } catch {}; return }
+  out.on("error", () => { try { client.destroy() } catch {} })
+  out.on("close", () => { try { client.destroy() } catch {} })
+  client.on("close", () => { try { out.destroy() } catch {} })
+}
 const gate = net.createServer((client) => {
   client.on("error", () => {})
   let buf = Buffer.alloc(0)
@@ -73,11 +82,11 @@ const gate = net.createServer((client) => {
       if (method === "CONNECT") {
         const i = target.lastIndexOf(":"), host = target.slice(0, i).replace(/^\[|\]$/g, "")
         const out = await dial(isLocal(host) ? undefined : upstream(), host, Number(target.slice(i + 1)))
-        out.on("error", () => client.destroy()); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
+        link(client, out); client.write("HTTP/1.1 200 Connection Established\r\n\r\n")
         if (rest.length) out.write(rest); client.pipe(out); out.pipe(client); client.resume()
       } else {
         const u = new URL(target), out = await dial(isLocal(u.hostname) ? undefined : upstream(), u.hostname, Number(u.port || 80))
-        out.on("error", () => client.destroy())
+        link(client, out)
         out.write(Buffer.concat([Buffer.from(`${method} ${u.pathname}${u.search} ${ver}\r\n${head.split("\r\n").slice(1).filter((l) => !/^proxy-/i.test(l)).join("\r\n")}\r\n\r\n`, "latin1"), rest]))
         client.pipe(out); out.pipe(client); client.resume()
       }

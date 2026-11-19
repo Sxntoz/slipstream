@@ -1,7 +1,6 @@
 
 // ================================================================ terminal commands
 import { spawn } from "node:child_process"
-import { openSync, readSync, closeSync } from "node:fs"
 
 const argv = process.argv.slice(2)
 const print = (m) => console.log(m)

@@ -27,6 +27,13 @@ try {
 }
 Ok (T 'trayOk')
 
+# The renderer JavaScript is cached by Chromium under the same file name. The patch keeps that name, so a cached copy
+# would keep running the old code (and the free-limit tray) until the cache is cleared. Drop only the caches.
+$ocData = Join-Path $env:APPDATA 'ai.opencode.desktop'
+foreach ($cache in 'Cache', 'Code Cache', 'GPUCache', 'DawnGraphiteCache', 'DawnWebGPUCache', 'GrShaderCache', 'ShaderCache', 'GPUPersistentCache', 'Shared Dictionary') {
+  Remove-Item (Join-Path $ocData $cache) -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 # OpenCode's updater would replace the patched app, so it is pointed at nothing (-block_update_off undoes this)
 if ($blockUpdates -and (Test-Path $upd) -and -not (Test-Path $updBak)) {
   Copy-Item $upd $updBak -Force

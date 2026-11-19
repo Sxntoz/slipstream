@@ -34,7 +34,7 @@ src/
       free-proxies.js            public proxy lists
       actions.js                 New IP, Status, switching the connection
     boot/                      only the desktop (Electron) patch
-      00-header.js 10-pending.js 20-desktop-actions.js 30-auto-rotate.js 40-tray.js 50-upsell.js 99-handover.js
+      00-header.js 10-pending.js 20-desktop-actions.js 30-auto-rotate.js 40-tray.js 45-limit-log.js 50-upsell.js 99-handover.js
     cli/                       only the terminal build
       shim.js                    stand-ins for Electron
       00-head.js 10-bring-up.js 20-control.js 30-run.js 40-commands.js
