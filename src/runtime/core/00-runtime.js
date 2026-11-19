@@ -20,7 +20,7 @@ const say = (body) => {
 const note = (body) => { log(body); try { new Notification({ title: "Slipstream", body: String(body) }).show() } catch {} }
 let busy = false
 const guard = (fn) => async () => {
-  if (busy) return say(t("busy"))
+  if (busy) return note(t("busy"))   // a toast, not a modal: auto-rotate owns the connection for a few seconds
   busy = true
   try { say(await fn()) } catch (e) { say(why(e)) } finally { busy = false; try { buildMenu() } catch {} }
 }

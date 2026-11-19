@@ -12,12 +12,14 @@ const start = source.indexOf("function resumeInPage(")
 const end = source.indexOf("\n}\n\nasync function resume", start)
 const fnSource = source.slice(start, end + 2)
 
-const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message" } = {}) => {
+const page = ({ session = "ses_a", composer = "text", panel = false, tab = true, last = "the original message", editable = "true" } = {}) => {
   const location = { pathname: "/server/x/session/" + session }
   const editor = {
     isConnected: true,
+    isContentEditable: editable !== "false",
     innerText: composer === "none" ? "" : composer,
     getClientRects: () => [{ width: 1 }],
+    getAttribute: (name) => (name === "contenteditable" ? editable : null),
     focus() { this.focused = true },
   }
   const link = {
@@ -28,11 +30,11 @@ const page = ({ session = "ses_a", composer = "text", panel = false, tab = true,
     querySelectorAll: (selector) => {
       if (selector.includes("tab-link")) return tab ? [link] : []
       if (selector.includes("user-message-text")) return [{ innerText: last }]
+      if (selector.includes("contenteditable")) return composer === "none" ? [] : [editor]
       return []
     },
     querySelector: (selector) => {
       if (selector.includes("session-free-limit")) return panel ? {} : null
-      if (selector.includes("contenteditable")) return composer === "none" ? null : editor
       return null
     },
   }
@@ -60,6 +62,16 @@ test("an empty composer gets 'continue', a draft is never sent", async () => {
 
 test("a free-limit panel blocks the composer and asks for the cache clean-up", async () => {
   assert.equal((await run({ session: "ses_a", panel: true }, "ses_a")).result, "limit")
+})
+
+test("a plaintext-only composer is still found and used", async () => {
+  assert.equal((await run({ session: "ses_a", composer: "the original message", editable: "plaintext-only" }, "ses_a")).result, "text")
+})
+
+test("a disabled composer is reported, never typed into", async () => {
+  const { result, page } = await run({ session: "ses_a", composer: "the original message", editable: "false" }, "ses_a")
+  assert.equal(result, "none")
+  assert.equal(page.editor.focused, undefined)
 })
 
 test("a chat whose tab is not open is reported instead of typing somewhere else", async () => {

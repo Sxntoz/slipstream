@@ -7,6 +7,7 @@ let rotationTimer
 let rotating = false
 const waiting = new Map()      // sessionID -> webContents (or null when the log reported it)
 const handled = new Map()      // sessionID -> last time it was accepted, so the two signals do not rotate twice
+const recovered = new Map()    // sessionID -> last automatic reload, so one slow chat is not reloaded again and again
 const pages = []               // open app windows; a limit can arrive on any of them
 app.on("web-contents-created", (_e, wc) => {
   if (wc.getType() !== "window") return
@@ -23,22 +24,30 @@ function hold(ms) {
 function resumeInPage(sessionID) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
   const at = () => location.pathname.split("/").filter(Boolean).pop() === sessionID
+  const limit = () => document.querySelector('[data-component="session-free-limit"]')
+  // The prompt is contenteditable=true, but a disabled prompt is "false" and newer builds may mark it
+  // plaintext-only. Take any visible editable node inside the composer, not one exact attribute value.
+  const editor = () => [...document.querySelectorAll('[data-component="session-composer-dock"] [contenteditable], [data-slot="composer-face"] [contenteditable]')]
+    .filter((n) => n.isConnected && n.getClientRects().length && n.isContentEditable !== false && (n.getAttribute("contenteditable") || "") !== "false")
+    .at(-1)
   return (async () => {
     if (!at()) {
-      const link = [...document.querySelectorAll('a[data-slot="tab-link"]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
+      const link = [...document.querySelectorAll('a[data-slot="tab-link"], a[data-titlebar-tab-link]')].find((a) => (a.getAttribute("href") || "").endsWith("/session/" + sessionID))
       if (!link) return "notab"
       link.click()
       for (let i = 0; i < 100 && !at(); i++) await sleep(100)
       if (!at()) return "notab"
     }
-    if (document.querySelector('[data-component="session-free-limit"]')) return "limit"
+    if (limit()) return "limit"
     let el
-    for (let i = 0; i < 80; i++) {
-      el = document.querySelector('[data-component="session-composer-dock"] [contenteditable="true"]')
+    for (let i = 0; i < 100; i++) {
+      el = editor()
       if (el && el.isConnected && el.getClientRects().length) break
+      // The panel mounts after the route does; a composer that is already gone may be replaced by it.
+      if (limit()) return "limit"
       await sleep(100)
     }
-    if (!el || !el.isConnected) return "none"
+    if (!el || !el.isConnected) return limit() ? "limit" : "none"
     el.focus()
     const text = (el.innerText || "").trim()
     if (!text) return "empty"
@@ -83,10 +92,20 @@ async function resume(wc, sessionID) {
   return { state: "sent", wc: target }
 }
 
+function canRecover(sessionID) {
+  const now = Date.now()
+  if (now - (recovered.get(sessionID) ?? 0) < 60000) return false
+  recovered.set(sessionID, now)
+  if (recovered.size > 100) for (const [id, at] of recovered) if (now - at > 600000) recovered.delete(id)
+  return true
+}
+
 async function recoverLimit(wc, sessionID) {
-  // A stored free-limit time from an older run (or an older renderer) replaces the composer. Drop it, drop the cached
-  // bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
-  log("free-limit panel is blocking the composer; clearing it and reloading")
+  // A stored free-limit time from an older run (or an older renderer) replaces the composer; a renderer that no longer
+  // has a working composer (contenteditable gone or false) leaves the chat unusable. Drop the stored state and the
+  // cached bundle, reload and try once more: the "clear cache and restart" workaround, done automatically.
+  if (!wc || wc.isDestroyed()) return "none"
+  log("chat has no usable composer; clearing the state and the renderer cache, then reloading")
   if (typeof clearFreeLimitState === "function") await clearFreeLimitState()   // absent in the terminal build
   try { await wc.session.clearCache() } catch {}
   try { if (wc.session.clearCodeCaches) await wc.session.clearCodeCaches({}) } catch {}
@@ -130,7 +149,9 @@ async function pump() {
     waiting.clear()
     for (const [id, wc] of todo) {
       let r = await resume(wc, id)
-      if (r.state === "limit") r = { state: await recoverLimit(r.wc, id), wc: r.wc }
+      // "none" is the same dead end as the limit panel: the chat is open but there is no usable composer. Reload it
+      // the way the user would, instead of logging a failure and leaving the chat stuck.
+      if ((r.state === "limit" || r.state === "none") && canRecover(id)) r = { state: await recoverLimit(r.wc, id), wc: r.wc }
       if (r.state !== "sent") log(`could not resume ${id}: ${r.state}`)
     }
   } catch (e) { note(why(e)) } finally {
